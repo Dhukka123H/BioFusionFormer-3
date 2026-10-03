@@ -1,0 +1,51 @@
+# BioFusionFormer
+
+# --- Raw and processed data (never commit to version control) ---
+data/raw/
+data/processed/
+data/splits/
+data/interim/
+
+# --- Trained model weights and checkpoints ---
+models/pretrained/
+models/encoders/
+models/checkpoints/
+
+# --- Python virtual environment ---
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# --- Jupyter notebook checkpoints ---
+.ipynb_checkpoints/
+*.ipynb
+
+# --- OS and editor artefacts ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# --- Log files ---
+logs/*.log
+logs/*.txt
+
+# --- Experiment outputs ---
+experiments/
+results/
+figures/
+
+# --- Environment files ---
+.env
+*.env

@@ -1,0 +1,87 @@
+# BioFusionFormer Frozen Configuration v1-frozen
+# Final-year project: A Pathway-Aware Hierarchical Cross-Modal Transformer for Multi-Modal Data Fusion
+# Cohort: TARGET-WT (Wilms Tumor), N=121
+
+experiment:
+  name: "BioFusionFormer_v1_Frozen"
+  run_suite: "v1_final"
+  primary_task: "wilms_tumor_histologic_subtype.diagnoses"  # Favorable (0) vs Unfavorable (1)
+  secondary_task: "vital_status.demographic"               # Alive (0) vs Dead (1) [Exploratory E8]
+  random_seeds: [42, 123, 999]
+  active_experiments:
+    - "E1"   # Full BioFusionFormer (3 omics, bias ON, gate ON, strong mask)
+    - "E2"   # mRNA only (unimodal architecture control)
+    - "E3"   # mRNA + miRNA (no methylation)
+    - "E4"   # No pathway attention bias (full attention ablation)
+    - "E5"   # RANDOM PRIOR control (5 random graph draws, preserving degree/density)
+    - "E6"   # Broad miRNA mask instead of strong
+    - "E7"   # Mean fusion instead of gated fusion
+    - "E8"   # Vital status exploratory task (E1 architecture on vital label)
+    - "E10"  # Methylation-token-free control (identical seeds & early stopping to E1)
+
+data:
+  cohort_path: "data/interim/cohort_patients.csv"
+  splits_path: "data/splits/splits_5x5.json"
+  mrna_path: "data/processed/mrna_gene.parquet"
+  mirna_path: "data/processed/mirna_unique.parquet"          # Step A2: deduplicated 1,035 unique features
+  meth_path: "data/processed/meth_gene.parquet"
+  pathway_features_path: "data/processed/pathway_features_fold_agnostic.parquet"
+  pathway_hierarchy_path: "data/processed/pathway_hierarchy_mapping.json"
+  
+  # Prior Masks
+  gene_pathway_mask: "data/interim/priors/gene_pathway_mask.npz"
+  mirna_unique_mask_strong: "data/interim/priors/mirna_unique_pathway_mask_strong.npz"
+  mirna_unique_mask_broad: "data/interim/priors/mirna_unique_pathway_mask_broad.npz"
+  pathway_adjacency: "data/interim/priors/pathway_adjacency.npz"
+  
+  # Unsupervised Pathway Selection (Step A1 Verified)
+  pathway_selection:
+    top_variance_pathways: 192   # 192 pathways selected; gene coverage delta = -0.0099 (< 0.03 threshold)
+    min_member_features: 10
+    max_member_features: 300
+    max_hierarchy_depth: 4
+    unmapped_mirna_fallback: true # Step A2: maps features with 0 edges to explicit fallback token
+
+model:
+  target_parameter_budget: 500000
+  actual_parameter_count: 62450
+  d_model: 32                   # Token dimension
+  n_heads: 4
+  n_layers: 2
+  d_ff: 128
+  dropout: 0.3
+  attention_dropout: 0.2
+  activation: "gelu"
+  norm_first: true              # Pre-LayerNorm architecture
+  
+  # Pathway Topology Attention Prior
+  pathway_attention_bias:
+    enabled: true               # Disabled in E4
+    learnable_scale: true       # Soft prior with learned scaling parameter
+    parent_child_bias: 0.5
+    same_pathway_crossmodal_bias: 1.0
+    cls_token_bias: 0.5
+
+  # Adaptive Modality Gating & Robustness
+  fusion:
+    gated: true                 # Flag for gated vs mean fusion (E7)
+    modality_dropout: 0.2       # Modality dropout probability during training
+
+  # Classification Head
+  head:
+    num_classes: 2
+    dropout: 0.3
+    label_smoothing: 0.05
+
+training:
+  optimizer: "AdamW"
+  lr: 3.0e-4
+  weight_decay: 0.01            # 1e-2
+  scheduler: "cosine"
+  max_epochs: 100
+  batch_size: 16
+  gradient_clipping: 1.0
+  early_stopping:
+    patience: 20
+    inner_val_ratio: 0.20       # Stratified 20% inner split from outer train fold
+  seeds_per_outer_fold: 3
