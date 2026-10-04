@@ -1,0 +1,22 @@
+{
+  "sex_mrna_auroc": 0.9933832833832834,
+  "sex_meth_auroc": 0.9815917415917416,
+  "meth_null_auroc": 0.5,
+  "nadeau_bengio": {
+    "note": "fold_scores.json not found; run phase5_baselines.py first"
+  },
+  "mirna": {
+    "n_mature": 1797,
+    "n_arm_labeled": 1797,
+    "n_strong_pairs": 18029
+  },
+  "age": {
+    "n_above_10": 6,
+    "n_below_10": 115,
+    "n_missing": 0
+  },
+  "clinical": {
+    "n_covered": 121,
+    "n_missing_label": 0
+  }
+}

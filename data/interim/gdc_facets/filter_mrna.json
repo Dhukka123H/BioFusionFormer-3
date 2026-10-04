@@ -1,0 +1,53 @@
+{
+  "op": "and",
+  "content": [
+    {
+      "op": "=",
+      "content": {
+        "field": "cases.project.project_id",
+        "value": "TARGET-WT"
+      }
+    },
+    {
+      "op": "=",
+      "content": {
+        "field": "access",
+        "value": "open"
+      }
+    },
+    {
+      "op": "=",
+      "content": {
+        "field": "data_category",
+        "value": "Transcriptome Profiling"
+      }
+    },
+    {
+      "op": "=",
+      "content": {
+        "field": "data_type",
+        "value": "Gene Expression Quantification"
+      }
+    },
+    {
+      "op": "=",
+      "content": {
+        "field": "experimental_strategy",
+        "value": "RNA-Seq"
+      }
+    },
+    {
+      "op": "in",
+      "content": {
+        "field": "workflow_type",
+        "value": [
+          "STAR - Counts",
+          "HTSeq - Counts",
+          "HTSeq - FPKM",
+          "HTSeq - FPKM-UQ",
+          "STAR - FPKM"
+        ]
+      }
+    }
+  ]
+}

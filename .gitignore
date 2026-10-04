@@ -1,17 +1,18 @@
 # BioFusionFormer
 
-# --- Raw and processed data (never commit to version control) ---
+# --- Raw data (> 1.6 GB raw downloads; never commit to Git to stay under 100MB GitHub limit and support low-bandwidth cloning) ---
 data/raw/
-data/processed/
-data/splits/
-data/interim/
 
-# --- Trained model weights and checkpoints ---
-models/pretrained/
-models/encoders/
+# --- Intermediate large conversion files (> 15-30 MB non-essential cache) ---
+data/interim/cpg2gene.csv
+data/interim/mirna2gene_all.parquet
+data/interim/mirna2pathway_all.parquet
+data/processed/meth_cpg_top.parquet
+
+# --- Trained model checkpoints ---
 models/checkpoints/
 
-# --- Python virtual environment ---
+# --- Python virtual environment & caches ---
 .venv/
 venv/
 env/
@@ -25,7 +26,6 @@ build/
 
 # --- Jupyter notebook checkpoints ---
 .ipynb_checkpoints/
-*.ipynb
 
 # --- OS and editor artefacts ---
 .DS_Store
@@ -37,14 +37,9 @@ desktop.ini
 .vscode/
 *.code-workspace
 
-# --- Log files ---
+# --- Log files (active runs) ---
 logs/*.log
 logs/*.txt
-
-# --- Experiment outputs ---
-experiments/
-results/
-figures/
 
 # --- Environment files ---
 .env

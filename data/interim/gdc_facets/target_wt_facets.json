@@ -1,0 +1,126 @@
+{
+  "platform": {
+    "buckets": [
+      {
+        "doc_count": 454,
+        "key": "illumina"
+      },
+      {
+        "doc_count": 393,
+        "key": "illumina human methylation 450"
+      },
+      {
+        "key": "_missing",
+        "doc_count": 6
+      }
+    ]
+  },
+  "data_type": {
+    "buckets": [
+      {
+        "doc_count": 262,
+        "key": "Masked Intensities"
+      },
+      {
+        "doc_count": 138,
+        "key": "Isoform Expression Quantification"
+      },
+      {
+        "doc_count": 138,
+        "key": "miRNA Expression Quantification"
+      },
+      {
+        "doc_count": 136,
+        "key": "Gene Expression Quantification"
+      },
+      {
+        "doc_count": 131,
+        "key": "Methylation Beta Value"
+      },
+      {
+        "doc_count": 42,
+        "key": "Masked Somatic Mutation"
+      },
+      {
+        "doc_count": 4,
+        "key": "Clinical Supplement"
+      },
+      {
+        "doc_count": 2,
+        "key": "Biospecimen Supplement"
+      }
+    ]
+  },
+  "experimental_strategy": {
+    "buckets": [
+      {
+        "doc_count": 393,
+        "key": "Methylation Array"
+      },
+      {
+        "doc_count": 276,
+        "key": "miRNA-Seq"
+      },
+      {
+        "doc_count": 136,
+        "key": "RNA-Seq"
+      },
+      {
+        "doc_count": 42,
+        "key": "WXS"
+      },
+      {
+        "key": "_missing",
+        "doc_count": 6
+      }
+    ]
+  },
+  "data_category": {
+    "buckets": [
+      {
+        "doc_count": 412,
+        "key": "transcriptome profiling"
+      },
+      {
+        "doc_count": 393,
+        "key": "dna methylation"
+      },
+      {
+        "doc_count": 42,
+        "key": "simple nucleotide variation"
+      },
+      {
+        "doc_count": 4,
+        "key": "clinical"
+      },
+      {
+        "doc_count": 2,
+        "key": "biospecimen"
+      }
+    ]
+  },
+  "data_format": {
+    "buckets": [
+      {
+        "doc_count": 407,
+        "key": "txt"
+      },
+      {
+        "doc_count": 262,
+        "key": "idat"
+      },
+      {
+        "doc_count": 136,
+        "key": "tsv"
+      },
+      {
+        "doc_count": 42,
+        "key": "maf"
+      },
+      {
+        "doc_count": 6,
+        "key": "xlsx"
+      }
+    ]
+  }
+}

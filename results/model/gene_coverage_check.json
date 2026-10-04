@@ -1,0 +1,14 @@
+{
+  "192_pathways": {
+    "mrna_covered": 2152,
+    "mrna_total": 11171,
+    "mrna_pct": 19.26,
+    "mirna_strong_covered": 408,
+    "mirna_broad_covered": 1370,
+    "meth_covered": 1794,
+    "restricted_auroc_mean": 0.907,
+    "restricted_auroc_std": 0.0446,
+    "delta_vs_full": -0.0099,
+    "widen_needed": false
+  }
+}

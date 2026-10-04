@@ -1,0 +1,653 @@
+case_id,submitter_id,has_mrna,has_mirna,has_methylation,has_clinical,has_survival,vital_status,survival_time_days,age_at_diagnosis,tumor_stage,tumor_grade,morphology,progression,prior_malignancy,gender,n_samples,sample_types
+bd749c42-f870-5f67-9924-3865fca12b2e,TARGET-50-PAJNWU,False,False,False,True,True,Alive,2470.0,1828.0,,,8960/3,,,,1,Primary Tumor
+4dcdd89c-b2a7-594c-95d7-f0e17b7ba440,TARGET-50-PAJMEL,True,True,True,True,True,Alive,4002.0,1336.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+64f0fd66-9e25-5b03-94ae-a2eb98424239,TARGET-50-PAKZFK,True,True,True,True,True,Alive,2073.0,1340.0,,,8960/3,,,,3,Primary Tumor|Solid Tissue Normal|Primary Tumor
+972d9fec-5f61-5d07-b5ab-499dbed98671,TARGET-50-PAJNRW,False,False,False,True,True,Alive,3621.0,3048.0,,,8960/3,,,,1,Primary Tumor
+396b6faa-5231-5852-958f-1d6396631ac8,TARGET-50-PAJMVD,False,False,False,True,True,Alive,1868.0,301.0,,,8960/3,,,,1,Primary Tumor
+d8b01991-bd6b-5658-b486-bb22a7b2a81e,TARGET-50-PAKYLT,True,True,True,True,True,Alive,2812.0,2307.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+e5224b30-351f-5d6a-a050-cf55f07cd987,TARGET-50-PAJMKI,True,True,True,True,True,Dead,630.0,2168.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+51e9a1e0-1ec3-506f-a9a6-8ec0845d8e90,TARGET-50-PAKKNS,True,True,True,True,True,Alive,1795.0,547.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+df357480-8167-5db4-a595-01ddb227413d,TARGET-50-PAJPFC,False,False,False,True,True,Alive,1950.0,2170.0,,,8960/3,,,,1,Primary Tumor
+3d86d317-7ae1-506b-87b4-11f65a74dc8e,TARGET-50-PALMSA,False,False,False,True,True,Alive,1438.0,1223.0,,,8960/3,,,,1,Primary Tumor
+6a4f2507-64b7-5b1a-85e3-605aa58be7b9,TARGET-50-PAJLTH,True,True,True,True,True,Alive,3059.0,2819.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+9a4c6217-4bef-57f9-8c13-d4d298b7e431,TARGET-50-PAJLVL,False,False,False,True,True,Alive,2645.0,1986.0,,,8960/3,,,,1,Primary Tumor
+2f920628-09de-5be7-b335-1098cdc88a5d,TARGET-50-PALLCK,False,True,True,True,True,Dead,534.0,994.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+77abeff6-0f4e-5000-894a-89378da6d589,TARGET-50-PAJNRK,False,False,False,True,True,Alive,1680.0,2488.0,,,8960/3,,,,1,Primary Tumor
+7e9af0fb-f95e-5615-8f36-32e118170856,TARGET-50-PAJMCB,False,False,False,True,True,Alive,4147.0,289.0,,,8960/3,,,,1,Primary Tumor
+63a8235c-cf7a-5295-b58e-9542ad65aa40,TARGET-50-PAKJVW,False,False,False,True,True,Alive,3120.0,845.0,,,8960/3,,,,1,Primary Tumor
+915e449c-0f56-5a98-b0b9-c06267eac432,TARGET-50-PAJLZA,False,False,False,True,True,Alive,2852.0,2296.0,,,8960/3,,,,1,Primary Tumor
+a1d8ccc3-fa14-5ed8-87e3-9258bb828417,TARGET-50-PAJNPW,False,False,False,True,True,Alive,3262.0,4403.0,,,8960/3,,,,1,Primary Tumor
+38de3a8e-1c2f-5635-9f19-98d5d43833eb,TARGET-50-PAJMDU,False,False,False,True,True,Dead,312.0,273.0,,,8960/3,,,,1,Primary Tumor
+579be19a-326d-500c-96bf-08075fb48f32,TARGET-50-PAJMPH,False,False,False,True,True,Alive,2651.0,1442.0,,,8960/3,,,,1,Primary Tumor
+571d6812-059c-59b0-b894-e6e7ba04d50a,TARGET-50-PALDWR,False,False,False,True,True,Alive,1394.0,3031.0,,,8960/3,,,,1,Primary Tumor
+29b7c50a-05b7-5119-bdc1-a35a719b85c7,TARGET-50-PALKAW,False,False,False,True,True,Alive,2658.0,368.0,,,8960/3,,,,1,Primary Tumor
+be92b89d-691e-5672-89a1-446f9011587c,TARGET-50-PADXBG,False,False,False,True,True,Alive,4540.0,1648.0,,,8960/3,,,,1,Primary Tumor
+155d4451-7f41-5623-8cfb-51002ed2bbec,TARGET-50-PALCPP,False,False,False,True,True,Alive,2008.0,1909.0,,,8960/3,,,,1,Primary Tumor
+cdec905b-6389-5ce1-b9df-ac8b3de837f3,TARGET-50-PAKZMW,False,False,False,True,True,Alive,1717.0,932.0,,,8960/3,,,,1,Primary Tumor
+5bdf8aae-2754-5253-b520-ec43c81a899f,TARGET-50-PAJMPV,False,False,False,True,True,Alive,4062.0,4355.0,,,8960/3,,,,1,Primary Tumor
+c960cc4e-71c5-568d-9fea-66f56f88ca19,TARGET-50-PAJMIY,False,False,False,True,True,Alive,2448.0,475.0,,,8960/3,,,,1,Primary Tumor
+427ee454-aea1-5606-bb68-f52aaf33c9e9,TARGET-50-PAKLZH,False,False,False,True,True,Dead,1203.0,1263.0,,,8960/3,,,,1,Primary Tumor
+54fbcf85-0f70-551d-b256-443ebf355237,TARGET-50-PAKYPP,False,False,False,True,True,Alive,2482.0,1055.0,,,8960/3,,,,1,Primary Tumor
+b7caa602-686a-56d9-88f0-853bb843ace8,TARGET-50-PAJMDF,False,False,False,True,True,Alive,1303.0,866.0,,,8960/3,,,,1,Primary Tumor
+620f02ef-31ba-5049-817d-eea54817600c,TARGET-50-PAEIGE,False,False,False,True,True,Alive,3932.0,1550.0,,,8960/3,,,,1,Primary Tumor
+fdc661ee-c44f-58eb-8e97-21bb723b7f5d,TARGET-50-PAJNBZ,False,False,False,True,True,Alive,3648.0,1281.0,,,8960/3,,,,1,Primary Tumor
+ccf20982-c214-5d0f-abf0-9179e20a7665,TARGET-50-PAJMBZ,False,False,False,True,True,Dead,547.0,2026.0,,,8960/3,,,,1,Primary Tumor
+3ac793b3-4d07-5c7f-bbd8-b903f0efdfb9,TARGET-50-PAJNWZ,False,False,False,True,True,Alive,3620.0,2615.0,,,8960/3,,,,1,Primary Tumor
+c1b1748f-6992-508e-a48a-496d7a4eb209,TARGET-50-PAJNCJ,True,True,True,True,True,Alive,3689.0,1762.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+45013282-7251-5e0f-8dc5-6feb9dbb0ef4,TARGET-50-PAKMKW,False,False,False,True,True,Alive,2700.0,1904.0,,,8960/3,,,,1,Primary Tumor
+1d5c20f5-64fa-5f76-908d-1d900ffef349,TARGET-50-PAJNHN,False,False,False,True,True,Alive,1562.0,1905.0,,,8960/3,,,,1,Primary Tumor
+5952d704-fdfd-50a1-9022-728f228edfc5,TARGET-50-PAJMRK,False,False,False,True,True,Alive,2160.0,1215.0,,,8960/3,,,,1,Primary Tumor
+0bd1e683-d610-549d-9893-3572f003394e,TARGET-50-PAJNCL,False,False,False,True,True,Dead,409.0,2151.0,,,8960/3,,,,1,Primary Tumor
+0a7ae043-28a8-5cff-81a1-8e2db2fd8be6,TARGET-50-PAJNGU,False,False,False,True,True,Dead,1488.0,3940.0,,,8960/3,,,,1,Primary Tumor
+58838107-5dad-5d12-abe1-16aa06bc2244,TARGET-50-PAJNXB,False,False,False,True,True,Alive,2929.0,270.0,,,8960/3,,,,1,Primary Tumor
+f55316e3-733c-574f-a1ab-3f65ee0f319c,TARGET-50-PAJNVX,True,True,True,True,True,Dead,427.0,1365.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+1386195c-626c-5d24-80d6-79e162e9e151,TARGET-50-PALDEU,False,False,False,True,True,Alive,2786.0,1426.0,,,8960/3,,,,1,Primary Tumor
+91237e77-5410-54c5-8794-a7c76c6a8b5a,TARGET-50-PAJMBR,False,False,False,True,True,Alive,2932.0,1130.0,,,8960/3,,,,1,Primary Tumor
+05808c8b-6bd1-520e-beab-f2b70ea86c87,TARGET-50-PAKSCC,True,True,True,True,True,Alive,1628.0,691.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+3eae6889-e530-565e-971b-9be9bddf5e06,TARGET-50-PAJNNU,False,False,False,True,True,Alive,503.0,199.0,,,8960/3,,,,1,Primary Tumor
+30570990-74c2-5f88-9f99-7c41e7560760,TARGET-50-PAJNAU,False,False,False,True,True,Alive,1710.0,310.0,,,8960/3,,,,1,Primary Tumor
+000e753e-5425-5b6b-af54-2ebe31da991e,TARGET-50-PAJNXC,False,False,False,True,True,Alive,3290.0,1015.0,,,8960/3,,,,1,Primary Tumor
+428e5842-8161-5875-8b6d-52c7d05972c2,TARGET-50-PAJNVB,False,False,False,True,True,Alive,1287.0,1633.0,,,8960/3,,,,1,Primary Tumor
+e07a782f-48dd-5142-a1fd-0f9af4124e4f,TARGET-50-PAKJZU,False,False,False,True,True,Alive,2086.0,2323.0,,,8960/3,,,,1,Primary Tumor
+704f5af4-8352-5670-aec7-2ca862712dce,TARGET-50-PAKMAV,False,False,False,True,True,Alive,1601.0,3506.0,,,8960/3,,,,1,Primary Tumor
+0588f396-27c0-5a3f-9a82-6c0272f0f6fe,TARGET-50-PALFGK,False,False,False,True,True,Alive,1358.0,1333.0,,,8960/3,,,,1,Primary Tumor
+a60dc117-ccf1-52fa-a651-f43306901886,TARGET-50-PAJLKC,True,True,True,True,True,Alive,2930.0,2464.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+cf3bd8c5-4cd6-57c6-b07a-f20d414d0819,TARGET-50-PAJLMJ,False,False,False,True,True,Alive,4695.0,491.0,,,8960/3,,,,1,Primary Tumor
+69e2e237-e4b1-5a94-9929-c72864feafc8,TARGET-50-PAJMXF,True,True,True,True,True,Dead,2099.0,1650.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Blood Derived Normal
+77b9ff09-28ca-50a2-9964-d66e7dbbb28e,TARGET-50-PALDND,False,False,False,True,True,Alive,1948.0,585.0,,,8960/3,,,,1,Primary Tumor
+63097ea7-dc7a-5907-b5ad-3a574017bf8d,TARGET-50-PAJNHL,False,False,False,True,True,Alive,3366.0,1140.0,,,8960/3,,,,1,Primary Tumor
+7c5edd63-21fb-5d93-b166-82dd9d7e9763,TARGET-50-PAJNLK,False,False,False,True,True,Alive,2222.0,1647.0,,,8960/3,,,,1,Primary Tumor
+fa55f0fc-55e8-5478-ae73-027c7b6c692f,TARGET-50-PAJPFY,False,False,False,True,True,Alive,2829.0,1164.0,,,8960/3,,,,1,Primary Tumor
+91621f73-7e55-5c76-a84b-31daaad34b59,TARGET-50-PAJMZI,False,False,False,True,True,Alive,2348.0,650.0,,,8960/3,,,,1,Primary Tumor
+9cac4598-4861-5837-acdc-56b32c8e7547,TARGET-50-PAJLXE,False,False,False,True,True,Alive,3880.0,1342.0,,,8960/3,,,,1,Primary Tumor
+54292ba5-8945-54a2-a8a0-658f4072379b,TARGET-50-PAJNVF,False,False,False,True,True,Alive,439.0,1950.0,,,8960/3,,,,1,Primary Tumor
+bca5b5c6-5a2c-57ba-b7e9-a67747d00f7b,TARGET-50-PAKKSE,True,True,True,True,True,Alive,1925.0,847.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+c71b52c9-0fb0-57df-9257-d033521c23f0,TARGET-50-PAJLNJ,True,True,True,True,True,Dead,858.0,325.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+e7846e05-a238-5170-b1d7-9010c1e9af17,TARGET-50-PAJNEL,False,False,False,True,True,Alive,1301.0,618.0,,,8960/3,,,,1,Primary Tumor
+7134b8ce-966c-5300-824e-3e6297e547c5,TARGET-50-PAJNBG,False,False,False,True,True,Alive,3936.0,562.0,,,8960/3,,,,1,Primary Tumor
+374e7785-6387-5c10-b6c9-e450a5584a05,TARGET-50-PAKJKT,False,False,False,True,True,Alive,2205.0,1375.0,,,8960/3,,,,1,Primary Tumor
+fd0ae063-912e-5925-bcc5-86bbd377e0fd,TARGET-50-PAKFYV,True,True,True,True,True,Dead,680.0,1246.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+3ebb4bec-1322-5fc0-b0c2-430f7f203c43,TARGET-50-PAJNBI,False,False,False,True,True,Alive,1434.0,418.0,,,8960/3,,,,1,Primary Tumor
+8ce1429c-fcca-51b0-b27e-0ecbf4944d47,TARGET-50-PAJLTL,False,False,False,True,True,Alive,3719.0,1396.0,,,8960/3,,,,1,Primary Tumor
+101fb69a-acd2-574f-9e39-028af8bb7606,TARGET-50-PADWKZ,False,False,False,True,True,Alive,4819.0,2034.0,,,8960/3,,,,1,Primary Tumor
+72b79800-3bfd-5672-8dd4-a3d548933e37,TARGET-50-PAKTCE,False,False,False,True,True,Alive,3179.0,474.0,,,8960/3,,,,1,Primary Tumor
+b4627353-1476-544d-b80d-1302ab405b0a,TARGET-50-PAKKAE,False,False,False,True,True,Alive,1395.0,2400.0,,,8960/3,,,,1,Primary Tumor
+8ae3c81f-97de-5ac3-b69e-7b9e6185afe2,TARGET-50-PALGMA,False,False,False,True,True,Alive,2476.0,105.0,,,8960/3,,,,1,Primary Tumor
+9407c306-2a40-5567-815f-3c8c7f020bce,TARGET-50-PAEAMT,False,False,False,True,True,Alive,469.0,1435.0,,,8960/3,,,,1,Primary Tumor
+c5d4d301-55a7-5948-9b9b-24ff7f66000c,TARGET-50-PAJMPG,False,False,False,True,True,Alive,2691.0,1691.0,,,8960/3,,,,1,Primary Tumor
+be6e162c-ebde-5bf5-819c-665a795ecfb3,TARGET-50-PAJNGK,False,False,False,True,True,Alive,3553.0,1174.0,,,8960/3,,,,1,Primary Tumor
+b92ef9b3-68f8-5b5d-becb-b823a0250b3f,TARGET-50-PALDWP,True,True,True,True,True,Dead,528.0,2104.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+8c189b82-c505-5227-b248-9b2f575e965e,TARGET-50-PAJNRL,True,True,True,True,True,Dead,256.0,1476.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+70f26cdb-c84f-512c-a939-c87c980cc7d8,TARGET-50-PAJNHG,False,False,False,True,True,Alive,1240.0,3287.0,,,8960/3,,,,1,Primary Tumor
+f5719014-611d-5937-b8b3-b180ed7d625b,TARGET-50-PAKAPI,False,False,False,True,True,Alive,1884.0,919.0,,,8960/3,,,,1,Primary Tumor
+60ab8d38-e23a-59de-b471-02af3040751f,TARGET-50-PAECTY,False,False,False,True,True,Alive,3297.0,1121.0,,,8960/3,,,,1,Primary Tumor
+e395c35e-9ec5-5866-9054-2ca08599e8a4,TARGET-50-PAKJJF,False,False,False,True,True,Alive,2443.0,1183.0,,,8960/3,,,,1,Primary Tumor
+7c161414-e04f-5ec0-9f92-97a277ca23eb,TARGET-50-PAKGED,True,True,True,True,True,Alive,1791.0,2809.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+11335db6-eb67-5094-be42-e2ffa4998a9f,TARGET-50-PAJNYM,False,False,False,True,True,Dead,131.0,327.0,,,8960/3,,,,1,Primary Tumor
+15f580b2-8893-58d7-a952-d1af304dff1a,TARGET-50-PAJNSF,False,False,False,True,True,Alive,2127.0,2742.0,,,8960/3,,,,1,Primary Tumor
+48f4a96d-7efd-5fcf-840b-2bad590a64a0,TARGET-50-PALEHA,False,False,False,True,True,Alive,2780.0,1465.0,,,8960/3,,,,1,Primary Tumor
+c11ac4ca-e0dd-50b3-a461-a7ab0d1f6264,TARGET-50-PAJMVC,True,False,True,True,True,Alive,727.0,1548.0,,,8960/3,,,,3,Primary Tumor|Solid Tissue Normal|Blood Derived Normal
+fffd3e22-f810-55c1-bf34-3a2eb29e2ca0,TARGET-50-PAJMNW,False,False,False,True,True,Alive,3425.0,1357.0,,,8960/3,,,,1,Primary Tumor
+b5a193a7-0dd4-58b7-ab96-ce770c805d08,TARGET-50-PAJPCV,False,False,False,True,True,Alive,774.0,2852.0,,,8960/3,,,,1,Primary Tumor
+b9acc7f7-2383-51d9-a7b3-c59fa59ac107,TARGET-50-PAJNFD,False,False,False,True,True,Alive,3145.0,1554.0,,,8960/3,,,,1,Primary Tumor
+2fe738f1-8b5c-5ec4-a958-66b0fe00e0a1,TARGET-50-PAJLPU,False,False,False,True,True,Alive,1327.0,749.0,,,8960/3,,,,1,Primary Tumor
+80f837bf-8511-58e3-a40e-2bb35c57d44b,TARGET-50-PADWHM,False,False,False,True,True,Alive,3541.0,724.0,,,8960/3,,,,1,Primary Tumor
+904d7920-0119-5e28-99ef-9dceb4eacf55,TARGET-50-PAKFZA,False,False,False,True,True,Alive,1233.0,944.0,,,8960/3,,,,1,Primary Tumor
+c3c4eb9d-d07c-5f92-b59f-0344728cf65b,TARGET-50-PAJMEG,False,False,False,True,True,Alive,3347.0,2889.0,,,8960/3,,,,1,Primary Tumor
+8da205a5-8857-593c-8576-c4e7e3f85bf9,TARGET-50-PADYUS,False,False,False,True,True,Alive,4778.0,1697.0,,,8960/3,,,,1,Primary Tumor
+cade1a40-07d3-5aa4-a0ff-018975c4af14,TARGET-50-PAJLVI,False,False,False,True,True,Alive,1649.0,1868.0,,,8960/3,,,,1,Primary Tumor
+a78a0e85-f5bd-5bf5-aa5d-6d8398728128,TARGET-50-PAJLWR,False,False,False,True,True,Alive,2604.0,560.0,,,8960/3,,,,1,Primary Tumor
+131add48-00fb-5982-919f-4996bdcd5c82,TARGET-50-PAKECR,True,True,True,True,True,Alive,3458.0,1102.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Solid Tissue Normal
+f953e351-b1b3-56d4-97bb-9e7afd6a9ea9,TARGET-50-PALCMK,False,False,False,True,True,Alive,715.0,329.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+1023f362-13cf-5e26-b6e2-c6cc24b2787a,TARGET-50-PAKZGW,False,False,False,True,True,Alive,3032.0,1336.0,,,8960/3,,,,1,Primary Tumor
+b29de9a8-bdb1-56cf-ba58-6789f6a993f3,TARGET-50-PAKHIU,False,False,False,True,True,Alive,2616.0,1098.0,,,8960/3,,,,1,Primary Tumor
+e8bfdb6b-c224-5814-984d-eb03adcfec0a,TARGET-50-PAJNPX,False,False,False,True,True,Alive,2864.0,122.0,,,8960/3,,,,1,Primary Tumor
+5548760c-6c52-5976-ba3e-2a5c52b5cfbd,TARGET-50-PAJNCX,False,False,False,True,True,Alive,1308.0,1668.0,,,8960/3,,,,1,Primary Tumor
+ca45e5d3-a66a-5f83-859c-e025de59a351,TARGET-50-PAJLKS,False,False,False,True,True,Alive,3681.0,1936.0,,,8960/3,,,,1,Primary Tumor
+00559889-68c1-50c7-8d15-edfb9a0efacb,TARGET-50-PALDNR,False,False,False,True,True,Alive,1693.0,985.0,,,8960/3,,,,1,Primary Tumor
+d28b1653-9877-59c5-9f3f-7d2c46379a60,TARGET-50-PAKNSG,False,False,False,True,True,Dead,673.0,1549.0,,,8960/3,,,,1,Primary Tumor
+f4eed962-fe9c-577c-9c7c-caafac76be2e,TARGET-50-PAJMNR,False,False,False,True,True,Alive,3902.0,1031.0,,,8960/3,,,,1,Primary Tumor
+9e265b0d-4497-5824-880d-0a0c80c1dfd8,TARGET-50-PAJNCZ,True,True,True,True,True,Alive,3579.0,581.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+4cf62742-4659-5962-95dc-d4a860a855cb,TARGET-50-PAJMVJ,False,False,False,True,True,Alive,1488.0,213.0,,,8960/3,,,,1,Primary Tumor
+d1c08655-8e99-5e6a-b70f-14f2ce75bcb5,TARGET-50-PALEFG,False,False,False,True,True,Dead,690.0,1688.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+3e7ff4f3-7cc3-5421-b64b-36edb8d48c23,TARGET-50-PAKWDE,False,False,False,True,True,Alive,2967.0,725.0,,,8960/3,,,,1,Primary Tumor
+e44233dd-2f62-5cb1-9443-6f556f6c8df5,TARGET-50-PAJNIM,False,False,False,True,True,Alive,1627.0,3549.0,,,8960/3,,,,1,Primary Tumor
+cdc2568a-8a7d-5246-ace8-fedd3255eac0,TARGET-50-PAJLJP,False,False,False,True,True,Alive,2814.0,679.0,,,8960/3,,,,1,Primary Tumor
+429a6d86-8b59-5498-b7ad-0d51be12e219,TARGET-50-PAKUMS,False,False,False,True,True,Alive,2156.0,1108.0,,,8960/3,,,,1,Primary Tumor
+c3639058-4c44-5204-bd3d-78b50d4ad23a,TARGET-50-PAKWZR,False,False,False,True,True,Alive,2908.0,1424.0,,,8960/3,,,,1,Primary Tumor
+b0d4fd9e-91e6-5d42-b144-7c3310f2e5d7,TARGET-50-PAEALI,False,False,False,True,True,Alive,3744.0,897.0,,,8960/3,,,,1,Primary Tumor
+dfd6282d-b780-59f4-b13b-9707b280c68a,TARGET-50-PAKXFS,False,False,False,True,True,Dead,87.0,1305.0,,,8960/3,,,,1,Primary Tumor
+be7bfe76-bf26-5747-b2f5-4d239302792f,TARGET-50-PAJMVK,False,False,False,True,True,Dead,2654.0,2450.0,,,8960/3,,,,1,Primary Tumor
+b2494bc4-4569-56b6-9baa-7a5e4cf36711,TARGET-50-CAAAAJ,True,True,True,True,True,Alive,3385.0,401.0,,,8960/3,,,,3,Primary Tumor|Solid Tissue Normal|Primary Tumor
+7b31bda2-c9ba-5711-9866-1f1108afdf83,TARGET-50-PAJMUI,False,False,False,True,True,Dead,421.0,1668.0,,,8960/3,,,,1,Primary Tumor
+d16f1595-bd97-596e-ba73-576535a3509f,TARGET-50-PALKRS,True,True,True,True,True,Dead,384.0,2003.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+3461c7bd-5174-5227-bf2a-3d43497f184e,TARGET-50-PAJNMD,False,False,False,True,True,Alive,3800.0,961.0,,,8960/3,,,,1,Primary Tumor
+bfc6c12f-4dda-5fde-9034-17535fd10f75,TARGET-50-PAKMTZ,False,False,False,True,True,Alive,2822.0,1122.0,,,8960/3,,,,1,Primary Tumor
+4ffeb2f1-f29b-5068-be4d-a2689fddba1a,TARGET-50-PAECPC,False,False,False,True,True,Alive,3004.0,2742.0,,,8960/3,,,,1,Primary Tumor
+6e4346be-6166-5fb6-b9a0-318a665bbcc8,TARGET-50-PADYWT,False,False,False,True,True,Alive,4767.0,1698.0,,,8960/3,,,,1,Primary Tumor
+f3f76575-632f-5291-a36b-c8fa51cf511e,TARGET-50-PAJNSI,False,False,False,True,True,Dead,567.0,367.0,,,8960/3,,,,1,Primary Tumor
+c9dae109-4584-5f09-8f8b-3259ec901cf4,TARGET-50-PAKLRW,False,False,False,True,True,Alive,3236.0,3064.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+9c473510-577a-508f-b65b-f0ed34f6b838,TARGET-50-PAJNFB,False,False,False,True,True,Alive,2716.0,1305.0,,,8960/3,,,,1,Primary Tumor
+aa37298f-82f8-5331-a03f-5e81a2cc700e,TARGET-50-PADYJI,False,False,False,True,True,Alive,4188.0,272.0,,,8960/3,,,,1,Primary Tumor
+e15e739f-5024-5e6c-bea9-aae4bb21b165,TARGET-50-PAJMIZ,True,True,True,True,True,Dead,180.0,2488.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+1cb665a0-f545-5054-8437-0d83da21f4bd,TARGET-50-PALBRC,False,False,False,True,True,Alive,1133.0,1142.0,,,8960/3,,,,1,Primary Tumor
+b549e87b-97ac-52b9-9d7f-c8c28336fe2e,TARGET-50-PAJLWX,False,False,False,True,True,Alive,4520.0,2173.0,,,8960/3,,,,1,Primary Tumor
+1a822bd1-f6cc-5a71-8000-4727e8d274c5,TARGET-50-PAJNWK,False,False,False,True,True,Alive,3181.0,315.0,,,8960/3,,,,1,Primary Tumor
+c45d6107-473d-50f0-99cb-d599b141d2ff,TARGET-50-PADYWB,False,False,False,True,True,Alive,3438.0,653.0,,,8960/3,,,,1,Primary Tumor
+159da374-51a5-577a-83c5-010ea4a0444e,TARGET-50-PAJNKJ,False,False,False,True,True,Alive,2009.0,1526.0,,,8960/3,,,,1,Primary Tumor
+aefeea4d-045e-5f01-828e-d0c82715ddf4,TARGET-50-PAKIDV,False,False,False,True,True,Alive,3200.0,985.0,,,8960/3,,,,1,Primary Tumor
+8fd8b3be-b55d-5899-8e5d-bec7121eda5a,TARGET-50-PAJNDS,False,False,False,True,True,Alive,3982.0,2655.0,,,8960/3,,,,1,Primary Tumor
+884b446b-33ac-50ba-8e6d-7aa9d858a1b7,TARGET-50-PADZTP,False,False,False,True,True,Dead,450.0,2775.0,,,8960/3,,,,1,Primary Tumor
+0bc09e73-617a-527d-9770-8587d6897001,TARGET-50-PAKSDG,True,True,True,True,True,Dead,702.0,1002.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+a52a85e7-38b0-5f29-879f-f898ed20f2ee,TARGET-50-PAJNZK,True,True,True,True,True,Alive,1040.0,1532.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+a8ef633e-5ffc-546e-b6c6-d996e5f28940,TARGET-50-PADZNG,False,False,False,True,True,Alive,2934.0,436.0,,,8960/3,,,,1,Primary Tumor
+069d5e15-1292-50f2-96f8-d5817447c609,TARGET-50-PAKGJK,False,False,False,True,True,Alive,1855.0,1433.0,,,8960/3,,,,1,Primary Tumor
+9478d841-e7e7-5483-b407-010aafeda8be,TARGET-50-PAJMIB,False,False,False,True,True,Alive,2335.0,781.0,,,8960/3,,,,1,Primary Tumor
+a1c6fe4a-6d2b-5278-b0a5-75e51e31894e,TARGET-50-PALKCW,True,True,True,True,True,Alive,1110.0,1895.0,,,8960/3,,,,4,Primary Tumor|Primary Tumor|Blood Derived Normal|Solid Tissue Normal
+8d8c0bf2-be1f-550a-8f99-606d4e6a3140,TARGET-50-PAKWCB,False,False,False,True,True,Alive,1378.0,1567.0,,,8960/3,,,,1,Primary Tumor
+2347bd68-65b1-5d0c-8c60-bdc4abe02674,TARGET-50-PAJNBE,False,False,False,True,True,Dead,295.0,1161.0,,,8960/3,,,,1,Primary Tumor
+a2b66ea0-cab4-5f55-831e-cbe645f0d832,TARGET-50-PAJMMW,False,False,False,True,True,Alive,2797.0,536.0,,,8960/3,,,,1,Primary Tumor
+c6021e59-c498-5fe6-9836-bf6f02d1bada,TARGET-50-PAJLSZ,False,False,False,True,True,Alive,4305.0,236.0,,,8960/3,,,,1,Primary Tumor
+d5dc8855-4873-53ef-bd10-3f3e0334990d,TARGET-50-PAJNWH,False,False,False,True,True,Alive,2765.0,1913.0,,,8960/3,,,,1,Primary Tumor
+bfdac6d0-5c84-5fea-825c-65cad883d161,TARGET-50-PALCVC,False,False,False,True,True,Alive,561.0,727.0,,,8960/3,,,,1,Primary Tumor
+9ba1348f-150c-5282-998e-80e386468d95,TARGET-50-PAJNRH,True,True,True,True,True,Alive,1703.0,1340.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+ff9add28-4125-5670-94b5-0cd59fec59ac,TARGET-50-PAJNXS,False,False,False,True,True,Alive,2364.0,1495.0,,,8960/3,,,,1,Primary Tumor
+18cc7863-bdfa-5257-9841-43f534d897f0,TARGET-50-PAJPFR,False,False,False,True,True,Alive,2035.0,678.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+999e41fb-6d9a-5c0b-b523-0ad3c420d489,TARGET-50-PAKNFF,False,False,False,True,True,Alive,1143.0,833.0,,,8960/3,,,,1,Primary Tumor
+aeb93825-cfb0-511b-a433-3cf1bf2e5eec,TARGET-50-PALDAF,False,False,False,True,True,Alive,2892.0,1315.0,,,8960/3,,,,1,Primary Tumor
+5b6d6f3c-965b-5d50-a3d0-40ec7217a7c4,TARGET-50-PAJMWF,False,False,False,True,True,Alive,1455.0,1987.0,,,8960/3,,,,1,Primary Tumor
+fd40105a-872b-579a-80de-cbc691252238,TARGET-50-PAJMUS,False,False,False,True,True,Alive,254.0,3066.0,,,8960/3,,,,1,Primary Tumor
+75526c35-2531-55b7-8a94-0dde460c9ee6,TARGET-50-PAJLSM,False,False,False,True,True,Dead,248.0,458.0,,,8960/3,,,,1,Primary Tumor
+46045db1-325b-5125-a217-71e7a8925fd9,TARGET-50-PAJMUY,False,False,False,True,True,Alive,3751.0,420.0,,,8960/3,,,,1,Primary Tumor
+097a33c9-42cf-5026-8d89-16b76e5db3f9,TARGET-50-PAJLJG,False,False,False,True,True,Alive,4937.0,830.0,,,8960/3,,,,1,Primary Tumor
+e1c5169a-76b9-5364-85a8-0daf57332938,TARGET-50-PAJLSY,False,False,False,True,True,Alive,2127.0,847.0,,,8960/3,,,,1,Primary Tumor
+56ccc9b4-323e-54e8-a2bd-a71dbbbe2336,TARGET-50-PADZNH,False,False,False,True,True,Alive,3943.0,1971.0,,,8960/3,,,,1,Primary Tumor
+ad773d0d-7bf7-5e87-b411-6ae1332e71ba,TARGET-50-PAJLMW,False,False,False,True,True,Alive,2216.0,1439.0,,,8960/3,,,,1,Primary Tumor
+7ab3f02e-e4de-59f1-beb3-1f6308e28f66,TARGET-50-PAJNTJ,True,True,True,True,True,Dead,1013.0,707.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Recurrent Tumor
+2930ccf0-2c63-57a0-bec7-c61f7a2493ff,TARGET-50-PAJLRF,False,False,False,True,True,Alive,2696.0,1187.0,,,8960/3,,,,1,Primary Tumor
+c07901d8-2829-5e98-9e8a-e12faafa1626,TARGET-50-PAKKJB,False,False,False,True,True,Alive,1918.0,1746.0,,,8960/3,,,,1,Primary Tumor
+aeefc9e1-f71a-572d-bddd-9633f9d19fa4,TARGET-50-PADWYJ,False,False,False,True,True,Alive,685.0,1170.0,,,8960/3,,,,1,Primary Tumor
+22997769-e97c-59be-8150-ea5a11635845,TARGET-50-PAKHMM,False,False,False,True,True,Dead,588.0,3261.0,,,8960/3,,,,1,Primary Tumor
+05971258-09fb-5bc1-a144-aea89f90d59f,TARGET-50-PAJMVW,False,False,False,True,True,Alive,3239.0,1036.0,,,8960/3,,,,1,Primary Tumor
+c5032173-66d1-5d68-93c9-f330545d7048,TARGET-50-PAJNNR,True,True,True,True,True,Dead,217.0,2265.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+f810bead-8c7b-5992-84f2-82315bbc0220,TARGET-50-PAJLRC,False,False,False,True,True,Alive,3247.0,602.0,,,8960/3,,,,1,Primary Tumor
+b17b315f-c2df-5f49-846a-591d35538cb3,TARGET-50-PAKHNC,False,False,False,True,True,Alive,3305.0,1749.0,,,8960/3,,,,1,Primary Tumor
+f4e9b9bc-841a-5673-b5a2-968253cee4df,TARGET-50-PAJNNT,False,False,False,True,True,Alive,253.0,2620.0,,,8960/3,,,,1,Primary Tumor
+3d9f9d89-2e31-5248-b02b-b8631e7504d6,TARGET-50-PAJLYP,False,False,False,True,True,Alive,1217.0,1949.0,,,8960/3,,,,1,Primary Tumor
+740cf273-741b-5c88-8a5a-bf5a7966e199,TARGET-50-PAJMBP,False,False,False,True,True,Alive,3926.0,193.0,,,8960/3,,,,1,Primary Tumor
+80700a43-650b-56c9-8f54-60e7a83a7fd6,TARGET-50-PAKRYJ,False,False,False,True,True,Alive,2237.0,871.0,,,8960/3,,,,1,Primary Tumor
+a8b01aab-0ffa-5416-be71-9816c956d34e,TARGET-50-PADYYC,False,False,False,True,True,Alive,4387.0,1094.0,,,8960/3,,,,1,Primary Tumor
+7ff22345-8e41-559e-a504-c1878da814bb,TARGET-50-PAJLVV,False,False,False,True,True,Alive,4253.0,620.0,,,8960/3,,,,1,Primary Tumor
+ad422d55-ac94-5285-b0eb-9311fe1b1677,TARGET-50-PAJLUI,False,False,False,True,True,Alive,3822.0,1774.0,,,8960/3,,,,1,Primary Tumor
+3a009f9a-a891-5585-9030-e0cbef31414b,TARGET-50-PAJMKW,False,False,False,True,True,Dead,771.0,3036.0,,,8960/3,,,,1,Primary Tumor
+dd2dcadf-7b65-5461-aee9-f49bf4270c1e,TARGET-50-PAJLXH,False,False,False,True,True,Alive,2687.0,3017.0,,,8960/3,,,,1,Primary Tumor
+d75c98cd-6ba7-5ecd-85b4-96f386390de2,TARGET-50-PAJLWA,False,False,False,True,True,Alive,4331.0,1275.0,,,8960/3,,,,1,Primary Tumor
+d9852def-67fd-5a2d-951b-1e78ab041656,TARGET-50-PAJMIP,False,False,False,True,True,Alive,2771.0,1261.0,,,8960/3,,,,1,Primary Tumor
+b29f10f9-5e5f-5400-92bb-f6b10fa28981,TARGET-50-PAJMBN,False,False,False,True,True,Alive,4195.0,642.0,,,8960/3,,,,1,Primary Tumor
+10b04e86-e83a-57cd-8e03-bd15192c773d,TARGET-50-PAJLIH,False,False,False,True,True,Dead,2783.0,4917.0,,,8960/3,,,,1,Primary Tumor
+61f9561f-6ebe-5e4d-953f-bcbb3b3fea8b,TARGET-50-PAJNSK,False,False,False,True,True,Alive,452.0,3505.0,,,8960/3,,,,1,Primary Tumor
+cf9da9de-45a8-576a-8462-a8179a6ae33b,TARGET-50-PADXYT,False,False,False,True,True,Alive,3866.0,2482.0,,,8960/3,,,,1,Primary Tumor
+37f66e97-e688-561e-a829-3206cf1bdba0,TARGET-50-PAKKZG,False,False,False,True,True,Dead,1636.0,2208.0,,,8960/3,,,,1,Primary Tumor
+f0d31581-eecb-5a50-80f8-76f94276a4c8,TARGET-50-PAJNUX,False,False,False,True,True,Alive,2142.0,1798.0,,,8960/3,,,,1,Primary Tumor
+799e100e-a3f1-56c0-8912-5aaa9cfa06ff,TARGET-50-PAJMMZ,False,False,False,True,True,Dead,2147.0,275.0,,,8960/3,,,,1,Primary Tumor
+6095ab07-e23a-56e2-9a48-9a6658fcc1e7,TARGET-50-PAJMLZ,True,True,True,True,True,Dead,358.0,1324.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+26e501c4-c3df-592f-b7e7-76dfeade7a55,TARGET-50-PAJPCM,True,True,True,True,True,Alive,3121.0,1754.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+e1967024-5b1c-5398-86db-1f31f7aa2cbd,TARGET-50-PALGWU,False,False,False,True,True,Dead,596.0,1190.0,,,8960/3,,,,1,Primary Tumor
+9b546dad-6010-5a5a-9bf0-5f06e4e729a5,TARGET-50-PAKXSD,False,False,False,True,True,Alive,377.0,219.0,,,8960/3,,,,1,Primary Tumor
+cdd19f58-23f1-5851-b7fd-db1d159776a6,TARGET-50-PAKMGV,False,False,False,True,True,Alive,1061.0,2223.0,,,8960/3,,,,1,Primary Tumor
+f32d5bd5-c5c7-53f5-a841-c9e9cf14bdc2,TARGET-50-PAJMLS,False,False,False,True,True,Alive,408.0,1910.0,,,8960/3,,,,1,Primary Tumor
+a3de9b09-8422-5c2a-b902-361343ed9336,TARGET-50-PADZSS,False,False,False,True,True,Alive,3975.0,227.0,,,8960/3,,,,1,Primary Tumor
+d48fcaa9-1353-5b14-b41a-7319b73cf046,TARGET-50-PAKZER,True,True,True,True,True,Alive,2829.0,2271.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+d9f4709d-5d3c-5ae3-8c2d-07466f088e0d,TARGET-50-PAJNGH,True,True,True,True,True,Dead,1229.0,851.0,,,8960/3,,,,4,Recurrent Tumor|Primary Tumor|Primary Tumor|Blood Derived Normal
+2fc73759-0c14-5ec9-9130-825206a1211d,TARGET-50-PAKPIJ,False,False,False,True,True,Alive,3093.0,372.0,,,8960/3,,,,1,Primary Tumor
+7ac53e64-f6ea-5ddb-9afb-ffd21791be7c,TARGET-50-PALKWP,False,False,False,True,True,Dead,435.0,2164.0,,,8960/3,,,,1,Primary Tumor
+3d496d60-a616-55b6-a6bf-6acf76b56fee,TARGET-50-PAJNBN,True,True,True,True,True,Dead,759.0,1509.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+a30d5805-f128-513d-8dad-33b2f4f2958b,TARGET-50-PADZPL,False,False,False,True,True,Alive,4378.0,1718.0,,,8960/3,,,,1,Primary Tumor
+eaffceb7-3b14-5b19-a7f0-a43bd8c45909,TARGET-50-PAJNDC,False,False,False,True,True,Alive,3954.0,1267.0,,,8960/3,,,,1,Primary Tumor
+ebb39353-186a-5e60-8448-2d3d30d8ba02,TARGET-50-PAKJHT,False,False,False,True,True,Alive,717.0,1768.0,,,8960/3,,,,1,Primary Tumor
+acf9ae86-a269-5d52-a88a-9f21fdf6cf80,TARGET-50-PAJNSB,False,False,False,True,True,Alive,874.0,1412.0,,,8960/3,,,,1,Primary Tumor
+1707c969-73b1-54ec-875f-1b7a6fca056c,TARGET-50-PADZUB,True,True,True,True,True,Dead,1271.0,5557.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+8b4b19ef-607a-5cfb-9bef-a7149a6a5c0b,TARGET-50-PALMPF,False,False,False,True,True,Alive,2766.0,1080.0,,,8960/3,,,,1,Primary Tumor
+929600ec-f84c-5c0e-96d3-2fcb02668355,TARGET-50-PAJLND,False,False,False,True,True,Dead,3121.0,1532.0,,,8960/3,,,,1,Primary Tumor
+9867770a-0037-5f96-b48c-17bc5092f1aa,TARGET-50-PALGLU,True,True,True,True,True,Dead,326.0,1275.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+d369907d-0cc9-57af-8111-d8d2ea046b58,TARGET-50-PAKHYJ,False,False,False,True,True,Alive,2110.0,2317.0,,,8960/3,,,,1,Primary Tumor
+2323762c-0bee-58c8-ba87-a40048f743b9,TARGET-50-PAJMYM,False,False,False,True,True,Alive,2155.0,339.0,,,8960/3,,,,1,Primary Tumor
+66f639e5-2d26-567a-9357-c7abb385bb4b,TARGET-50-PAJPEP,False,False,False,True,True,Alive,2394.0,1781.0,,,8960/3,,,,1,Primary Tumor
+0dfedad4-69dc-5cb5-9901-663b32583e00,TARGET-50-PAJLWW,False,False,False,True,True,Alive,3521.0,2155.0,,,8960/3,,,,1,Primary Tumor
+5defccf0-173b-5dc1-b678-cc2f8cd3b250,TARGET-50-PAJNTM,False,False,False,True,True,Alive,3444.0,615.0,,,8960/3,,,,1,Primary Tumor
+0044844b-1125-5992-a5f5-9a8b25462dcb,TARGET-50-PAJMJK,False,True,True,True,True,Alive,1732.0,466.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+d647dae9-cd8b-5d1b-820a-994488955e01,TARGET-50-PAKMLA,False,False,False,True,True,Alive,3122.0,2435.0,,,8960/3,,,,1,Primary Tumor
+bf53ae18-949f-5a53-9354-f5626282bcdf,TARGET-50-PAJMZV,False,False,False,True,True,Alive,434.0,969.0,,,8960/3,,,,1,Primary Tumor
+ca20e38c-1bf2-542b-b0a0-bf5af1ccb29d,TARGET-50-PAJPER,False,False,False,True,True,Alive,1818.0,463.0,,,8960/3,,,,1,Primary Tumor
+4dbf1a3a-8f23-5099-acdc-16becba2d3ec,TARGET-50-PAKMDX,False,False,False,True,True,Alive,2757.0,387.0,,,8960/3,,,,1,Primary Tumor
+6229946c-ce76-5af9-ae31-250c4d27707f,TARGET-50-PAJLVB,False,False,False,True,True,Alive,551.0,1567.0,,,8960/3,,,,1,Primary Tumor
+2bcd19b4-e305-5245-a13e-391a51bf4ff6,TARGET-50-PAJLWI,False,False,False,True,True,Alive,4200.0,812.0,,,8960/3,,,,1,Primary Tumor
+230cd6ff-8894-5644-8926-9322ebce82a9,TARGET-50-PAJNVL,False,False,False,True,True,Alive,2330.0,765.0,,,8960/3,,,,1,Primary Tumor
+83d3a5f5-41b0-5c12-b120-c70c4d7a984f,TARGET-50-PAJNZU,True,True,True,True,True,Alive,3451.0,970.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+d4fd89f8-e948-53d2-b07f-9edfc5cd55d7,TARGET-50-PAKMMS,False,False,False,True,True,Alive,3066.0,1669.0,,,8960/3,,,,1,Primary Tumor
+5fc2b29d-ac60-551c-990d-20f0a9c27df5,TARGET-50-PAJPDF,False,False,False,True,True,Alive,1005.0,285.0,,,8960/3,,,,1,Primary Tumor
+42f78594-db07-5523-b17f-67d5188ebd0a,TARGET-50-PAKMSV,True,True,True,True,True,Dead,733.0,1968.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+636332b0-353b-5429-b80f-f1fef621565e,TARGET-50-PAJMDP,False,False,False,True,True,Alive,3071.0,1617.0,,,8960/3,,,,1,Primary Tumor
+f38e3a09-be6e-53d6-9694-31ea81df1a6f,TARGET-50-PAJLVS,False,False,False,True,True,Alive,1068.0,1546.0,,,8960/3,,,,1,Primary Tumor
+0cfe435f-03b0-5245-adb1-ecff0fbaddbb,TARGET-50-PAJNZZ,False,False,False,True,True,Alive,3265.0,611.0,,,8960/3,,,,1,Primary Tumor
+df1b5266-f9e5-50e7-9d91-584e63442084,TARGET-50-PAKZHG,False,False,False,True,True,Alive,2523.0,1583.0,,,8960/3,,,,1,Primary Tumor
+c8124bca-2540-55b3-8091-46d0b9bc01a8,TARGET-50-PAJLIP,True,True,True,True,True,Alive,2733.0,3037.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+f3fbc6ff-7f14-5ab6-bda1-a21ced37a4f2,TARGET-50-PAJMKT,False,False,False,True,True,Alive,3962.0,1068.0,,,8960/3,,,,1,Primary Tumor
+32f0afd3-456e-5ea7-94ee-52b13308bc34,TARGET-50-PAJPBG,False,False,False,True,True,Alive,1466.0,519.0,,,8960/3,,,,1,Primary Tumor
+5b50b7fe-dc91-590d-b0a1-e6e493b6ff46,TARGET-50-PAJLLI,False,False,False,True,True,Alive,3687.0,1631.0,,,8960/3,,,,1,Primary Tumor
+99cf0e56-0ee6-54c7-a045-cd181d8b2cd3,TARGET-50-PAKGUP,False,False,False,True,True,Alive,1180.0,3763.0,,,8960/3,,,,1,Primary Tumor
+f4537527-e53e-5621-b5cb-e971382e0c28,TARGET-50-PAJNZI,True,True,True,True,True,Alive,929.0,2842.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+ec11b22a-1746-5b29-b7ba-0031ec7a4d0f,TARGET-50-PALKNP,False,False,False,True,True,Alive,854.0,1559.0,,,8960/3,,,,1,Primary Tumor
+6163ffa9-e0b9-5d6f-b650-0ce2df32b6c3,TARGET-50-PAJNDU,True,True,True,True,True,Alive,2948.0,2360.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+ec72182d-7ce3-5ff3-ba3d-15ff2aaf6aaa,TARGET-50-PAJLZT,False,False,False,True,True,Alive,2146.0,475.0,,,8960/3,,,,1,Primary Tumor
+5655c524-18a3-5591-9a5d-5d1240ec7f2e,TARGET-50-PALEZT,True,True,True,True,True,Alive,331.0,4397.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+b68989df-3246-50b4-9340-bae6a498302d,TARGET-50-PALEJW,False,False,False,True,True,Alive,2366.0,2773.0,,,8960/3,,,,1,Primary Tumor
+03396b6e-c039-5dac-b512-891e85104352,TARGET-50-PAKRRF,False,False,False,True,True,Alive,2221.0,1695.0,,,8960/3,,,,1,Primary Tumor
+4a79f3d6-e3d0-5e4d-87af-179badd05a6e,TARGET-50-PAJLIT,False,False,False,True,True,Alive,3372.0,1408.0,,,8960/3,,,,1,Primary Tumor
+4e776b2b-b22a-5034-bccd-0eb84a2d29e6,TARGET-50-PAKISF,False,False,False,True,True,Alive,3061.0,911.0,,,8960/3,,,,1,Primary Tumor
+24174d7e-b585-5075-a477-680aa97fee53,TARGET-50-PAJPCN,False,False,False,True,True,Alive,767.0,2461.0,,,8960/3,,,,1,Primary Tumor
+88d81b61-c6dd-5bce-8a69-0f86cd55e393,TARGET-50-PALJHR,False,False,False,True,True,Dead,617.0,1769.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+24c878c8-4112-525c-950e-020b4f1924e5,TARGET-50-PAJMKK,False,False,False,True,True,Alive,4127.0,2403.0,,,8960/3,,,,1,Primary Tumor
+985c9155-099b-5c1c-a86a-3345704e1436,TARGET-50-PAJPCX,False,False,False,True,True,Alive,2541.0,390.0,,,8960/3,,,,1,Primary Tumor
+27d80fd0-1f18-50a9-8e70-2ac404cc1e41,TARGET-50-PAJLML,False,False,False,True,True,Alive,4409.0,1415.0,,,8960/3,,,,1,Primary Tumor
+561c2712-c1ac-50d1-94a6-dc1c31e6a449,TARGET-50-PAKVXE,False,False,False,True,True,Alive,2541.0,1421.0,,,8960/3,,,,1,Primary Tumor
+fa916529-7e42-5923-84b6-45ece060833a,TARGET-50-PAJLSS,False,False,False,True,True,Alive,3261.0,1706.0,,,8960/3,,,,1,Primary Tumor
+21e2f1bc-9580-5ece-9141-993cf77857cf,TARGET-50-PAJMIE,False,False,False,True,True,Alive,4255.0,1301.0,,,8960/3,,,,1,Primary Tumor
+bbcb2177-c3b1-5681-bab0-f8ca25e585df,TARGET-50-PAJPGM,False,False,False,True,True,Dead,1811.0,2505.0,,,8960/3,,,,1,Primary Tumor
+5761a7af-2883-517c-bbc1-2d78898cd85e,TARGET-50-PAKUIT,True,True,True,True,True,Dead,228.0,1236.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+0ffe04e2-e4ba-5cf4-8b99-d8b380547389,TARGET-50-PAJLMH,False,False,False,True,True,Alive,4767.0,634.0,,,8960/3,,,,1,Primary Tumor
+ee746c9f-13a7-53c0-891e-75db015b8b51,TARGET-50-PAKVXU,False,False,False,True,True,Alive,1509.0,3745.0,,,8960/3,,,,1,Primary Tumor
+5373d073-7e74-5ee5-8b2c-812d2d983d3a,TARGET-50-PAKLYC,False,False,False,True,True,Alive,1710.0,1991.0,,,8960/3,,,,1,Primary Tumor
+1f6ef59a-8907-5696-a4a6-f59ba8d45caf,TARGET-50-PAEHLJ,False,False,False,True,True,Dead,593.0,1631.0,,,8960/3,,,,1,Primary Tumor
+623ea3ea-02fa-5323-bb7b-63159554fe80,TARGET-50-PAJMPP,False,False,False,True,True,Alive,2944.0,639.0,,,8960/3,,,,1,Primary Tumor
+4f08712f-f6c5-54ac-8d5f-a2466de600f1,TARGET-50-PAJPGA,False,False,False,True,True,Alive,3358.0,1775.0,,,8960/3,,,,1,Primary Tumor
+c3d30c0e-b697-5470-8165-dd1b77939198,TARGET-50-PAJLUJ,True,True,True,True,True,Alive,4449.0,2326.0,,,8960/3,,,,2,Metastatic|Blood Derived Normal
+dfc87c2f-5d39-533d-adb1-96094b2de609,TARGET-50-PAJNHP,False,False,False,True,True,Alive,1457.0,2278.0,,,8960/3,,,,1,Primary Tumor
+130cd47d-8a36-50c3-9ccb-4ff530532fae,TARGET-50-PAJNLS,False,False,False,True,True,Alive,1869.0,1578.0,,,8960/3,,,,1,Primary Tumor
+12ad347f-ab6d-51ad-b17f-aeea30802c07,TARGET-50-PAJNZY,False,False,False,True,True,Dead,494.0,289.0,,,8960/3,,,,1,Primary Tumor
+cd5e23bd-06ac-569f-b45e-68ab8a616764,TARGET-50-PADYRW,False,False,False,True,True,Alive,1582.0,2666.0,,,8960/3,,,,1,Primary Tumor
+a1daa35c-94ab-5f2b-90a9-f3d8982a2c92,TARGET-50-PAJMRT,False,False,False,True,True,Alive,3940.0,1178.0,,,8960/3,,,,1,Primary Tumor
+46db8285-874e-552e-819c-515b1fadf89c,TARGET-50-PAJNYX,False,False,False,True,True,Alive,3210.0,3243.0,,,8960/3,,,,1,Primary Tumor
+9af6ade7-8255-5a2e-808e-655f855ae733,TARGET-50-PAJNGA,False,False,False,True,True,Alive,3725.0,1582.0,,,8960/3,,,,1,Primary Tumor
+0171447a-da02-5e9e-97b0-88d21d85e669,TARGET-50-PAJMVU,True,True,True,True,True,Alive,2092.0,1638.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+52593952-f8b6-56d8-ac2a-ab938dfde8a4,TARGET-50-PAJPCF,False,False,False,True,True,Alive,3283.0,1431.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+a91c7a14-7e0b-54d5-8f64-71c7ff115236,TARGET-50-PAJMDL,False,False,False,True,True,Alive,2358.0,2042.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+fe2d56ca-33c6-5022-9091-061ff779cb6d,TARGET-50-CAAAAP,True,True,True,True,True,Alive,2661.0,824.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+581ae5ba-d6a2-5330-a349-622794064fdb,TARGET-50-PAJNLR,False,False,False,True,True,Alive,3618.0,1372.0,,,8960/3,,,,1,Primary Tumor
+e9602f83-d101-5ef8-a8fb-51a41779744b,TARGET-50-PALMII,False,False,False,True,True,Alive,2312.0,1137.0,,,8960/3,,,,1,Primary Tumor
+8d36b806-163d-5ad1-83f0-ccdc6e728e94,TARGET-50-PAJMMY,True,True,True,True,True,Alive,4163.0,1953.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+d6041f75-34e1-5c92-a916-02030744d0eb,TARGET-50-PAJNCU,False,False,False,True,True,Alive,3697.0,1961.0,,,8960/3,,,,1,Primary Tumor
+c9615a61-e358-5115-b926-3acc7e90ab72,TARGET-50-PAJPDN,True,True,True,True,True,Alive,1987.0,1112.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+7c7f416f-d710-52b7-9b61-21358f2f7efd,TARGET-50-PADYHT,False,False,False,True,True,Alive,4507.0,1287.0,,,8960/3,,,,1,Primary Tumor
+ca3d8cee-18fd-5b91-8e91-ac588ae8cca3,TARGET-50-PAJPEW,True,True,True,True,True,Alive,3241.0,5082.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+4e42a69c-9c25-582d-9aec-e7584e8dafa1,TARGET-50-PAJPAH,False,False,False,True,True,Alive,3559.0,1078.0,,,8960/3,,,,1,Primary Tumor
+04721d69-6c48-5423-9574-38fc810dbeda,TARGET-50-PAJMJT,True,True,True,True,True,Alive,4042.0,1921.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+de545950-7423-556e-874a-274e12b6a78d,TARGET-50-PAJMNZ,False,False,False,True,True,Alive,4056.0,1420.0,,,8960/3,,,,1,Primary Tumor
+0224e9da-d6e7-5b8f-91f6-bc8372ee5d22,TARGET-50-CAAAAO,True,True,True,True,True,Dead,672.0,1326.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+b3f27b4c-55a2-5d14-9b05-08f0e1a91e4b,TARGET-50-PAJLRP,False,False,False,True,True,Alive,3974.0,1259.0,,,8960/3,,,,1,Primary Tumor
+e12c53ec-f5f7-5abf-b670-0c91f70490e7,TARGET-50-PAJMGI,False,False,False,True,True,Alive,2042.0,1385.0,,,8960/3,,,,1,Primary Tumor
+d4edc0a6-905b-5bfa-b4d5-f4f9f7987323,TARGET-50-PAKYJS,False,False,False,True,True,Alive,2876.0,165.0,,,8960/3,,,,1,Primary Tumor
+0f62d8fe-f1bb-51e5-b99a-b0b2d5ab5324,TARGET-50-PAJNMT,False,False,False,True,True,Alive,3700.0,131.0,,,8960/3,,,,1,Primary Tumor
+de64155b-4c15-529b-916a-73d4636cc161,TARGET-50-PAJNEB,False,False,False,True,True,Alive,2041.0,687.0,,,8960/3,,,,1,Primary Tumor
+a82634ab-642e-5f6a-86a4-90f4f5bce684,TARGET-50-PAEHDE,False,False,False,True,True,Alive,2469.0,897.0,,,8960/3,,,,1,Primary Tumor
+feca5e42-a1c6-5908-b160-4c69f6722bf7,TARGET-50-PAJMXP,False,False,False,True,True,Alive,756.0,805.0,,,8960/3,,,,1,Primary Tumor
+b68a9546-4697-530e-a628-08c83a6a7017,TARGET-50-PAKGZX,True,True,True,True,True,Alive,1963.0,2201.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+c0b7bdf3-837c-5e22-9046-dee5a0a51bb2,TARGET-50-PAJMZF,False,False,False,True,True,Alive,3995.0,264.0,,,8960/3,,,,1,Primary Tumor
+0fc837c7-d7d5-5671-bb6f-1c46786648db,TARGET-50-PAJNGJ,False,False,False,True,True,Alive,1707.0,1283.0,,,8960/3,,,,1,Primary Tumor
+3d1ee6cf-546d-55fa-9f19-a27ff29a0849,TARGET-50-PAKXWB,True,True,True,True,True,Dead,458.0,2681.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+157df805-b1c3-5489-be11-579a304297be,TARGET-50-PAJNVE,True,True,True,True,True,Alive,3382.0,800.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+d58be335-8f98-5518-99fa-8fa36138d836,TARGET-50-PAJMJM,False,False,False,True,True,Alive,2924.0,5319.0,,,8960/3,,,,1,Primary Tumor
+dfd8aaad-cf31-5260-8882-b471ddbcc8fd,TARGET-50-PADXJZ,False,False,False,True,True,Alive,4311.0,838.0,,,8960/3,,,,1,Primary Tumor
+8ca971f9-dd3c-5718-9c76-4bc57993d270,TARGET-50-PAJMJL,False,False,False,True,True,Alive,3108.0,1595.0,,,8960/3,,,,1,Primary Tumor
+b74bbc31-fc89-5d20-8c16-a598ff3a5380,TARGET-50-PAEDJU,False,False,False,True,True,Alive,1135.0,1629.0,,,8960/3,,,,1,Primary Tumor
+8a881e2e-d150-5823-8209-005b637ee69c,TARGET-50-PAJNDB,False,False,False,True,True,Alive,1502.0,1048.0,,,8960/3,,,,1,Primary Tumor
+68b23ad4-10fd-547b-94c9-2dd53b04cb70,TARGET-50-PAKXSE,False,False,False,True,True,Alive,423.0,912.0,,,8960/3,,,,1,Primary Tumor
+b7406393-14ec-5f6c-a924-37986984e9f9,TARGET-50-PAKNAL,True,True,True,True,True,Alive,1492.0,2070.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+7e37c209-accf-5a97-b5b1-97442f08e019,TARGET-50-PADXIP,False,False,False,True,True,Alive,1976.0,582.0,,,8960/3,,,,1,Primary Tumor
+1497365c-f065-5acd-b164-4e3de4cf6c96,TARGET-50-PAKIZP,False,False,False,True,True,Alive,3108.0,1205.0,,,8960/3,,,,1,Primary Tumor
+78938ff6-d077-5e77-829c-1454ad746737,TARGET-50-PAKNXS,True,True,True,True,True,Dead,329.0,1245.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+f2c74244-72c4-5bbb-b0c5-cc5e66468150,TARGET-50-PAJNGB,False,False,False,True,True,Alive,3935.0,733.0,,,8960/3,,,,1,Primary Tumor
+9880f1f3-bd47-5da9-9e7f-62b7564198b5,TARGET-50-PAJNYT,True,True,True,True,True,Dead,354.0,768.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+2a43cd66-8246-5318-8226-82c73b8f2101,TARGET-50-PAJLPD,False,False,False,True,True,Alive,2162.0,1980.0,,,8960/3,,,,1,Primary Tumor
+c3c0677e-210b-5b65-bc14-22a03c597ed1,TARGET-50-PAJNKP,False,False,False,True,True,Alive,2546.0,1030.0,,,8960/3,,,,1,Primary Tumor
+2697b093-bc0f-50fa-b937-7a24724aa615,TARGET-50-CAAAAB,True,True,True,True,True,Dead,936.0,1757.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+6b594bad-5745-52d8-9c6c-5256207a0f1b,TARGET-50-PAJLMV,False,False,False,True,True,Dead,535.0,1311.0,,,8960/3,,,,1,Primary Tumor
+7fe953b3-0a9e-5231-b987-387a13269189,TARGET-50-PAKYGM,False,False,False,True,True,Dead,663.0,1594.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+ac7ad84f-d947-5028-b500-36589aa7b9ef,TARGET-50-PAJMVI,False,False,False,True,True,Alive,1428.0,1631.0,,,8960/3,,,,1,Primary Tumor
+37b63d05-d4fe-544e-b215-9751ab9d4e93,TARGET-50-PAJMSE,True,True,True,True,True,Dead,528.0,1681.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Blood Derived Normal
+e23a6d4d-9eb3-5586-8408-9e8aee6e8f34,TARGET-50-PADYGE,False,False,False,True,True,Dead,370.0,1016.0,,,8960/3,,,,1,Primary Tumor
+c8dbb2e1-d99a-5f0e-8bee-ddd127b3541b,TARGET-50-PAJNNV,False,False,False,True,True,Alive,2851.0,357.0,,,8960/3,,,,1,Primary Tumor
+5bbe2d97-5443-5009-97ac-18f1837e797f,TARGET-50-PAJMMK,False,False,False,True,True,Alive,4112.0,1339.0,,,8960/3,,,,1,Primary Tumor
+322e5218-f21f-5137-b09d-8b1423ffc5fb,TARGET-50-PAKGDL,False,False,False,True,True,Dead,465.0,314.0,,,8960/3,,,,1,Primary Tumor
+a6c8268f-0521-5fc6-bb74-46373b2db10c,TARGET-50-PAJNWX,False,False,False,True,True,Alive,1833.0,1129.0,,,8960/3,,,,1,Primary Tumor
+f2093f17-1f8e-5b15-97cf-9f9f8d441870,TARGET-50-PAJPGF,False,False,False,True,True,Alive,1720.0,128.0,,,8960/3,,,,1,Primary Tumor
+24020251-e015-5f27-9eb9-3ef4ed33378b,TARGET-50-PAJPAX,False,False,False,True,True,Alive,3428.0,702.0,,,8960/3,,,,1,Primary Tumor
+373af75b-65a0-557a-8425-21792ada24c5,TARGET-50-PAJNKA,False,False,False,True,True,Alive,3474.0,801.0,,,8960/3,,,,1,Primary Tumor
+2289a42c-6036-5479-a63e-6634a67e7103,TARGET-50-PAJNIE,False,False,False,True,True,Alive,2392.0,2144.0,,,8960/3,,,,1,Primary Tumor
+c49e77e9-3c8c-5673-bd4c-ed4e79795506,TARGET-50-PADXJK,False,False,False,True,True,Alive,4678.0,558.0,,,8960/3,,,,1,Primary Tumor
+169aa5cf-89d5-578e-bbb5-df57a9e6dc9e,TARGET-50-PAJNAM,False,False,False,True,True,Alive,4040.0,1368.0,,,8960/3,,,,1,Primary Tumor
+fa00becf-5dde-573e-8541-58e61374484f,TARGET-50-PAJNKX,False,False,False,True,True,Alive,974.0,518.0,,,8960/3,,,,1,Primary Tumor
+8cdcc33f-b092-574b-8662-fdb05d94a798,TARGET-50-PAKFTB,False,False,False,True,True,Alive,2160.0,178.0,,,8960/3,,,,1,Primary Tumor
+a53fb30c-8168-55b6-8b40-77b3129f6687,TARGET-50-PAJMPR,False,False,False,True,True,Alive,3929.0,419.0,,,8960/3,,,,1,Primary Tumor
+f65ff597-2396-5628-884a-99108eabd11f,TARGET-50-PAJNSV,False,False,False,True,True,Alive,3265.0,958.0,,,8960/3,,,,1,Primary Tumor
+ec9d9a60-2161-51a7-afca-5b2757ce8fef,TARGET-50-PADXWJ,False,False,False,True,True,Alive,4342.0,2424.0,,,8960/3,,,,1,Primary Tumor
+5c3bcade-12a5-51f9-b4c5-3a7e241b6807,TARGET-50-PAJNAA,True,True,True,True,True,Alive,2848.0,3327.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+39189026-383d-5360-9e44-6587e28724b9,TARGET-50-PAJPHG,False,False,False,True,True,Alive,1784.0,2463.0,,,8960/3,,,,1,Primary Tumor
+b6d6b710-87a8-5a4f-a20b-3722cbde50b6,TARGET-50-PAJMTR,False,False,False,True,True,Alive,1486.0,1498.0,,,8960/3,,,,1,Primary Tumor
+fbe9c165-0faa-5a95-817d-f4b3f98492b1,TARGET-50-PAJNXT,False,False,False,True,True,Alive,2927.0,1888.0,,,8960/3,,,,1,Primary Tumor
+79d6cba6-7d8b-5dd2-b2a8-7a2f94bac8df,TARGET-50-PAECJY,False,False,False,True,True,Alive,4121.0,381.0,,,8960/3,,,,1,Primary Tumor
+47fc5c97-2047-5136-ab1b-ff1a6302e1b1,TARGET-50-PAJMME,False,False,False,True,True,Alive,4067.0,465.0,,,8960/3,,,,1,Primary Tumor
+602523ab-5102-5b22-ae52-9249c25a2cc1,TARGET-50-PAJNHA,False,False,False,True,True,Alive,624.0,3690.0,,,8960/3,,,,1,Primary Tumor
+3a4693f0-cf26-5767-b036-5d51a46cf1a6,TARGET-50-PALDTE,True,True,True,True,True,Alive,2551.0,979.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+f5e343df-d493-589f-a358-b879bdd94015,TARGET-50-PAJNWA,False,False,False,True,True,Alive,2155.0,2369.0,,,8960/3,,,,1,Primary Tumor
+f5548317-3be4-5227-a655-dfb97e6418b9,TARGET-50-PAJMWX,False,False,False,True,True,Alive,2717.0,1017.0,,,8960/3,,,,1,Primary Tumor
+a77ef966-4506-5935-82bb-af9c73b36714,TARGET-50-PAKAPZ,False,False,False,True,True,Dead,1554.0,1940.0,,,8960/3,,,,1,Primary Tumor
+922445a2-d9ca-5b22-bb6a-baad18b2fd8c,TARGET-50-PAJMWP,False,False,False,True,True,Alive,2447.0,2220.0,,,8960/3,,,,1,Primary Tumor
+369559d8-6046-59fb-951f-d2d032865980,TARGET-50-PADYGD,False,False,False,True,True,Alive,3500.0,1215.0,,,8960/3,,,,1,Primary Tumor
+83a1865d-4be5-561e-a91d-e93312bc47f2,TARGET-50-PALERC,True,True,True,True,True,Alive,2790.0,156.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+9ce72c88-05ea-5d13-b34b-a879a2cdf93a,TARGET-50-PAJMWC,False,False,False,True,True,Dead,765.0,1114.0,,,8960/3,,,,1,Primary Tumor
+5d528511-a696-5259-a769-c30ebee84762,TARGET-50-PAJNCN,False,False,False,True,True,Alive,1833.0,1678.0,,,8960/3,,,,1,Primary Tumor
+b7dddaad-f48a-5ecb-98ed-b591727324de,TARGET-50-PAJMRL,True,True,True,True,True,Dead,686.0,1685.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+8fd03b6b-8869-5580-9a2c-845739d3d43b,TARGET-50-PAKSJN,False,False,False,True,True,Alive,554.0,2770.0,,,8960/3,,,,1,Primary Tumor
+b0246556-ed37-5454-b965-21a0801f373d,TARGET-50-PAJNBP,False,False,False,True,True,Dead,636.0,1461.0,,,8960/3,,,,1,Primary Tumor
+6e1d39b9-36e1-5e6f-8ebf-691a7b81dd8e,TARGET-50-PAJPBD,False,False,False,True,True,Alive,2772.0,911.0,,,8960/3,,,,1,Primary Tumor
+7418746e-2783-5dba-9de7-e58066b53ab7,TARGET-50-PAEIIW,False,False,False,True,True,Alive,1636.0,1600.0,,,8960/3,,,,1,Primary Tumor
+1bead676-ab35-541f-b242-1082fee6107b,TARGET-50-PAJLTE,False,False,False,True,True,Alive,3992.0,1100.0,,,8960/3,,,,1,Primary Tumor
+06aa6b80-b92a-578b-837f-9482ac150ad8,TARGET-50-PAJMED,False,False,False,True,True,Alive,2334.0,705.0,,,8960/3,,,,1,Primary Tumor
+22e5e9b7-e477-5379-b3af-e9e3c853a1ed,TARGET-50-PAJPGY,True,True,True,True,True,Alive,2910.0,2122.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+859ac9ef-9fca-5bb3-9fbf-e8eeabb428d4,TARGET-50-CAAAAA,False,True,True,True,False,Not Reported,,,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+3a693db0-62a4-583f-8f7b-bc53bc2b735c,TARGET-50-PAKPET,False,False,False,True,True,Alive,1643.0,75.0,,,8960/3,,,,1,Primary Tumor
+5ea4d07f-b95b-5fc8-b536-9b643a5554ec,TARGET-50-PALFRD,True,True,True,True,True,Alive,1420.0,1785.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+5232f48e-f320-5926-8e1f-0c235e97c39e,TARGET-50-PAJMXR,False,False,False,True,True,Alive,1627.0,2733.0,,,8960/3,,,,1,Primary Tumor
+8e9627b8-82ed-5124-bc4d-93ef2c95467a,TARGET-50-PAKRVH,True,True,True,True,True,Alive,3059.0,2728.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+721835d3-13cd-5da2-953c-e4acb4ad97b9,TARGET-50-PALDYU,False,False,False,True,True,Alive,1182.0,636.0,,,8960/3,,,,1,Primary Tumor
+49baff6a-e0b8-54ec-a169-d82f97912708,TARGET-50-PAJNCC,True,True,True,True,True,Alive,2845.0,797.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+29572180-c563-5080-9866-0bb9ed96df9b,TARGET-50-PAJLWT,True,True,True,True,True,Dead,994.0,1262.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+719e3c7c-54a0-5f00-86e9-dfd34f0e7900,TARGET-50-CAAAAR,True,True,True,True,True,Alive,3542.0,314.0,,,8960/3,,,,4,Primary Tumor|Solid Tissue Normal|Primary Tumor|Blood Derived Normal
+b96a20c7-1134-51b5-9de9-9545be6d9660,TARGET-50-PAJMSK,False,False,False,True,True,Alive,3892.0,2380.0,,,8960/3,,,,1,Primary Tumor
+f347a640-4422-5ed6-8390-c9167a7c269a,TARGET-50-PAEIJB,False,False,False,True,True,Alive,2955.0,1120.0,,,8960/3,,,,1,Primary Tumor
+bf2a1cfc-eead-55a4-9f13-7cd2e38cc94a,TARGET-50-PAJMRS,False,False,False,True,True,Alive,1906.0,2431.0,,,8960/3,,,,1,Primary Tumor
+9687de07-284b-54de-ad67-b3ff7a5ceb67,TARGET-50-PAKDUM,False,False,False,True,True,Alive,2240.0,2696.0,,,8960/3,,,,1,Primary Tumor
+4049c518-5d90-564b-b352-37a1fe1057a1,TARGET-50-PAJLNC,False,False,False,True,True,Alive,4024.0,555.0,,,8960/3,,,,1,Primary Tumor
+72749b08-856a-5f49-b4d8-4ff4a472de4b,TARGET-50-PAJNUP,True,True,True,True,True,Dead,752.0,2201.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+92cde419-e466-539f-9528-87fe382df5f8,TARGET-50-PAKPDF,True,True,True,True,True,Dead,345.0,1912.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+37335820-74e2-5d8b-a7c6-8475660248d9,TARGET-50-PAKMHJ,False,False,False,True,True,Alive,3279.0,188.0,,,8960/3,,,,1,Primary Tumor
+13066afe-a670-51d2-900e-187b381f441e,TARGET-50-PAJMXK,False,False,False,True,True,Alive,3537.0,614.0,,,8960/3,,,,1,Primary Tumor
+c2829ab9-d5b2-5a82-a134-de9c591363de,TARGET-50-PAJNID,False,False,False,True,True,Alive,3706.0,1212.0,,,8960/3,,,,1,Primary Tumor
+7fb21ab0-6e61-53f5-8cd3-716f6571ebd3,TARGET-50-PALFJK,False,False,False,True,True,Dead,681.0,2240.0,,,8960/3,,,,1,Primary Tumor
+a6e11c9a-7494-523e-9835-b7f641651768,TARGET-50-PAKHWF,False,False,False,True,True,Alive,2858.0,1359.0,,,8960/3,,,,1,Primary Tumor
+11ea3935-e7eb-537d-b055-fa07f063a54d,TARGET-50-PAJMFU,True,True,True,True,True,Alive,2894.0,1348.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+735c61a9-4e66-5df2-b73e-9bb32718a8e2,TARGET-50-PAJNND,False,False,False,True,True,Alive,1779.0,731.0,,,8960/3,,,,1,Primary Tumor
+3b7ba08e-d020-505b-9e3a-2a17ac091509,TARGET-50-PAKYFC,True,True,True,True,True,Alive,631.0,1069.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+2b385f74-b8e3-5168-a77b-4b6f6c5d1d2e,TARGET-50-PAJPAU,True,True,True,True,True,Alive,2350.0,1389.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+0a4476ae-2d45-5b48-a48b-f82b389f4fe0,TARGET-50-PAJNML,False,False,False,True,True,Alive,2000.0,1011.0,,,8960/3,,,,1,Primary Tumor
+84856b30-9fff-51de-81df-4f392d3dd317,TARGET-50-PADXAY,True,True,True,True,True,Alive,4795.0,1958.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+8921ce31-3225-5109-8e73-614f2447ae2b,TARGET-50-PAKRCC,True,True,False,True,True,Alive,3215.0,1466.0,,,8960/3,,,,1,Primary Tumor
+fe4d8eac-595a-5370-a9b8-4611174f1097,TARGET-50-PAKZHF,True,True,True,True,True,Alive,519.0,1309.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+9ffce4af-6749-53d2-b02b-ac995872bc5b,TARGET-50-PAJNGR,False,False,False,True,True,Alive,874.0,611.0,,,8960/3,,,,1,Primary Tumor
+42a4520e-19d9-5a67-bf3c-22b7171be4bf,TARGET-50-PAKIRF,False,False,False,True,True,Dead,720.0,1761.0,,,8960/3,,,,1,Primary Tumor
+645fa1db-9a63-5496-ac86-4e5c3d756448,TARGET-50-PALKJY,False,False,False,True,True,Alive,1286.0,2471.0,,,8960/3,,,,1,Primary Tumor
+c8a27f3c-e715-557b-867c-4e9eca7ff3bc,TARGET-50-PALLFV,False,False,False,True,True,Alive,1268.0,659.0,,,8960/3,,,,1,Primary Tumor
+bc0ab8e7-105c-5a66-bde3-efd554d8df3b,TARGET-50-PAKGMM,False,False,False,True,True,Dead,182.0,1402.0,,,8960/3,,,,1,Primary Tumor
+756861f3-e20a-5aa9-904e-a51fd26a1cbe,TARGET-50-PALJIP,True,True,True,True,True,Dead,770.0,1789.0,,,8960/3,,,,4,Recurrent Tumor|Primary Tumor|Primary Tumor|Solid Tissue Normal
+30f66991-1458-5c79-8a56-9a4dffab8512,TARGET-50-PAKRVV,False,False,False,True,True,Alive,1266.0,866.0,,,8960/3,,,,1,Primary Tumor
+502cc49a-4df1-5a14-89dc-393c527985f9,TARGET-50-PAJLSV,False,False,False,True,True,Alive,1423.0,1166.0,,,8960/3,,,,1,Primary Tumor
+5b8051ed-759f-5b10-b4b4-6d90de8be262,TARGET-50-PAJMUE,False,False,False,True,True,Alive,1041.0,1216.0,,,8960/3,,,,1,Primary Tumor
+a3fa333b-e86e-5788-a6a5-3a348418d540,TARGET-50-PAKEMV,False,False,False,True,True,Alive,1594.0,625.0,,,8960/3,,,,1,Primary Tumor
+00c97769-ca1a-5af8-b2d8-4890e3e75209,TARGET-50-PAJNBW,False,False,False,True,True,Alive,2441.0,944.0,,,8960/3,,,,1,Primary Tumor
+59465d94-bf12-542c-884a-4135401766cc,TARGET-50-PAJNHW,False,False,False,True,True,Alive,2709.0,298.0,,,8960/3,,,,1,Primary Tumor
+c17cd8d2-a99f-5c3a-b07d-e0e092925f3c,TARGET-50-PAJNIH,False,False,False,True,True,Alive,2630.0,1883.0,,,8960/3,,,,1,Primary Tumor
+6dbc1a0c-ff4c-5c7e-9846-f036c4fd9ced,TARGET-50-PAJPFK,False,False,False,True,True,Alive,1852.0,897.0,,,8960/3,,,,1,Primary Tumor
+dee14127-42e8-55db-8aed-58a7416226c8,TARGET-50-CAAAAH,True,True,True,True,True,Dead,311.0,1710.0,,,8960/3,,,,2,Blood Derived Normal|Primary Tumor
+40a1dcf7-cd49-53ee-b4be-395ae8ae6996,TARGET-50-PAJLRH,False,False,False,True,True,Alive,1631.0,3644.0,,,8960/3,,,,1,Primary Tumor
+ecd441b4-e3ca-5475-84fd-cd29cc45d600,TARGET-50-PAJNPI,False,False,False,True,True,Alive,2047.0,958.0,,,8960/3,,,,1,Primary Tumor
+e06845ce-f71a-5372-a678-296e9db75b72,TARGET-50-PAJMMU,False,False,False,True,True,Alive,3265.0,1097.0,,,8960/3,,,,1,Primary Tumor
+daf5ec4c-049e-5c6b-8ed3-da69c74f79b4,TARGET-50-PAJLJH,False,False,False,True,True,Alive,2389.0,2602.0,,,8960/3,,,,1,Primary Tumor
+7a9804b6-2cbc-5c46-986a-8f3b28f5a9cd,TARGET-50-PAENVA,False,False,False,True,True,Alive,2302.0,455.0,,,8960/3,,,,1,Primary Tumor
+c8920eb6-bcdf-5376-b0d9-e5fe06201a35,TARGET-50-PAJLNA,False,False,False,True,True,Alive,3819.0,2064.0,,,8960/3,,,,1,Primary Tumor
+265c429d-5565-52c6-9de4-9deac7aa2316,TARGET-50-PAJNME,False,False,False,True,True,Alive,1811.0,2227.0,,,8960/3,,,,1,Primary Tumor
+c4192998-dc09-59e6-b5e3-05c1a9bf8431,TARGET-50-PALNDB,False,False,False,True,True,Alive,713.0,1086.0,,,8960/3,,,,1,Primary Tumor
+f1343c19-9d58-56ce-9cf4-486b764469db,TARGET-50-PALFME,True,True,True,True,True,Dead,267.0,3703.0,,,8960/3,,,,3,Primary Tumor|Solid Tissue Normal|Recurrent Tumor
+6caa1c22-704a-584d-941a-c4b55f37ca26,TARGET-50-PAJMKP,False,False,False,True,True,Alive,2084.0,344.0,,,8960/3,,,,1,Primary Tumor
+8908ed12-47c2-5334-8ee4-71ecf009a58f,TARGET-50-PAJNEX,False,False,False,True,True,Alive,3841.0,377.0,,,8960/3,,,,1,Primary Tumor
+d5649976-479b-5e26-9885-5f451f435dcc,TARGET-50-PAJMVL,False,False,False,True,True,Dead,562.0,989.0,,,8960/3,,,,1,Primary Tumor
+2a780db5-74e9-5ead-9e32-a7924ef83656,TARGET-50-PALEZR,False,False,False,True,True,Alive,652.0,177.0,,,8960/3,,,,1,Primary Tumor
+82e90c52-9a71-5a29-9810-db83c237c00f,TARGET-50-PAKUCW,False,False,False,True,True,Dead,606.0,5284.0,,,8960/3,,,,1,Primary Tumor
+0b2a8ae0-0465-5e79-a01c-e7b4ded1cd3b,TARGET-50-PAKYXG,False,False,False,True,True,Dead,380.0,2124.0,,,8960/3,,,,1,Primary Tumor
+a12a9a61-1c6a-5088-95b9-4deaac054107,TARGET-50-PAJPEF,False,False,False,True,True,Alive,1829.0,370.0,,,8960/3,,,,1,Primary Tumor
+11a66f82-eea0-5fc7-b93c-4d64edece8d9,TARGET-50-PADWYZ,False,False,False,True,True,Alive,4536.0,557.0,,,8960/3,,,,1,Primary Tumor
+5d855a8b-82ea-5d57-b23e-6d6ec423aaaf,TARGET-50-PAKUJY,False,False,False,True,True,Alive,2594.0,948.0,,,8960/3,,,,1,Primary Tumor
+ecde1ef8-670c-5234-b2e2-ab447d71f23b,TARGET-50-PAJMPL,False,False,False,True,True,Alive,3821.0,634.0,,,8960/3,,,,1,Primary Tumor
+eb446ef9-44fd-5378-8b00-194fb0aaa702,TARGET-50-PAKYFF,False,False,False,True,True,Alive,2814.0,938.0,,,8960/3,,,,1,Primary Tumor
+ca393629-b330-57c8-b543-0f7e7caa8c07,TARGET-50-PAJMSR,False,False,False,True,True,Alive,3157.0,2029.0,,,8960/3,,,,1,Primary Tumor
+20b786d0-f5d8-51e5-9fdf-4aa4787cd145,TARGET-50-PAJMRH,False,False,False,True,True,Dead,228.0,1501.0,,,8960/3,,,,1,Primary Tumor
+aa92a8c6-e203-5e46-824f-29415a65465b,TARGET-50-PAJMJR,False,False,False,True,True,Alive,3249.0,1025.0,,,8960/3,,,,1,Primary Tumor
+4490cb4b-4a4a-5278-9877-f35029364f9c,TARGET-50-PAJNPZ,False,False,False,True,True,Dead,622.0,952.0,,,8960/3,,,,1,Primary Tumor
+5a01e04a-3b82-57ff-8c68-56a24469fa28,TARGET-50-PAKHNH,False,False,False,True,True,Alive,320.0,1103.0,,,8960/3,,,,1,Primary Tumor
+3a0ef55c-8ff1-5b53-8c40-446a097fda7f,TARGET-50-PAJNAP,False,False,False,True,True,Alive,1754.0,2433.0,,,8960/3,,,,1,Primary Tumor
+2a90dc94-f0d1-56f8-b94a-60ef14a9fa5f,TARGET-50-PAJNCK,False,False,False,True,True,Alive,570.0,1531.0,,,8960/3,,,,1,Primary Tumor
+afc617c1-91b9-5a0b-8be9-2914974a733c,TARGET-50-PADXBA,False,False,False,True,True,Dead,687.0,2134.0,,,8960/3,,,,1,Primary Tumor
+2cb9fe71-fbe9-5261-b749-13651d4f1cbd,TARGET-50-PAJLTJ,False,False,False,True,True,Alive,3539.0,1688.0,,,8960/3,,,,1,Primary Tumor
+f7eff0e1-0bd5-5ebe-9bca-d3508159eb7b,TARGET-50-PAJPBZ,False,False,False,True,True,Dead,193.0,1051.0,,,8960/3,,,,1,Primary Tumor
+e744ce75-1717-5f39-a6f9-9681d095dbf9,TARGET-50-PAJMLI,True,True,True,True,True,Dead,265.0,1342.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+7d16b8b5-a891-56a8-a3d1-737d295b9df3,TARGET-50-PADVNN,False,False,False,True,True,Dead,657.0,2268.0,,,8960/3,,,,1,Primary Tumor
+659a6c81-befd-5a51-891b-f150d5be062f,TARGET-50-PAKHKU,False,False,False,True,True,Alive,2036.0,1269.0,,,8960/3,,,,1,Primary Tumor
+aef4367d-7d0e-55c9-b66c-896cc154d6b2,TARGET-50-PAJPAG,False,False,False,True,True,Alive,651.0,1582.0,,,8960/3,,,,1,Primary Tumor
+138a951e-afdc-52ca-a01b-41ac6bf1ff8d,TARGET-50-PAJLTU,False,False,False,True,True,Alive,1931.0,183.0,,,8960/3,,,,1,Primary Tumor
+acf60505-f228-5882-8728-389e06ab21cc,TARGET-50-PAJLLD,False,False,False,True,True,Dead,491.0,1298.0,,,8960/3,,,,1,Primary Tumor
+b924440c-c470-5877-980a-6665b47d3329,TARGET-50-PAKRZW,True,True,True,True,True,Alive,954.0,2238.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+41511885-c696-589f-ad27-c801f5d12fc0,TARGET-50-PADWNP,False,False,False,True,True,Alive,3976.0,554.0,,,8960/3,,,,1,Primary Tumor
+0ff72293-9881-53ac-a1c0-93073b34db0c,TARGET-50-PALKUD,False,False,False,True,True,Alive,1238.0,1189.0,,,8960/3,,,,1,Primary Tumor
+faafc100-a6bd-58b8-9dd9-1ff43b3c1b4d,TARGET-50-PADYVH,False,False,False,True,True,Alive,4091.0,2508.0,,,8960/3,,,,1,Primary Tumor
+a279e4c7-654d-5533-bb31-dda9b08e8260,TARGET-50-PAJLMB,False,False,False,True,True,Alive,4706.0,797.0,,,8960/3,,,,1,Primary Tumor
+cc93f7a5-c543-5a9f-bd76-0ee114cbda6d,TARGET-50-PAJNEE,False,False,False,True,True,Alive,1074.0,501.0,,,8960/3,,,,1,Primary Tumor
+d8d9cbf3-9e06-56bc-ac69-d59c5fe332a5,TARGET-50-PADYAS,False,False,False,True,True,Alive,4811.0,819.0,,,8960/3,,,,1,Primary Tumor
+fa45b11d-f94d-50c7-8982-4e3ac5203715,TARGET-50-PAJNLT,True,True,True,True,True,Dead,440.0,1546.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Blood Derived Normal
+4f2acd98-ee01-58cc-aef4-55ede09fa00b,TARGET-50-PAJLPW,False,False,False,True,True,Alive,1614.0,653.0,,,8960/3,,,,1,Primary Tumor
+0285a15a-a0a2-5e1c-bfcf-ce80c472eb0c,TARGET-50-PAJMLY,False,False,False,True,True,Dead,489.0,1656.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+0bbcab0e-1a1a-5404-85f2-5b472be42f89,TARGET-50-PALIMN,False,False,False,True,True,Alive,2694.0,1716.0,,,8960/3,,,,1,Primary Tumor
+5d617dc5-3a26-5d5b-9ed6-ecac7d198d26,TARGET-50-PALAXJ,False,False,False,True,True,Alive,2042.0,1514.0,,,8960/3,,,,1,Primary Tumor
+f1e711f3-319c-5f3e-99ac-411e19e84966,TARGET-50-PALMHS,False,False,False,True,True,Alive,1141.0,1390.0,,,8960/3,,,,1,Primary Tumor
+39c1aa21-d15c-5f9f-9fea-562d14471768,TARGET-50-PAJNSL,True,True,True,True,True,Alive,1990.0,160.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+aa1b2046-c06c-50f2-9391-7ae10f4a0b71,TARGET-50-PAJLSP,True,True,True,True,True,Alive,2789.0,706.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+0a11f344-7cf8-5eea-9f80-c0515b633b43,TARGET-50-PAKTLC,False,False,False,True,True,Alive,2330.0,2097.0,,,8960/3,,,,1,Primary Tumor
+f8ea90e4-af7f-5f6f-a22b-804b07fefa6f,TARGET-50-CAAAAL,True,True,True,True,True,Alive,3289.0,1599.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+7fd45d0f-75b9-50b0-a232-a725663cf2ae,TARGET-50-PAKNTW,True,True,True,True,True,Alive,290.0,4779.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+7ca67e09-27b3-5815-a5b6-9064a0bc732d,TARGET-50-PAJPAR,True,True,True,True,True,Dead,542.0,1950.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+ca53e37d-959d-5f45-9394-3a6d65c4b9b6,TARGET-50-PAKMZU,False,False,False,True,True,Alive,1098.0,940.0,,,8960/3,,,,1,Primary Tumor
+01ca7418-d422-5c2c-b3ba-43207c4e1e92,TARGET-50-PAKYNT,False,False,False,True,True,Alive,2408.0,910.0,,,8960/3,,,,1,Primary Tumor
+3ee7be39-0c68-5007-9489-448706a88d20,TARGET-50-PAJLKR,True,True,True,True,True,Alive,2589.0,2247.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+27bb757d-4f9b-5818-a398-34f26ed4923f,TARGET-50-PAKPTZ,False,False,False,True,True,Alive,2747.0,734.0,,,8960/3,,,,1,Primary Tumor
+d09e1622-63be-5cb4-8976-7e483c08cdf2,TARGET-50-PAJMVX,False,False,False,True,True,Alive,3246.0,912.0,,,8960/3,,,,1,Primary Tumor
+4bb21e43-d465-5f6a-96a4-c8682ae3faf8,TARGET-50-PAEBXA,True,True,True,True,True,Dead,1114.0,1192.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Blood Derived Normal
+5ada7ea5-4c67-5283-816b-a200c537be11,TARGET-50-PAJMXE,False,False,False,True,True,Alive,3325.0,503.0,,,8960/3,,,,1,Primary Tumor
+2271adc3-7047-5033-b5f3-890706dac0ce,TARGET-50-PAJNXR,False,False,False,True,True,Alive,1068.0,1773.0,,,8960/3,,,,1,Primary Tumor
+ab0e3898-6d41-55db-83ba-295e725ff0f9,TARGET-50-PAKPEU,False,False,False,True,True,Alive,2182.0,287.0,,,8960/3,,,,1,Primary Tumor
+a3fa387e-5d7b-5334-a2e7-01bcb930d29c,TARGET-50-PAKHFY,False,False,False,True,True,Alive,788.0,1023.0,,,8960/3,,,,1,Primary Tumor
+9aebdb42-1da8-52f6-a370-2888f4a8cc9f,TARGET-50-PAJMBG,False,False,False,True,True,Dead,242.0,1967.0,,,8960/3,,,,1,Primary Tumor
+1172988b-67c7-5b09-a3e8-424609f2caf0,TARGET-50-PALCAB,False,False,False,True,True,Alive,1728.0,1514.0,,,8960/3,,,,1,Primary Tumor
+21322390-b6eb-59a1-840a-353d3a0cf102,TARGET-50-PAEALK,False,False,False,True,True,Alive,2961.0,754.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+7956723b-d5fc-5e99-9a50-aa0baf8cb05d,TARGET-50-PAJLNX,False,False,False,True,True,Alive,2366.0,387.0,,,8960/3,,,,1,Primary Tumor
+e9490e38-51bd-55f1-a4b9-55ab054e8bc1,TARGET-50-PAEJJR,False,False,False,True,True,Alive,3855.0,1296.0,,,8960/3,,,,1,Primary Tumor
+025c6a37-d660-577b-848d-2fe9524a2549,TARGET-50-PAJNVA,False,False,False,True,True,Alive,3118.0,458.0,,,8960/3,,,,1,Primary Tumor
+35763fbd-0140-50c8-a767-9ebe0758c765,TARGET-50-PAJLWZ,False,False,False,True,True,Alive,3393.0,2290.0,,,8960/3,,,,1,Primary Tumor
+e3391f7f-e0c0-5026-844c-c77b6cb01bf3,TARGET-50-PALLCW,False,False,False,True,True,Alive,1258.0,1860.0,,,8960/3,,,,1,Primary Tumor
+2a7dafbf-df0a-53a8-8472-344dd6338d3c,TARGET-50-PAKMUB,True,True,True,True,True,Alive,477.0,2412.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+df4ea4e6-f73a-52e1-94ca-5c212f786a77,TARGET-50-PAJLYG,False,False,False,True,True,Alive,4346.0,257.0,,,8960/3,,,,1,Primary Tumor
+de741bc5-b711-504d-b5ac-fbcc34570c58,TARGET-50-CAAAAM,True,True,True,True,True,Alive,3260.0,2750.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+f31e36da-e31a-5e51-85f0-04e92cba6fa8,TARGET-50-PALFJZ,False,False,False,True,True,Alive,2878.0,386.0,,,8960/3,,,,1,Primary Tumor
+2c326b96-e948-5dbb-844a-a83882701ae8,TARGET-50-PAJNWD,False,False,False,True,True,Alive,2253.0,2069.0,,,8960/3,,,,1,Primary Tumor
+ea376f92-8de5-5424-8250-f9c39ed18c8c,TARGET-50-PAJMEP,True,True,True,True,True,Dead,1563.0,670.0,,,8960/3,,,,3,Primary Tumor|Solid Tissue Normal|Primary Tumor
+284f7f02-f2d4-52b1-860a-d3092bae4a7b,TARGET-50-PAJNDX,False,False,False,True,True,Alive,3758.0,972.0,,,8960/3,,,,1,Primary Tumor
+3f86cfad-d26c-5a4f-8322-2463c079f865,TARGET-50-PAJNBS,False,False,False,True,True,Dead,567.0,1617.0,,,8960/3,,,,1,Primary Tumor
+69f42084-cc06-5c6e-b60f-9a11ada79c76,TARGET-50-PAJNKD,False,False,False,True,True,Alive,2861.0,617.0,,,8960/3,,,,1,Primary Tumor
+06163d33-710b-5d72-9094-ab7f138246de,TARGET-50-PAJNVW,False,False,False,True,True,Alive,2087.0,832.0,,,8960/3,,,,1,Primary Tumor
+b171d4cf-37ac-56a9-8465-7dca6959f913,TARGET-50-PAJNUT,False,False,False,True,True,Dead,496.0,1599.0,,,8960/3,,,,1,Primary Tumor
+0e4d5396-acb7-5724-b6de-20bc107ac3b0,TARGET-50-PAJMWZ,False,False,False,True,True,Alive,1376.0,1834.0,,,8960/3,,,,1,Primary Tumor
+59f7b2ee-371b-518b-ae1b-89503a178542,TARGET-50-PAJMLW,False,False,False,True,True,Alive,2728.0,809.0,,,8960/3,,,,1,Primary Tumor
+9ca522ee-a425-52e9-881e-e6f3f1c9a959,TARGET-50-PAJPFJ,False,False,False,True,True,Alive,607.0,491.0,,,8960/3,,,,1,Primary Tumor
+b9a32a1c-9c93-5a92-8b30-e09a91dc3cfc,TARGET-50-PAJMMC,False,False,False,True,True,Alive,3828.0,87.0,,,8960/3,,,,1,Primary Tumor
+9b78aeef-39d1-52fd-9b6b-302ec09c40e7,TARGET-50-PAJNUS,True,True,True,True,True,Dead,647.0,887.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+99e2c822-b410-5217-9c5f-6adb1520c18f,TARGET-50-PAJMRY,False,False,False,True,True,Alive,2172.0,314.0,,,8960/3,,,,1,Primary Tumor
+3f97241a-a1b4-52d6-a237-9b6901f0e02d,TARGET-50-PAJMYU,False,False,False,True,True,Dead,610.0,1924.0,,,8960/3,,,,1,Primary Tumor
+768c2728-20ed-549e-9b4f-4dd771d6f850,TARGET-50-PAEAND,False,False,False,True,True,Alive,4356.0,2151.0,,,8960/3,,,,1,Primary Tumor
+7f50289e-a837-5e5f-bbd3-5e31e63d6713,TARGET-50-PAJMMN,False,False,False,True,True,Alive,1104.0,717.0,,,8960/3,,,,1,Primary Tumor
+5201e983-c43c-557c-9394-98c83799a27b,TARGET-50-PAJLVX,False,False,False,True,True,Alive,1032.0,959.0,,,8960/3,,,,1,Primary Tumor
+7582c2a2-ab8d-56ed-990a-810adac471fe,TARGET-50-PAJMZN,False,False,False,True,True,Alive,1770.0,769.0,,,8960/3,,,,1,Primary Tumor
+5cbf6d8c-56a7-55f0-878b-0608aa1ed7d0,TARGET-50-PAKYNK,False,False,False,True,True,Alive,1051.0,782.0,,,8960/3,,,,1,Primary Tumor
+4eaf756c-54d9-5b7d-8fa8-c2d837211bbc,TARGET-50-PAKLRS,False,False,False,True,True,Alive,1389.0,288.0,,,8960/3,,,,1,Primary Tumor
+6281348f-5b70-5cd6-8c7e-88b8dc9ba9bb,TARGET-50-PAKWVW,False,False,False,True,True,Alive,2551.0,1126.0,,,8960/3,,,,1,Primary Tumor
+7b60a1bc-d7ec-51ff-a38a-0d44f7d7ed70,TARGET-50-PALLMF,False,False,False,True,True,Alive,1176.0,227.0,,,8960/3,,,,1,Primary Tumor
+2581eb91-a821-5b55-b1a5-600519776be0,TARGET-50-PAKHWZ,False,False,False,True,True,Alive,1649.0,535.0,,,8960/3,,,,1,Primary Tumor
+70da1670-0384-59d4-857b-c53c07a40f50,TARGET-50-PAJMEN,True,True,True,True,True,Dead,1732.0,1508.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+91497bb6-805e-5228-9788-adde985d303c,TARGET-50-PAJMFY,True,True,True,True,True,Alive,748.0,1868.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+342f4432-14fe-5921-8781-6fe9726508c3,TARGET-50-PAJLUB,False,False,False,True,True,Alive,430.0,1359.0,,,8960/3,,,,1,Primary Tumor
+eb196385-d14b-5cf1-8378-f917888fb4c6,TARGET-50-PAKPRZ,False,False,False,True,True,Alive,3083.0,1397.0,,,8960/3,,,,1,Primary Tumor
+16e8a388-f4f5-5a17-90b4-5ec92d1a66a3,TARGET-50-PAJLTI,True,True,True,True,True,Alive,3295.0,961.0,,,8960/3,,,,3,Primary Tumor|Solid Tissue Normal|Primary Tumor
+671c5ec8-a054-555c-904f-acd591aaeea3,TARGET-50-PAJNXG,False,False,False,True,True,Alive,1632.0,592.0,,,8960/3,,,,1,Primary Tumor
+064a83fe-887f-579b-86ea-741eb672bae5,TARGET-50-PAJNMV,False,False,False,True,True,Alive,1671.0,440.0,,,8960/3,,,,1,Primary Tumor
+f32a3476-d55f-5faa-8c58-814ebfeea46f,TARGET-50-PAKNRX,True,True,True,True,True,Dead,586.0,1785.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+0b372c9b-2d5a-5483-8c96-7f829d962a99,TARGET-50-CAAAAQ,True,True,True,True,True,Alive,2501.0,1287.0,,,8960/3,,,,3,Primary Tumor|Solid Tissue Normal|Primary Tumor
+37825bea-c75c-5830-90ed-22ea7e057a44,TARGET-50-PAJNEC,True,True,True,True,True,Dead,1066.0,1474.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+a3469089-92d3-51a8-b2eb-c56b3c51fbd0,TARGET-50-PAJNHV,False,False,False,True,True,Alive,3131.0,467.0,,,8960/3,,,,1,Primary Tumor
+e7a136c3-e178-59fd-b675-06de4b7e3f05,TARGET-50-PAKWPM,True,True,True,True,True,Alive,2888.0,1914.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Blood Derived Normal
+be9307d0-91d4-54a3-aad0-0a2cedc23b46,TARGET-50-PAJPEA,False,False,False,True,True,Dead,1169.0,301.0,,,8960/3,,,,1,Primary Tumor
+1d68b4e9-86de-5581-b58a-1170161cde0c,TARGET-50-PAJLZN,False,False,False,True,True,Alive,2868.0,1004.0,,,8960/3,,,,1,Primary Tumor
+183e17f2-1056-5411-afc6-b8b481130441,TARGET-50-PAJMWN,False,False,False,True,True,Alive,148.0,761.0,,,8960/3,,,,1,Primary Tumor
+febc157e-ad8d-572b-903c-99752948f367,TARGET-50-PAJPDC,True,True,True,True,True,Alive,2365.0,2904.0,,,8960/3,,,,3,Primary Tumor|Recurrent Tumor|Blood Derived Normal
+3a9c6c69-25da-5fd3-a22e-cc5fda593501,TARGET-50-PADZUD,False,False,False,True,True,Alive,4560.0,1706.0,,,8960/3,,,,1,Primary Tumor
+d7081dbc-c57d-58e8-a619-23460186ea97,TARGET-50-PAJNWR,False,False,False,True,True,Alive,2052.0,750.0,,,8960/3,,,,1,Primary Tumor
+a7239dcc-18a7-5c96-bb95-3b117e196e6f,TARGET-50-PAKFME,True,True,True,True,True,Alive,3110.0,1713.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+7c409bc5-7165-50d8-8596-bbf491f85702,TARGET-50-PAKGZY,False,False,False,True,True,Alive,1849.0,949.0,,,8960/3,,,,1,Primary Tumor
+252fdd80-b599-546f-b0fd-88e6e7c9a4f4,TARGET-50-PAJNJL,False,False,False,True,True,Dead,463.0,3367.0,,,8960/3,,,,1,Primary Tumor
+2a45d6d8-498f-56ed-af7b-c6dd2a6ee0c5,TARGET-50-PAJLUM,False,False,False,True,True,Dead,752.0,1565.0,,,8960/3,,,,1,Primary Tumor
+93c8108a-180d-57d7-a359-c5e41c51c343,TARGET-50-PAJNJC,False,False,False,True,True,Alive,441.0,539.0,,,8960/3,,,,1,Primary Tumor
+f34d6731-d500-572c-a5e2-da858f528a83,TARGET-50-PAJMUM,False,False,False,True,True,Alive,3845.0,1590.0,,,8960/3,,,,1,Primary Tumor
+9fd87dbc-be2b-5033-9dae-f61efa63b7cd,TARGET-50-PADXRC,False,False,False,True,True,Alive,2934.0,1396.0,,,8960/3,,,,1,Primary Tumor
+0d15f3e8-d068-5830-99e9-b7596be5af9b,TARGET-50-PALHNG,False,False,False,True,True,Alive,2235.0,1193.0,,,8960/3,,,,1,Primary Tumor
+8b75a81e-3e93-55ee-9891-a0f50b260155,TARGET-50-PADCRV,False,False,False,True,True,Dead,817.0,2523.0,,,8960/3,,,,1,Primary Tumor
+7616cede-80f3-5b91-8a88-ea6620c7122a,TARGET-50-PAJLLV,False,False,False,True,True,Alive,3423.0,1266.0,,,8960/3,,,,1,Primary Tumor
+ef7b097e-149b-54ae-8ff8-8bab5cece5dd,TARGET-50-PAJMYA,False,False,False,True,True,Alive,3989.0,453.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+97a96d8c-879e-5a93-941c-1719013cad92,TARGET-50-PAECHG,False,False,False,True,True,Alive,4048.0,187.0,,,8960/3,,,,1,Primary Tumor
+f975d082-0cbe-508e-a90a-e07b75afdc3b,TARGET-50-PAKGMU,True,True,False,True,True,Alive,2784.0,1121.0,,,8960/3,,,,1,Primary Tumor
+de0006e3-cecf-57fd-8e42-e3a127cbb08e,TARGET-50-PAJNNY,False,False,False,True,True,Alive,2154.0,1100.0,,,8960/3,,,,1,Primary Tumor
+7784cb15-9172-5edc-91e9-56ced7c3b5a0,TARGET-50-PAKLDH,False,False,False,True,True,Alive,1319.0,1461.0,,,8960/3,,,,1,Primary Tumor
+d5ce219a-52cd-5676-83d8-8b179ef8ad8e,TARGET-50-PAJNIJ,False,False,False,True,True,Alive,809.0,1724.0,,,8960/3,,,,1,Primary Tumor
+cf4428a4-ddf2-5b2e-8be0-ffdb7d28965a,TARGET-50-PAJPHA,True,True,True,True,True,Alive,1895.0,1124.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+6bcff0f1-88ae-5d29-81db-c3a50ca835cf,TARGET-50-PAJLST,False,False,False,True,True,Alive,2009.0,550.0,,,8960/3,,,,1,Primary Tumor
+96401b6a-6fca-5dc6-bf06-e7c76ff80287,TARGET-50-PAECWU,False,False,False,True,True,Alive,4058.0,2163.0,,,8960/3,,,,1,Primary Tumor
+62c6cfe2-a0a3-53c2-ae07-ed7f187a39f2,TARGET-50-PAJPEJ,False,False,False,True,True,Alive,2431.0,2226.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+b07b660d-236c-5fff-9e7a-13b649968118,TARGET-50-PAKKRK,False,False,False,True,True,Alive,1287.0,5629.0,,,8960/3,,,,1,Primary Tumor
+4a9b4f28-f1b7-5fa7-b01e-1085df7fa1a6,TARGET-50-PAJNXI,False,False,False,True,True,Alive,2974.0,2507.0,,,8960/3,,,,1,Primary Tumor
+6660e211-1279-5db3-886b-0fc85142627e,TARGET-50-PAJNAV,True,True,True,True,True,Dead,905.0,1449.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+517734c6-960f-5097-a49e-984e22d82149,TARGET-50-PAECIE,False,False,False,True,True,Alive,3129.0,966.0,,,8960/3,,,,1,Primary Tumor
+62e9691b-2834-526d-b1c5-31bdc03ae7b7,TARGET-50-PAEAFZ,False,False,False,True,True,Alive,2297.0,337.0,,,8960/3,,,,1,Primary Tumor
+d9b5273b-1c65-5a7e-b562-e0a509cb6822,TARGET-50-PAJPET,False,False,False,True,True,Alive,3070.0,3378.0,,,8960/3,,,,1,Primary Tumor
+f75bce9c-a905-512f-8a72-f3a7a04d7a6a,TARGET-50-PAJMHV,False,False,False,True,True,Alive,4057.0,737.0,,,8960/3,,,,1,Primary Tumor
+2cc677cf-ee82-514f-b8d8-3caa7e4cc389,TARGET-50-PAEHLE,False,False,False,True,True,Dead,862.0,1830.0,,,8960/3,,,,1,Primary Tumor
+7a95b7a1-9831-507e-a2b3-34b63e182f72,TARGET-50-PAKKSI,False,False,False,True,True,Alive,3071.0,2030.0,,,8960/3,,,,1,Primary Tumor
+f5ac0f35-88eb-502d-a3c2-beacd06f9e0b,TARGET-50-PAKNUD,False,False,False,True,True,Alive,2764.0,1069.0,,,8960/3,,,,1,Primary Tumor
+6b283efe-7920-59f9-952b-68dc1857f19d,TARGET-50-PADDLL,False,False,False,True,True,Alive,1552.0,193.0,,,8960/3,,,,1,Primary Tumor
+1f3325da-7236-5c49-aec7-b5120206f9f6,TARGET-50-PAJNFH,False,False,False,True,True,Alive,406.0,2031.0,,,8960/3,,,,1,Primary Tumor
+57e2dff2-5e26-591c-bbb4-54fee699e4b2,TARGET-50-PAJLRL,False,False,False,True,True,Alive,736.0,1555.0,,,8960/3,,,,1,Primary Tumor
+7dcdfb85-fe47-5bda-9557-7d36eb5b548b,TARGET-50-PAEEPR,False,False,False,True,True,Alive,4507.0,898.0,,,8960/3,,,,1,Primary Tumor
+393b474c-880f-5305-8909-95988bffe1bc,TARGET-50-PAJMEJ,False,False,False,True,True,Alive,2969.0,1706.0,,,8960/3,,,,1,Primary Tumor
+0026bcdc-0a87-50fc-852f-c3072465537c,TARGET-50-PAJNWE,False,False,False,True,True,Alive,2007.0,1610.0,,,8960/3,,,,1,Primary Tumor
+28081dee-d68d-59fc-a95c-105aa87609d9,TARGET-50-PAJNEH,False,False,False,True,True,Alive,3935.0,1798.0,,,8960/3,,,,1,Primary Tumor
+d28a8026-c61a-5367-8f6b-dddcc0251972,TARGET-50-PAJLSF,False,False,False,True,True,Alive,4522.0,1988.0,,,8960/3,,,,1,Primary Tumor
+c40be6c0-a0d4-5cdc-a61e-0ccffac23502,TARGET-50-PAEFPT,False,False,False,True,True,Alive,2456.0,1757.0,,,8960/3,,,,1,Primary Tumor
+bca23d75-4bb5-57bb-9c9d-3a46a7ce93c9,TARGET-50-PAJMAX,False,False,False,True,True,Alive,2933.0,342.0,,,8960/3,,,,1,Primary Tumor
+8e10082b-77e5-544c-b792-bd25b865c374,TARGET-50-PAJLYD,False,False,False,True,True,Alive,4453.0,962.0,,,8960/3,,,,1,Primary Tumor
+9a70dc22-460b-5b7a-8bc9-3dc232f11126,TARGET-50-PAJLLF,True,True,True,True,True,Alive,2536.0,2423.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+1abde842-a78d-5421-bf31-cbf3f11afdf2,TARGET-50-PAKGRG,False,False,False,True,True,Alive,3262.0,1038.0,,,8960/3,,,,1,Primary Tumor
+78034be2-8246-5e0f-81f1-094b5f93ba79,TARGET-50-PAJLSW,False,False,False,True,True,Alive,3040.0,2022.0,,,8960/3,,,,1,Primary Tumor
+8bf8a722-ef2c-5d26-aa38-dc816de848de,TARGET-50-PAKVET,True,True,True,True,True,Alive,1475.0,405.0,,,8960/3,,,,3,Solid Tissue Normal|Primary Tumor|Primary Tumor
+f700cd93-91b5-5823-9e51-3ba633ef2d0f,TARGET-50-PAKTRB,False,False,False,True,True,Alive,3011.0,650.0,,,8960/3,,,,1,Primary Tumor
+f87e7cca-3096-55e7-9e42-59fb4cb1b096,TARGET-50-PAJPBR,False,False,False,True,True,Alive,3486.0,476.0,,,8960/3,,,,1,Primary Tumor
+4748060a-19e0-532f-9665-508f632d65c7,TARGET-50-PAKVJN,False,False,False,True,True,Alive,1765.0,393.0,,,8960/3,,,,1,Primary Tumor
+dc401ac4-fa92-5a61-8404-102d503ff3ac,TARGET-50-PAJNKS,False,False,False,True,True,Alive,3524.0,1637.0,,,8960/3,,,,1,Primary Tumor
+ac4b6079-f560-5162-8489-375fc7cbf23b,TARGET-50-PAKGWP,False,False,False,True,True,Alive,1387.0,2033.0,,,8960/3,,,,1,Primary Tumor
+52ceed8d-dccd-53ad-b500-d7231c4e8108,TARGET-50-PAJPAD,False,False,False,True,True,Alive,1415.0,1280.0,,,8960/3,,,,1,Primary Tumor
+9a07f21f-69b4-5932-8af9-30cc316cc20a,TARGET-50-PAJNCA,False,False,False,True,True,Alive,3710.0,78.0,,,8960/3,,,,1,Primary Tumor
+ef47d708-7536-5003-b642-9312b8b96938,TARGET-50-PAJNIS,False,False,False,True,True,Alive,2611.0,680.0,,,8960/3,,,,1,Primary Tumor
+dca1aab5-8d1c-59da-8814-9691bf3adfff,TARGET-50-PALFYP,False,False,False,True,True,Alive,818.0,1320.0,,,8960/3,,,,1,Primary Tumor
+7e03ef80-17cf-5cf1-b92e-3e179ed160f5,TARGET-50-PAJLUW,False,False,False,True,True,Alive,4550.0,513.0,,,8960/3,,,,1,Primary Tumor
+2246e91f-bfa2-5cef-b433-ed694d0779ea,TARGET-50-PAJMVG,False,False,False,True,True,Alive,1636.0,781.0,,,8960/3,,,,1,Primary Tumor
+b3dfbf3f-95f5-557b-991e-ab1ad0eccb3b,TARGET-50-PAKJXM,False,False,False,True,True,Alive,1609.0,2162.0,,,8960/3,,,,1,Primary Tumor
+f30383b6-1355-57eb-a0ee-558070012904,TARGET-50-PAKJGM,True,True,True,True,True,Dead,409.0,1007.0,,,8960/3,,,,3,Primary Tumor|Solid Tissue Normal|Primary Tumor
+86fb0720-5923-56e6-9891-ce7822d028f7,TARGET-50-PAJLZC,False,False,False,True,True,Alive,4458.0,1479.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+2cc8636e-9621-5cb3-adf4-9ea9093406b8,TARGET-50-PAJMKD,False,False,False,True,True,Alive,3472.0,2068.0,,,8960/3,,,,1,Primary Tumor
+2e06aae7-701f-5f65-94cf-d0193a62c7be,TARGET-50-PAJLWC,False,False,False,True,True,Alive,3284.0,524.0,,,8960/3,,,,1,Primary Tumor
+24057437-cf86-5618-9429-0c16efb6617b,TARGET-50-PAJNJJ,True,True,True,True,True,Alive,3085.0,5698.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+e6fe798a-bea5-5a0b-9779-d057da4ac78b,TARGET-50-PALLFB,True,True,True,True,True,Dead,343.0,2879.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+fc404b80-2550-5726-b21e-9f25a56dc613,TARGET-50-PAJPFF,False,False,False,True,True,Alive,2520.0,1473.0,,,8960/3,,,,1,Primary Tumor
+87e0280a-0173-5d91-b392-0616ef7bc671,TARGET-50-PAJLRV,False,False,False,True,True,Alive,3241.0,533.0,,,8960/3,,,,1,Primary Tumor
+4f8a9708-57f2-5971-83e3-929b9c4f21b8,TARGET-50-PAJLXI,False,False,False,True,True,Alive,2293.0,3514.0,,,8960/3,,,,1,Primary Tumor
+cc3cd4e9-fcdc-5b8f-91b4-dfee6772bbb4,TARGET-50-PAECFM,False,False,False,True,True,Alive,3779.0,451.0,,,8960/3,,,,1,Primary Tumor
+d7fd4ec1-3bd4-5cba-b263-37a4d56b188c,TARGET-50-PADWXC,False,False,False,True,True,Alive,1557.0,328.0,,,8960/3,,,,1,Primary Tumor
+ce89d43d-b024-57a8-84c6-cc1777627ec2,TARGET-50-PADZCH,False,False,False,True,True,Alive,1513.0,111.0,,,8960/3,,,,1,Primary Tumor
+2cb109aa-a0ef-5561-bbaf-7d99acb1b4b9,TARGET-50-PAJPDX,False,False,False,True,True,Alive,1381.0,1273.0,,,8960/3,,,,1,Primary Tumor
+b90dea43-3b0a-5456-88e1-f64218560155,TARGET-50-PAJLWG,False,False,False,True,True,Alive,4532.0,1769.0,,,8960/3,,,,1,Primary Tumor
+d713a388-9d1e-57c3-a700-55c6544f675d,TARGET-50-PAJNBU,False,False,False,True,True,Alive,2460.0,4253.0,,,8960/3,,,,1,Primary Tumor
+d4b5d2e4-9a62-539a-a643-6e02728afeb3,TARGET-50-PACFNR,False,False,False,True,True,Alive,3943.0,1215.0,,,8960/3,,,,1,Primary Tumor
+14767461-e2f1-56f1-afab-ee896952f206,TARGET-50-PALEBJ,False,False,False,True,True,Alive,1401.0,2416.0,,,8960/3,,,,1,Primary Tumor
+128b06f8-c16a-588e-adf2-68c87e038590,TARGET-50-PALGVY,True,True,True,True,True,Alive,1286.0,1182.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+9ce5e19e-b2d0-5724-b770-45cc4c5976d2,TARGET-50-PAJNMZ,False,False,False,True,True,Alive,1398.0,2017.0,,,8960/3,,,,1,Primary Tumor
+064804e1-79fe-5d3f-bd7e-c497cf83277e,TARGET-50-PAKILU,False,False,False,True,True,Alive,1156.0,1117.0,,,8960/3,,,,1,Primary Tumor
+f45e95f7-aa9c-5e07-843f-796d4eb7ee94,TARGET-50-PAJNLA,False,False,False,True,True,Alive,840.0,1375.0,,,8960/3,,,,1,Primary Tumor
+ec56703a-9328-5bb5-8f01-17478f823674,TARGET-50-PALEWU,False,False,False,True,True,Alive,852.0,240.0,,,8960/3,,,,1,Primary Tumor
+75f32168-d3dd-5a3e-991e-ac19057d5c6f,TARGET-50-PAJNNG,False,False,False,True,True,Alive,1376.0,1622.0,,,8960/3,,,,1,Primary Tumor
+643ac1e9-3b8d-5cfa-ab52-18de4bc8d3d3,TARGET-50-PAJLXD,False,False,False,True,True,Dead,361.0,1414.0,,,8960/3,,,,1,Primary Tumor
+7281d4eb-3513-5e7c-84c7-c6aa9ee53f13,TARGET-50-PAECJB,True,True,True,True,True,Dead,282.0,807.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+196614e9-5d14-521b-9c9a-3d2a566871d4,TARGET-50-PAJNIY,False,False,False,True,True,Alive,2157.0,927.0,,,8960/3,,,,1,Primary Tumor
+eed7edb7-abaa-54ae-839b-3cf311ab97ee,TARGET-50-PAJNZS,True,True,True,True,True,Alive,1668.0,1789.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+d9d7ee7f-2157-5eae-be03-7076d06ba028,TARGET-50-PAKULH,True,True,True,True,True,Dead,375.0,1030.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+475d4d8b-a1c6-5d97-b2a8-9574b03a191d,TARGET-50-PAJNRE,False,False,False,True,True,Alive,2392.0,770.0,,,8960/3,,,,1,Primary Tumor
+1de49a65-f96c-5556-bf4a-7c1b41da4a48,TARGET-50-PAKMDF,False,False,False,True,True,Alive,3161.0,1276.0,,,8960/3,,,,1,Primary Tumor
+52cd54c4-c9d4-5f9b-8fc1-87de852c713e,TARGET-50-PALJDK,False,False,False,True,True,Alive,2200.0,3148.0,,,8960/3,,,,1,Primary Tumor
+b6c4b6f9-1941-55b6-a66c-1758167faa2c,TARGET-50-CAAAAC,True,True,True,True,True,Dead,2615.0,2244.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+ee50d360-20a7-55b7-bf27-6e11d168703d,TARGET-50-PADWUE,False,False,False,True,True,Alive,4030.0,1726.0,,,8960/3,,,,1,Primary Tumor
+2702f0ce-d496-50cd-b4f9-ee82d0e8eb70,TARGET-50-PAKXXF,True,True,True,True,True,Dead,416.0,1821.0,,,8960/3,,,,2,Primary Tumor|Blood Derived Normal
+33ca8038-042f-52d2-9821-70428ed5f25b,TARGET-50-PAJLLY,False,False,False,True,True,Alive,3480.0,1931.0,,,8960/3,,,,1,Primary Tumor
+e04c0048-014d-5b03-91db-30aadec5a937,TARGET-50-PAJLLN,False,False,False,True,True,Alive,3157.0,542.0,,,8960/3,,,,1,Primary Tumor
+bce5402a-a972-5284-84b9-8619ed57f09a,TARGET-50-PALMAM,False,False,False,True,True,Dead,678.0,1141.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+c86b1e39-0adb-5c38-bea6-cb41884f0a33,TARGET-50-PAJNBA,False,False,False,True,True,Alive,3669.0,1916.0,,,8960/3,,,,1,Primary Tumor
+c71a5102-c136-590f-be18-6a646991a6fb,TARGET-50-PADYPH,False,False,False,True,True,Alive,4355.0,2702.0,,,8960/3,,,,1,Primary Tumor
+de0dd7e1-ca9f-5530-bee9-ca03ecd027a5,TARGET-50-PAKHBL,False,False,False,True,True,Alive,1162.0,1344.0,,,8960/3,,,,1,Primary Tumor
+b0121162-1a38-526d-8129-e369d486f7d0,TARGET-50-PAKNGF,False,False,False,True,True,Alive,1123.0,277.0,,,8960/3,,,,1,Primary Tumor
+455b8233-d97b-5f25-997e-40f281f858ca,TARGET-50-PAJNNF,False,False,False,True,True,Alive,1990.0,1401.0,,,8960/3,,,,1,Primary Tumor
+36cf5d69-db15-52fd-9c81-1340d2db2f34,TARGET-50-PAKKSG,False,False,False,True,True,Alive,569.0,2383.0,,,8960/3,,,,1,Primary Tumor
+9d763fae-f454-5756-ac80-8e1a05a2ce00,TARGET-50-PAJMJB,False,False,False,True,True,Alive,626.0,1482.0,,,8960/3,,,,1,Primary Tumor
+c69a3882-3e44-587c-90d6-ac5f0f153121,TARGET-50-PAJMFP,False,False,False,True,True,Alive,2336.0,5192.0,,,8960/3,,,,1,Primary Tumor
+51d3eea6-c85f-58cd-8338-46fa50fc2d12,TARGET-50-PALGAZ,True,True,True,True,True,Dead,422.0,222.0,,,8960/3,,,,3,Primary Tumor|Blood Derived Normal|Primary Tumor
+1f4bf4c1-4978-582b-bffa-50a902b32ade,TARGET-50-PAJNUJ,False,False,False,True,True,Dead,456.0,1286.0,,,8960/3,,,,1,Primary Tumor
+a0a0ceff-2847-5661-a117-c68ed2a57bd7,TARGET-50-PAJMUF,True,True,True,True,True,Alive,3547.0,829.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+09a55b4c-1d73-53b4-aad2-005303d2c5b9,TARGET-50-PAJNMA,False,False,False,True,True,Alive,2047.0,1122.0,,,8960/3,,,,1,Primary Tumor
+852a4e1b-85ed-5f6e-9e74-05dce9702c85,TARGET-50-PAJMKJ,True,True,True,True,True,Alive,3830.0,276.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Solid Tissue Normal
+ddab4fbf-ea23-5397-ba0d-8163b21c9c89,TARGET-50-PALCTR,False,False,False,True,True,Dead,49.0,204.0,,,8960/3,,,,1,Primary Tumor
+6a5baa84-6fcd-5188-9e3d-adfe573f9478,TARGET-50-PAKMCI,False,False,False,True,True,Alive,1547.0,850.0,,,8960/3,,,,1,Primary Tumor
+5dc9328b-b5a0-5542-bda9-752bac0b0178,TARGET-50-CAAAAS,True,True,True,True,True,Alive,639.0,2476.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Blood Derived Normal
+9d225bde-1202-51e9-b6ef-83a9aa9b03b9,TARGET-50-PAKYCN,False,False,False,True,True,Alive,1779.0,2923.0,,,8960/3,,,,1,Primary Tumor
+76c39b6f-a629-5a66-b562-ee83defb0b47,TARGET-50-PAEAFB,True,True,True,True,True,Dead,2145.0,490.0,,,8960/3,,,,3,Primary Tumor|Primary Tumor|Blood Derived Normal
+d2d3707c-3462-505e-a5e6-4a0d8aebf671,TARGET-50-PAJPHH,False,False,False,True,True,Alive,2939.0,344.0,,,8960/3,,,,1,Primary Tumor
+e50ad2bb-d45e-5f84-aa37-19e8cbbac5ef,TARGET-50-PAJPGP,False,False,False,True,True,Alive,2824.0,2946.0,,,8960/3,,,,1,Primary Tumor
+79e632b6-d546-54c3-8d65-aa487ee14830,TARGET-50-PAKSRE,False,False,False,True,True,Alive,2000.0,414.0,,,8960/3,,,,1,Primary Tumor
+d0bc5cbd-206d-524f-b0de-5908cbfe7e3c,TARGET-50-PAJLSL,False,False,False,True,True,Alive,3821.0,322.0,,,8960/3,,,,1,Primary Tumor
+07b849b1-4788-502d-967e-919e42b80eba,TARGET-50-PAJLTD,False,False,False,True,True,Alive,1757.0,1080.0,,,8960/3,,,,2,Primary Tumor|Primary Tumor
+214e8f3a-0229-583b-935d-a5c64b3aa58e,TARGET-50-PAJMKN,True,True,True,True,True,Alive,1761.0,521.0,,,8960/3,,,,3,Blood Derived Normal|Primary Tumor|Primary Tumor
+d7fd9927-9694-5050-b650-cf9159c6ca50,TARGET-50-PAKJIS,False,False,False,True,True,Alive,2870.0,107.0,,,8960/3,,,,1,Primary Tumor
+c06f0889-dee7-5e70-bd0d-854a1230d11d,TARGET-50-PAJLPX,True,True,True,True,True,Alive,2572.0,2702.0,,,8960/3,,,,2,Solid Tissue Normal|Primary Tumor
+7acc6820-9b98-5db2-b2c8-b4c971bc42e4,TARGET-50-PAJNGC,False,False,False,True,True,Alive,2691.0,1789.0,,,8960/3,,,,1,Primary Tumor
+c3aef072-891f-5f76-a205-50e6030f8737,TARGET-50-PAJNKL,False,False,False,True,True,Alive,1900.0,405.0,,,8960/3,,,,1,Primary Tumor
+8b64bda0-3565-5d99-b6f9-c44d233d450c,TARGET-50-PAJLIJ,False,False,False,True,True,Dead,2616.0,1466.0,,,8960/3,,,,1,Primary Tumor
+cfb75247-7308-5e0a-a4c3-c0b3cf5149c0,TARGET-50-PAJLPJ,False,False,False,True,True,Alive,4071.0,288.0,,,8960/3,,,,1,Primary Tumor
+2e17ce9b-59b6-51b9-a401-5b205bd4aa02,TARGET-50-PAJNHZ,False,False,False,True,True,Dead,356.0,168.0,,,8960/3,,,,1,Primary Tumor
+30ad501b-d441-5a24-8f49-9394f2df738b,TARGET-50-PAJLXM,False,False,False,True,True,Alive,907.0,1200.0,,,8960/3,,,,1,Primary Tumor
+70e93dfd-1a37-5465-80fa-73462c9f3564,TARGET-50-PAJPGU,False,False,False,True,True,Alive,2061.0,1746.0,,,8960/3,,,,1,Primary Tumor
+d5290c4c-978c-57bc-91e7-daccd3661fb2,TARGET-50-PAJMRX,False,False,False,True,True,Alive,2128.0,3141.0,,,8960/3,,,,1,Primary Tumor
+4381cb0e-b610-594c-8675-392d1140e1dd,TARGET-50-PAKGXL,False,False,False,True,True,Alive,2485.0,479.0,,,8960/3,,,,1,Primary Tumor
+9a7853d6-27ac-5850-acc4-3f74c38ddac8,TARGET-50-PAJPFN,False,False,False,True,True,Alive,1867.0,2191.0,,,8960/3,,,,1,Primary Tumor
+cd16db11-cd4d-59cc-b23e-0b01a46e59b0,TARGET-50-PAJMCH,False,False,False,True,True,Alive,3984.0,1570.0,,,8960/3,,,,1,Primary Tumor
+9e9ae1b8-51b1-5571-9452-eedacec3e971,TARGET-50-PAJPEY,False,False,False,True,True,Alive,2150.0,1772.0,,,8960/3,,,,1,Primary Tumor
+797675aa-43fe-5067-8bbf-ab923e9402aa,TARGET-50-PAJNNC,True,True,True,True,True,Alive,1732.0,281.0,,,8960/3,,,,2,Primary Tumor|Solid Tissue Normal
+41557c73-56e2-516d-af79-2285941342ec,TARGET-50-PAJLYF,False,False,False,True,True,Alive,2369.0,887.0,,,8960/3,,,,1,Primary Tumor

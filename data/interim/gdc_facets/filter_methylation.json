@@ -1,0 +1,43 @@
+{
+  "op": "and",
+  "content": [
+    {
+      "op": "=",
+      "content": {
+        "field": "cases.project.project_id",
+        "value": "TARGET-WT"
+      }
+    },
+    {
+      "op": "=",
+      "content": {
+        "field": "access",
+        "value": "open"
+      }
+    },
+    {
+      "op": "=",
+      "content": {
+        "field": "data_category",
+        "value": "DNA Methylation"
+      }
+    },
+    {
+      "op": "=",
+      "content": {
+        "field": "data_type",
+        "value": "Methylation Beta Value"
+      }
+    },
+    {
+      "op": "in",
+      "content": {
+        "field": "platform",
+        "value": [
+          "Illumina Human Methylation 450",
+          "Illumina Human Methylation 27"
+        ]
+      }
+    }
+  ]
+}

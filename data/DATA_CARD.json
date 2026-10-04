@@ -1,0 +1,98 @@
+{
+  "dataset_name": "BioFusionFormer Multi-Modal TARGET-WT Dataset",
+  "provenance": {
+    "source": "UCSC Xena GDC Hub (https://gdc.xenahubs.net)",
+    "primary_origin": "NCI Genomic Data Commons (GDC) TARGET-WT project",
+    "reference_genome": "GRCh38 / hg38",
+    "transformations_applied": "GDC-derived alignments recomputed on hg38, wrangled and standardized by UCSC Xena GDC ETL pipelines. Features filtered and aligned to Reactome pathway knowledge graph and miRBase.",
+    "access_tier": "Open Access (Tier 1 public, no dbGaP required)",
+    "last_updated": "2026-10-03"
+  },
+  "cohort_summary": {
+    "total_patients_xena_clinical": 139,
+    "core_3omics_cohort_size": 121,
+    "inclusion_criteria": "Primary solid tumor patients (sample type 01A/01B) with complete, aligned mRNA-seq, miRNA-seq, Illumina Human Methylation 450k, and clinical metadata.",
+    "cohort_manifest": "data/interim/cohort_patients.csv"
+  },
+  "tasks_and_labels": {
+    "primary_task": {
+      "name": "Histologic Subtype Classification",
+      "column": "wilms_tumor_histologic_subtype.diagnoses",
+      "type": "binary_classification",
+      "classes": {
+        "0": "Favorable Histology (FH, N = 82, 67.8%)",
+        "1": "Unfavorable Histology / Anaplasia (UH, N = 39, 32.2%)"
+      },
+      "clinical_significance": "Anaplasia is the primary histological determinant of chemotherapy resistance and clinical recurrence in pediatric nephroblastoma."
+    },
+    "secondary_task_exploratory": {
+      "name": "Vital Status Classification",
+      "column": "vital_status.demographic",
+      "type": "binary_classification",
+      "classes": {
+        "0": "Alive / Not Known Dead (N = 71, 58.7%)",
+        "1": "Dead (N = 50, 41.3%)"
+      },
+      "caveat": "Alive patients in GDC TARGET-WT lack recorded post-diagnosis follow-up times (days_to_last_follow_up is NaN). 'Alive' indicates not known dead in the registry. Cox survival regression is not statistically valid for this cohort."
+    },
+    "excluded_tasks": [
+      "Cox proportional hazards / time-to-event survival regression (invalid follow-up data for living patients)",
+      "Biological sex / gender prediction control task (clinically non-informative)"
+    ]
+  },
+  "modalities_and_units": {
+    "mrna": {
+      "source_file": "data/raw/target_wt_xena/TARGET-WT.star_counts.tsv.gz",
+      "processed_file": "data/processed/mrna_gene.parquet",
+      "shape": [121, 11171],
+      "unit": "log2(STAR_count + 1)",
+      "filtering": "Intersection with Reactome pathway genes, non-zero variance filtered."
+    },
+    "mirna": {
+      "source_file": "data/raw/target_wt_xena/TARGET-WT.mirna.tsv.gz",
+      "processed_file": "data/processed/mirna.parquet",
+      "shape": [121, 1797],
+      "unit": "log2(RPM + 1)",
+      "filtering": "Stem-loop precursors mapped to mature miRBase identifiers via hsa.gff3 and filtered to broad miRNA target prior."
+    },
+    "methylation": {
+      "source_file": "data/raw/target_wt_xena/TARGET-WT.methylation450.tsv.gz",
+      "processed_gene_file": "data/processed/meth_gene.parquet",
+      "processed_cpg_file": "data/processed/meth_cpg_top.parquet",
+      "gene_shape": [121, 9778],
+      "cpg_shape": [121, 20000],
+      "unit": "Beta value (ratio of methylated probe intensity)",
+      "filtering": "Gene promoter region CpGs (TSS1500, TSS200, 5'UTR, 1stExon) averaged to gene-level beta; top 20,000 variable non-sex chromosome CpGs."
+    },
+    "pathway_activity": {
+      "processed_file": "data/processed/pathway_features_fold_agnostic.parquet",
+      "shape": [121, 3368],
+      "unit": "Mean feature z-score within pathway",
+      "hierarchy_file": "data/processed/pathway_hierarchy_mapping.json",
+      "coverage": "1,708 mRNA pathways and 1,660 DNA methylation pathways spanning 2,883 Reactome pathways (depths 1-13)."
+    }
+  },
+  "cross_validation": {
+    "splits_file": "data/splits/splits_5x5.json",
+    "protocol": "Repeated Stratified 5-Fold Cross-Validation (5 repeats x 5 folds = 25 test folds)",
+    "seeds": [42, 43, 44, 45, 46],
+    "leakage_guarantee": "All scaling, missing-value imputation, and feature screening fitted strictly inside outer and inner training folds."
+  },
+  "frozen_model_v1": {
+    "config_file": "configs/default.yaml",
+    "git_commit": "188d99a72ab653bdbb34bc8515adce38c9314cf4",
+    "git_tag": "v1-frozen",
+    "selected_pathways": 192,
+    "pathway_criteria": "Reactome hierarchy depth <= 4, member feature count 10-300, top 192 ranked by cohort expression variance",
+    "gene_coverage_delta": -0.0099,
+    "mirna_deduplication": {
+      "raw_features": 1797,
+      "unique_features": 1035,
+      "processed_file": "data/processed/mirna_unique.parquet",
+      "unmapped_fallback_token": true
+    },
+    "methylation_status": "no detectable signal for histology (non-separable HM450 beta values)",
+    "parameter_count": 62450,
+    "experiments": ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E10"]
+  }
+}
