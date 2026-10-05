@@ -1,0 +1,5 @@
+2026-10-05 17:08:17,240 [INFO] ===========================================================================
+2026-10-05 17:08:17,241 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 17:08:17,242 [INFO] ===========================================================================
+2026-10-05 17:08:17,242 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': ['E3'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 17:08:17,242 [INFO] Experiments requested: ['E3'] | Stage 4: False

@@ -91,3 +91,95 @@
 2026-10-05 16:34:16,358 [INFO]   [E4] fold 03/25 saved | 12.3 min | AUROC=0.8655 | Brier=0.1013 | ETA ~265 min
 2026-10-05 16:46:34,861 [INFO]   [E4] fold 04/25 saved | 12.3 min | AUROC=0.8571 | Brier=0.1386 | ETA ~255 min
 2026-10-05 16:46:37,903 [WARNING] Interrupted. Finished folds are saved on disk; re-run the same command to resume.
+2026-10-05 17:06:18,396 [INFO] ===========================================================================
+2026-10-05 17:06:18,398 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 17:06:18,398 [INFO] ===========================================================================
+2026-10-05 17:06:18,398 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': ['E3'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 17:06:18,399 [INFO] Experiments requested: ['E3'] | Stage 4: False
+2026-10-05 17:08:17,240 [INFO] ===========================================================================
+2026-10-05 17:08:17,241 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 17:08:17,242 [INFO] ===========================================================================
+2026-10-05 17:08:17,242 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': ['E3'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 17:08:17,242 [INFO] Experiments requested: ['E3'] | Stage 4: False
+2026-10-05 17:31:56,603 [INFO] ===========================================================================
+2026-10-05 17:31:56,604 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 17:31:56,604 [INFO] ===========================================================================
+2026-10-05 17:31:56,605 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': ['E3'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 17:31:56,605 [INFO] Experiments requested: ['E3'] | Stage 4: False
+2026-10-05 17:31:56,680 [INFO] Loaded Core Cohort N=121 patients
+2026-10-05 17:31:56,681 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-05 17:31:56,681 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-05 17:32:00,369 [INFO] Feature matrix dimensions:
+2026-10-05 17:32:00,370 [INFO]   mRNA: (121, 11171)
+2026-10-05 17:32:00,370 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-05 17:32:00,371 [INFO]   Methylation: (121, 9778)
+2026-10-05 17:32:01,037 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-05 17:32:01,224 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-05 17:32:01,297 [INFO] 
+=======================================================
+2026-10-05 17:32:01,298 [INFO] Running Experiment E3: mRNA + miRNA (no methylation)
+2026-10-05 17:32:01,298 [INFO] Modalities: ['mrna', 'mirna'] | Target: histology | Bias: True | Gate: True
+2026-10-05 17:32:01,298 [INFO] =======================================================
+2026-10-05 17:41:22,309 [INFO]   [E3] fold 01/25 saved | 9.4 min | AUROC=1.0000 | Brier=0.0831 | ETA ~224 min
+2026-10-05 18:19:47,601 [INFO] ===========================================================================
+2026-10-05 18:19:47,603 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 18:19:47,603 [INFO] ===========================================================================
+2026-10-05 18:19:47,603 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': ['E3'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 18:19:47,604 [INFO] Experiments requested: ['E3'] | Stage 4: False
+2026-10-05 18:19:47,694 [INFO] Loaded Core Cohort N=121 patients
+2026-10-05 18:19:47,694 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-05 18:19:47,695 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-05 18:19:50,708 [INFO] Feature matrix dimensions:
+2026-10-05 18:19:50,708 [INFO]   mRNA: (121, 11171)
+2026-10-05 18:19:50,709 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-05 18:19:50,709 [INFO]   Methylation: (121, 9778)
+2026-10-05 18:19:51,229 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-05 18:19:51,331 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-05 18:20:47,689 [INFO] ===========================================================================
+2026-10-05 18:20:47,690 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 18:20:47,690 [INFO] ===========================================================================
+2026-10-05 18:20:47,690 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': ['E3'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 18:20:47,690 [INFO] Experiments requested: ['E3'] | Stage 4: False
+2026-10-05 18:20:47,735 [INFO] Loaded Core Cohort N=121 patients
+2026-10-05 18:20:47,736 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-05 18:20:47,736 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-05 18:20:49,757 [INFO] Feature matrix dimensions:
+2026-10-05 18:20:49,758 [INFO]   mRNA: (121, 11171)
+2026-10-05 18:20:49,758 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-05 18:20:49,759 [INFO]   Methylation: (121, 9778)
+2026-10-05 18:20:50,201 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-05 18:20:50,243 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-05 18:20:50,269 [INFO] 
+=======================================================
+2026-10-05 18:20:50,269 [INFO] Running Experiment E3: mRNA + miRNA (no methylation)
+2026-10-05 18:20:50,270 [INFO] Modalities: ['mrna', 'mirna'] | Target: histology | Bias: True | Gate: True
+2026-10-05 18:20:50,270 [INFO] =======================================================
+2026-10-05 18:20:50,271 [INFO]   [E3] fold 01/25 already on disk - skipped
+2026-10-05 18:31:14,616 [INFO]   [E3] fold 02/25 saved | 10.4 min | AUROC=0.9453 | Brier=0.1271 | ETA ~239 min
+2026-10-05 18:48:35,696 [INFO]   [E3] fold 03/25 saved | 17.4 min | AUROC=0.8739 | Brier=0.0944 | ETA ~305 min
+2026-10-05 19:00:27,250 [INFO]   [E3] fold 04/25 saved | 11.9 min | AUROC=0.8235 | Brier=0.1546 | ETA ~277 min
+2026-10-05 19:10:28,577 [INFO]   [E3] fold 05/25 saved | 10.0 min | AUROC=0.8359 | Brier=0.1732 | ETA ~248 min
+2026-10-05 19:16:44,077 [INFO]   [E3] fold 06/25 saved | 6.3 min | AUROC=0.9722 | Brier=0.1154 | ETA ~212 min
+2026-10-05 19:25:20,368 [INFO]   [E3] fold 07/25 saved | 8.6 min | AUROC=0.9219 | Brier=0.1569 | ETA ~194 min
+2026-10-05 19:34:33,319 [INFO]   [E3] fold 08/25 saved | 9.2 min | AUROC=0.9328 | Brier=0.1284 | ETA ~179 min
+2026-10-05 19:41:29,638 [INFO]   [E3] fold 09/25 saved | 6.9 min | AUROC=0.8824 | Brier=0.1601 | ETA ~161 min
+2026-10-05 19:49:18,063 [INFO]   [E3] fold 10/25 saved | 7.8 min | AUROC=0.8047 | Brier=0.1553 | ETA ~147 min
+2026-10-05 19:56:06,820 [INFO]   [E3] fold 11/25 saved | 6.8 min | AUROC=0.9653 | Brier=0.1055 | ETA ~133 min
+2026-10-05 20:05:36,159 [INFO]   [E3] fold 12/25 saved | 9.5 min | AUROC=0.8906 | Brier=0.1000 | ETA ~124 min
+2026-10-05 20:12:53,624 [INFO]   [E3] fold 13/25 saved | 7.3 min | AUROC=0.7563 | Brier=0.1943 | ETA ~112 min
+2026-10-05 20:20:16,026 [INFO]   [E3] fold 14/25 saved | 7.4 min | AUROC=0.8992 | Brier=0.1433 | ETA ~101 min
+2026-10-05 20:27:36,489 [INFO]   [E3] fold 15/25 saved | 7.3 min | AUROC=0.9219 | Brier=0.0988 | ETA ~91 min
+2026-10-05 20:39:33,864 [INFO]   [E3] fold 16/25 saved | 12.0 min | AUROC=0.9653 | Brier=0.1095 | ETA ~83 min
+2026-10-05 21:02:38,587 [INFO]   [E3] fold 17/25 saved | 23.1 min | AUROC=0.9453 | Brier=0.1000 | ETA ~81 min
+2026-10-05 21:20:28,631 [INFO]   [E3] fold 18/25 saved | 17.8 min | AUROC=0.9412 | Brier=0.1453 | ETA ~74 min
+2026-10-05 21:35:43,607 [INFO]   [E3] fold 19/25 saved | 15.2 min | AUROC=0.8739 | Brier=0.1725 | ETA ~65 min
+2026-10-05 21:51:36,042 [INFO]   [E3] fold 20/25 saved | 15.9 min | AUROC=0.7656 | Brier=0.1730 | ETA ~55 min
+2026-10-05 22:03:22,850 [INFO]   [E3] fold 21/25 saved | 11.8 min | AUROC=0.8333 | Brier=0.1567 | ETA ~45 min
+2026-10-05 22:14:23,827 [INFO]   [E3] fold 22/25 saved | 11.0 min | AUROC=0.8984 | Brier=0.1477 | ETA ~33 min
+2026-10-05 22:24:55,806 [INFO]   [E3] fold 23/25 saved | 10.5 min | AUROC=0.8908 | Brier=0.1547 | ETA ~22 min
+2026-10-05 22:38:48,420 [INFO]   [E3] fold 24/25 saved | 13.9 min | AUROC=0.8908 | Brier=0.1676 | ETA ~11 min
+2026-10-05 22:48:57,923 [INFO]   [E3] fold 25/25 saved | 10.2 min | AUROC=0.7578 | Brier=0.1706 | ETA ~0 min
+2026-10-05 22:48:57,925 [INFO]   [E3] session time: 268.1 min (24 folds computed)
+2026-10-05 22:48:58,082 [INFO] --> E3 COMPLETE | Mean AUROC = 0.8875 [0.8613, 0.9138] | Brier = 0.1395
+2026-10-05 22:48:58,090 [INFO] Requested experiments finished in 268.13 minutes (this session).
+2026-10-05 22:48:58,090 [INFO] Stage 4 not requested (use --stage4 or --all). Done.
