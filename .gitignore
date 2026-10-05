@@ -1,6 +1,7 @@
 # BioFusionFormer
 
 # --- Raw data (> 1.6 GB raw downloads; never commit to Git to stay under 100MB GitHub limit and support low-bandwidth cloning) ---
+data.zip
 data/raw/
 
 # --- Intermediate large conversion files (> 15-30 MB non-essential cache) ---
