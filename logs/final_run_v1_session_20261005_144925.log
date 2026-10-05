@@ -1,0 +1,8 @@
+2026-10-05 14:49:25,515 [INFO] ===========================================================================
+2026-10-05 14:49:25,515 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 14:49:25,515 [INFO] ===========================================================================
+2026-10-05 14:49:25,515 [INFO] Python 3.12.5 | torch 2.14.1+cpu | args: {'exps': ['E2'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 14:49:25,515 [INFO] Experiments requested: ['E2'] | Stage 4: False
+2026-10-05 14:49:25,573 [INFO] Loaded Core Cohort N=121 patients
+2026-10-05 14:49:25,573 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-05 14:49:25,588 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)

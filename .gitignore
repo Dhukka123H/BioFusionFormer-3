@@ -37,9 +37,9 @@ desktop.ini
 .vscode/
 *.code-workspace
 
-# --- Log files (active runs) ---
-logs/*.log
-logs/*.txt
+# # --- Log files (active runs) ---
+# logs/*.log
+# logs/*.txt
 
 # --- Environment files ---
 .env
