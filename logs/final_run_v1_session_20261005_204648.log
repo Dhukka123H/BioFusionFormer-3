@@ -1,0 +1,25 @@
+2026-10-05 20:46:48,885 [INFO] ===========================================================================
+2026-10-05 20:46:48,886 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 20:46:48,887 [INFO] ===========================================================================
+2026-10-05 20:46:48,888 [INFO] Python 3.14.8 | torch 2.14.1+cpu | args: {'exps': ['E7'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 20:46:48,888 [INFO] Experiments requested: ['E7'] | Stage 4: False
+2026-10-05 20:46:48,977 [INFO] Loaded Core Cohort N=121 patients
+2026-10-05 20:46:48,978 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-05 20:46:48,978 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-05 20:46:53,559 [INFO] Feature matrix dimensions:
+2026-10-05 20:46:53,559 [INFO]   mRNA: (121, 11171)
+2026-10-05 20:46:53,560 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-05 20:46:53,560 [INFO]   Methylation: (121, 9778)
+2026-10-05 20:46:54,521 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-05 20:46:54,716 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-05 20:46:54,819 [INFO] 
+=======================================================
+2026-10-05 20:46:54,819 [INFO] Running Experiment E7: Mean fusion instead of gated fusion
+2026-10-05 20:46:54,820 [INFO] Modalities: ['mrna', 'mirna', 'meth'] | Target: histology | Bias: True | Gate: False
+2026-10-05 20:46:54,820 [INFO] =======================================================
+2026-10-05 21:25:44,271 [INFO]   [E7] fold 01/25 saved | 38.8 min | AUROC=0.9028 | Brier=0.1460 | ETA ~932 min
+2026-10-05 21:48:35,553 [INFO]   [E7] fold 02/25 saved | 22.9 min | AUROC=0.8906 | Brier=0.1327 | ETA ~709 min
+2026-10-05 22:29:58,417 [INFO]   [E7] fold 03/25 saved | 41.4 min | AUROC=0.8824 | Brier=0.1017 | ETA ~756 min
+2026-10-05 22:52:02,609 [INFO]   [E7] fold 04/25 saved | 22.1 min | AUROC=0.8319 | Brier=0.1597 | ETA ~657 min
+2026-10-05 23:16:52,059 [INFO]   [E7] fold 05/25 saved | 24.8 min | AUROC=0.8906 | Brier=0.1373 | ETA ~600 min
+2026-10-05 23:20:39,001 [WARNING] Interrupted. Finished folds are saved on disk; re-run the same command to resume.
