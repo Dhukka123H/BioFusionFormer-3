@@ -91,3 +91,81 @@
 2026-10-05 16:34:16,358 [INFO]   [E4] fold 03/25 saved | 12.3 min | AUROC=0.8655 | Brier=0.1013 | ETA ~265 min
 2026-10-05 16:46:34,861 [INFO]   [E4] fold 04/25 saved | 12.3 min | AUROC=0.8571 | Brier=0.1386 | ETA ~255 min
 2026-10-05 16:46:37,903 [WARNING] Interrupted. Finished folds are saved on disk; re-run the same command to resume.
+2026-10-05 18:53:49,917 [INFO] ===========================================================================
+2026-10-05 18:53:49,917 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 18:53:49,917 [INFO] ===========================================================================
+2026-10-05 18:53:49,918 [INFO] Python 3.12.10 | torch 2.14.1+cpu | args: {'exps': ['E4'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 18:53:49,918 [INFO] Experiments requested: ['E4'] | Stage 4: False
+2026-10-05 19:04:49,302 [INFO] ===========================================================================
+2026-10-05 19:04:49,302 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 19:04:49,303 [INFO] ===========================================================================
+2026-10-05 19:04:49,303 [INFO] Python 3.12.10 | torch 2.14.1+cpu | args: {'exps': ['E4'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 19:04:49,303 [INFO] Experiments requested: ['E4'] | Stage 4: False
+2026-10-05 19:05:24,660 [INFO] ===========================================================================
+2026-10-05 19:05:24,660 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 19:05:24,660 [INFO] ===========================================================================
+2026-10-05 19:05:24,661 [INFO] Python 3.12.10 | torch 2.14.1+cpu | args: {'exps': ['E1'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 19:05:24,661 [INFO] Experiments requested: ['E1'] | Stage 4: False
+2026-10-05 19:06:12,505 [INFO] ===========================================================================
+2026-10-05 19:06:12,506 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 19:06:12,506 [INFO] ===========================================================================
+2026-10-05 19:06:12,506 [INFO] Python 3.12.10 | torch 2.14.1+cpu | args: {'exps': ['E4'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 19:06:12,507 [INFO] Experiments requested: ['E4'] | Stage 4: False
+2026-10-05 19:08:44,012 [INFO] ===========================================================================
+2026-10-05 19:08:44,013 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 19:08:44,013 [INFO] ===========================================================================
+2026-10-05 19:08:44,013 [INFO] Python 3.12.10 | torch 2.14.1+cpu | args: {'exps': [], 'all': False, 'stage4': True, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 19:08:44,014 [INFO] Experiments requested: [] | Stage 4: True
+2026-10-05 19:11:34,133 [INFO] ===========================================================================
+2026-10-05 19:11:34,134 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 19:11:34,134 [INFO] ===========================================================================
+2026-10-05 19:11:34,134 [INFO] Python 3.12.10 | torch 2.14.1+cpu | args: {'exps': ['E4'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 19:11:34,134 [INFO] Experiments requested: ['E4'] | Stage 4: False
+2026-10-05 19:15:04,416 [INFO] ===========================================================================
+2026-10-05 19:15:04,416 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-05 19:15:04,416 [INFO] ===========================================================================
+2026-10-05 19:15:04,416 [INFO] Python 3.12.10 | torch 2.14.1+cpu | args: {'exps': ['E4'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-05 19:15:04,416 [INFO] Experiments requested: ['E4'] | Stage 4: False
+2026-10-05 19:15:04,431 [INFO] Loaded Core Cohort N=121 patients
+2026-10-05 19:15:04,431 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-05 19:15:04,432 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-05 19:15:06,247 [INFO] Feature matrix dimensions:
+2026-10-05 19:15:06,247 [INFO]   mRNA: (121, 11171)
+2026-10-05 19:15:06,249 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-05 19:15:06,249 [INFO]   Methylation: (121, 9778)
+2026-10-05 19:15:06,543 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-05 19:15:06,584 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-05 19:15:06,646 [INFO] 
+=======================================================
+2026-10-05 19:15:06,647 [INFO] Running Experiment E4: No pathway attention bias (full attention ablation)
+2026-10-05 19:15:06,647 [INFO] Modalities: ['mrna', 'mirna', 'meth'] | Target: histology | Bias: False | Gate: True
+2026-10-05 19:15:06,647 [INFO] =======================================================
+2026-10-05 19:15:06,647 [INFO]   [E4] fold 01/25 already on disk - skipped
+2026-10-05 19:15:06,647 [INFO]   [E4] fold 02/25 already on disk - skipped
+2026-10-05 19:15:06,648 [INFO]   [E4] fold 03/25 already on disk - skipped
+2026-10-05 19:15:06,649 [INFO]   [E4] fold 04/25 already on disk - skipped
+2026-10-05 19:32:55,026 [INFO]   [E4] fold 05/25 saved | 17.8 min | AUROC=0.9609 | Brier=0.1113 | ETA ~356 min
+2026-10-05 19:50:05,490 [INFO]   [E4] fold 06/25 saved | 17.2 min | AUROC=0.9167 | Brier=0.1402 | ETA ~332 min
+2026-10-05 20:06:04,005 [INFO]   [E4] fold 07/25 saved | 16.0 min | AUROC=0.9375 | Brier=0.1455 | ETA ~306 min
+2026-10-05 20:22:22,112 [INFO]   [E4] fold 08/25 saved | 16.3 min | AUROC=0.8571 | Brier=0.1357 | ETA ~286 min
+2026-10-05 20:43:22,013 [INFO]   [E4] fold 09/25 saved | 21.0 min | AUROC=0.7983 | Brier=0.1863 | ETA ~282 min
+2026-10-05 21:04:28,860 [INFO]   [E4] fold 10/25 saved | 21.1 min | AUROC=0.7969 | Brier=0.1525 | ETA ~273 min
+2026-10-05 21:19:45,922 [INFO]   [E4] fold 11/25 saved | 15.3 min | AUROC=0.9514 | Brier=0.1015 | ETA ~249 min
+2026-10-05 21:29:43,820 [INFO]   [E4] fold 12/25 saved | 10.0 min | AUROC=0.8516 | Brier=0.1446 | ETA ~219 min
+2026-10-05 21:43:47,003 [INFO]   [E4] fold 13/25 saved | 14.1 min | AUROC=0.7983 | Brier=0.1714 | ETA ~198 min
+2026-10-05 21:58:03,416 [INFO]   [E4] fold 14/25 saved | 14.3 min | AUROC=0.8655 | Brier=0.1367 | ETA ~179 min
+2026-10-05 22:19:11,843 [INFO]   [E4] fold 15/25 saved | 21.1 min | AUROC=0.8594 | Brier=0.1153 | ETA ~167 min
+2026-10-05 22:35:14,065 [INFO]   [E4] fold 16/25 saved | 16.0 min | AUROC=0.9792 | Brier=0.1076 | ETA ~150 min
+2026-10-05 22:52:42,320 [INFO]   [E4] fold 17/25 saved | 17.5 min | AUROC=0.9922 | Brier=0.0673 | ETA ~134 min
+2026-10-05 23:05:21,711 [INFO]   [E4] fold 18/25 saved | 12.7 min | AUROC=0.8151 | Brier=0.1969 | ETA ~115 min
+2026-10-05 23:22:25,627 [INFO]   [E4] fold 19/25 saved | 17.1 min | AUROC=0.8824 | Brier=0.1382 | ETA ~99 min
+2026-10-05 23:45:56,695 [INFO]   [E4] fold 20/25 saved | 23.5 min | AUROC=0.8359 | Brier=0.1477 | ETA ~85 min
+2026-10-06 00:07:56,041 [INFO]   [E4] fold 21/25 saved | 22.0 min | AUROC=0.7431 | Brier=0.2045 | ETA ~69 min
+2026-10-06 00:21:25,301 [INFO]   [E4] fold 22/25 saved | 13.5 min | AUROC=0.9062 | Brier=0.1353 | ETA ~51 min
+2026-10-06 00:36:04,089 [INFO]   [E4] fold 23/25 saved | 14.6 min | AUROC=0.9076 | Brier=0.1720 | ETA ~34 min
+2026-10-06 00:48:49,755 [INFO]   [E4] fold 24/25 saved | 12.8 min | AUROC=0.8151 | Brier=0.1628 | ETA ~17 min
+2026-10-06 01:04:10,106 [INFO]   [E4] fold 25/25 saved | 15.3 min | AUROC=0.8750 | Brier=0.1507 | ETA ~0 min
+2026-10-06 01:04:10,106 [INFO]   [E4] session time: 349.1 min (21 folds computed)
+2026-10-06 01:04:10,146 [INFO] --> E4 COMPLETE | Mean AUROC = 0.8712 [0.8475, 0.8949] | Brier = 0.1437
+2026-10-06 01:04:10,146 [INFO] Requested experiments finished in 349.06 minutes (this session).
+2026-10-06 01:04:10,146 [INFO] Stage 4 not requested (use --stage4 or --all). Done.
