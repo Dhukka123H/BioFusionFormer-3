@@ -8,6 +8,7 @@ data/interim/cpg2gene.csv
 data/interim/mirna2gene_all.parquet
 data/interim/mirna2pathway_all.parquet
 data/processed/meth_cpg_top.parquet
+data/processed/clinical/
 
 # --- Trained model checkpoints ---
 models/checkpoints/

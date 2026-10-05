@@ -1,0 +1,149 @@
+dataset: TARGET-WT
+cohort_size: 121
+primary_task_target: wilms_tumor_histologic_subtype (FH=0 vs UH=1)
+leakage_guarantee: Strict exclusion of histology sub-types, morphology codes, COG
+  risk groups, survival times, and post-baseline events. Features are unscaled and
+  unimputed at this stage; preprocessing/imputation must occur strictly inside CV
+  folds.
+candidate_features:
+  age_at_diagnosis_days:
+    source_column: supp_Age at Diagnosis in Days
+    description: Patient age in days at primary Wilms tumor diagnosis (continuous)
+    data_type: continuous
+    missing_pct: 0.0
+    unique_count: 117
+  gender:
+    source_column: supp_Gender
+    description: Biological sex / gender of patient (Female, Male)
+    data_type: categorical_binary
+    missing_pct: 0.0
+    unique_count: 2
+  race:
+    source_column: supp_Race
+    description: Reported OMB race category (White, Black or African American, Asian,
+      Not Reported)
+    data_type: categorical
+    missing_pct: 0.0
+    unique_count: 4
+  ethnicity:
+    source_column: supp_Ethnicity
+    description: Reported OMB ethnicity category (Not Hispanic or Latino, Hispanic
+      or Latino, Not Reported)
+    data_type: categorical
+    missing_pct: 0.0
+    unique_count: 3
+  stage:
+    source_column: supp_Stage
+    description: Clinical Wilms tumor NWTS/COG surgical stage at presentation (Stage
+      I, II, III, IV)
+    data_type: categorical_ordinal
+    missing_pct: 0.0
+    unique_count: 5
+  percent_tumor_nuclei:
+    source_column: 'nuclei_% Tumor Nuclei: Top'
+    description: Percent tumor nuclei observed in top section of frozen solid tumor
+      biopsy
+    data_type: continuous_percentage
+    missing_pct: 0.8
+    unique_count: 8
+  percent_necrosis:
+    source_column: 'nuclei_% Necrosis: Top'
+    description: Percent necrosis observed in top section of frozen solid tumor biopsy
+    data_type: continuous_percentage
+    missing_pct: 0.8
+    unique_count: 6
+  percent_stroma:
+    source_column: 'nuclei_% Stroma: Top'
+    description: Percent stroma observed in top section of frozen solid tumor biopsy
+    data_type: continuous_percentage
+    missing_pct: 0.8
+    unique_count: 15
+laterality_note: Laterality was thoroughly investigated across GDC /cases mapping
+  (diagnoses.laterality, samples.biospecimen_laterality), clinical supplements, and
+  UCSC Xena. In the public TARGET-WT dataset, laterality is unrecorded (100% missing
+  / not collected) and therefore omitted.
+excluded_features_summary:
+  histology_leakage_columns:
+  - gdc_diagnoses.cog_renal_stage
+  - gdc_diagnoses.morphology
+  - gdc_diagnoses.tumor_grade
+  - gdc_diagnoses.wilms_tumor_histologic_subtype
+  - nuclei_Histological Subtype
+  - nuclei_Pathology Pass/Fail
+  - 'nuclei_Pathology: Diagnosis Confirmed'
+  - supp_Histologic Classification of Primary Tumor
+  - supp_ICD-O-3-M
+  outcome_leakage_columns:
+  - gdc_demographic.cause_of_death
+  - gdc_demographic.days_to_death
+  - gdc_demographic.vital_status
+  - gdc_diagnoses.days_to_last_follow_up
+  - gdc_diagnoses.days_to_recurrence
+  - gdc_diagnoses.progression_or_recurrence
+  - gdc_follow_ups.created_datetime
+  - gdc_follow_ups.days_to_first_event
+  - gdc_follow_ups.days_to_follow_up
+  - gdc_follow_ups.first_event
+  - gdc_follow_ups.follow_up_id
+  - gdc_follow_ups.state
+  - gdc_follow_ups.submitter_id
+  - gdc_follow_ups.timepoint_category
+  - gdc_follow_ups.updated_datetime
+  - gdc_follow_ups.year_of_follow_up
+  - supp_Event Free Survival Time in Days
+  - supp_First Event
+  - supp_Overall Survival Time in Days
+  - supp_Reason for Death
+  - supp_Vital Status
+  - supp_Year of Last Follow Up
+  administrative_columns:
+  - gdc_case_id
+  - gdc_demographic.age_at_index
+  - gdc_demographic.age_is_obfuscated
+  - gdc_demographic.created_datetime
+  - gdc_demographic.days_to_birth
+  - gdc_demographic.demographic_id
+  - gdc_demographic.ethnicity
+  - gdc_demographic.race
+  - gdc_demographic.sex_at_birth
+  - gdc_demographic.state
+  - gdc_demographic.submitter_id
+  - gdc_demographic.updated_datetime
+  - gdc_diagnoses.age_at_diagnosis
+  - gdc_diagnoses.classification_of_tumor
+  - gdc_diagnoses.created_datetime
+  - gdc_diagnoses.days_to_diagnosis
+  - gdc_diagnoses.days_to_last_known_disease_status
+  - gdc_diagnoses.diagnosis_id
+  - gdc_diagnoses.diagnosis_is_primary_disease
+  - gdc_diagnoses.icd_10_code
+  - gdc_diagnoses.last_known_disease_status
+  - gdc_diagnoses.pediatric_kidney_staging
+  - gdc_diagnoses.primary_diagnosis
+  - gdc_diagnoses.site_of_resection_or_biopsy
+  - gdc_diagnoses.state
+  - gdc_diagnoses.submitter_id
+  - gdc_diagnoses.tissue_or_organ_of_origin
+  - gdc_diagnoses.updated_datetime
+  - gdc_diagnoses.year_of_diagnosis
+  - gdc_project_id
+  - gdc_submitter_id
+  - nuclei_Adequate Tissue (Y/N)
+  - nuclei_Specimen Sub type
+  - nuclei_Specimen Type
+  - nuclei_TARGET - Sample ID
+  - nuclei_TARGET USI
+  - supp_ICD-O-3-T
+  - supp_Protocol
+  - supp_TARGET USI
+  - supp_Year of Diagnosis
+  redundant_biopsy_columns:
+  - 'nuclei_% Cellular Tumor: Bottom'
+  - 'nuclei_% Cellular Tumor: Top'
+  - 'nuclei_% Necrosis: Bottom'
+  - 'nuclei_% Non tumor Nuclei: Bottom'
+  - 'nuclei_% Non tumor Nuclei: Top'
+  - 'nuclei_% Normal: Bottom'
+  - 'nuclei_% Normal: Top'
+  - 'nuclei_% Stroma: Bottom'
+  - 'nuclei_% Tumor Nuclei: Bottom'
