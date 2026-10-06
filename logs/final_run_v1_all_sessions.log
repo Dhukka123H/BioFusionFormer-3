@@ -718,3 +718,75 @@
 2026-10-06 23:17:31,921 [INFO]   [E1] fold 04/25 saved | 17.7 min | AUROC=0.8571 | Brier=0.1322 | ETA ~390 min
 2026-10-06 23:43:21,962 [INFO]   [E1] fold 05/25 saved | 25.8 min | AUROC=0.9531 | Brier=0.1135 | ETA ~400 min
 2026-10-06 23:43:29,372 [WARNING] Interrupted. Finished folds are saved on disk; re-run the same command to resume.
+2026-10-06 23:52:47,366 [INFO] ===========================================================================
+2026-10-06 23:52:47,367 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-06 23:52:47,367 [INFO] ===========================================================================
+2026-10-06 23:52:47,367 [INFO] Python 3.14.8 | torch 2.14.1+cpu | args: {'exps': [], 'all': True, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-06 23:52:47,367 [INFO] Experiments requested: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E10'] | Stage 4: True
+2026-10-06 23:52:47,392 [INFO] Loaded Core Cohort N=121 patients
+2026-10-06 23:52:47,392 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-06 23:52:47,393 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-06 23:52:48,222 [INFO] Feature matrix dimensions:
+2026-10-06 23:52:48,222 [INFO]   mRNA: (121, 11171)
+2026-10-06 23:52:48,222 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-06 23:52:48,222 [INFO]   Methylation: (121, 9778)
+2026-10-06 23:52:48,375 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-06 23:52:48,402 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-06 23:52:48,533 [INFO] 
+=======================================================
+2026-10-06 23:52:48,534 [INFO] Running Experiment E1: Full BioFusionFormer (3 omics, bias ON, gate ON, strong mask)
+2026-10-06 23:52:48,534 [INFO] Modalities: ['mrna', 'mirna', 'meth'] | Target: histology | Bias: True | Gate: True
+2026-10-06 23:52:48,534 [INFO] =======================================================
+2026-10-06 23:52:48,539 [INFO]   [E1] fold 01/25 already on disk - skipped
+2026-10-06 23:52:48,543 [INFO]   [E1] fold 02/25 already on disk - skipped
+2026-10-06 23:52:48,546 [INFO]   [E1] fold 03/25 already on disk - skipped
+2026-10-06 23:52:48,550 [INFO]   [E1] fold 04/25 already on disk - skipped
+2026-10-06 23:52:48,555 [INFO]   [E1] fold 05/25 already on disk - skipped
+2026-10-07 00:03:43,263 [INFO]   [E1] fold 06/25 saved | 10.9 min | AUROC=0.9167 | Brier=0.1378 | ETA ~207 min
+2026-10-07 00:13:57,543 [INFO]   [E1] fold 07/25 saved | 10.2 min | AUROC=0.9375 | Brier=0.1458 | ETA ~190 min
+2026-10-07 00:24:35,886 [INFO]   [E1] fold 08/25 saved | 10.6 min | AUROC=0.8571 | Brier=0.1360 | ETA ~180 min
+2026-10-07 00:33:25,250 [INFO]   [E1] fold 09/25 saved | 8.8 min | AUROC=0.7983 | Brier=0.1865 | ETA ~162 min
+2026-10-07 00:44:20,743 [INFO]   [E1] fold 10/25 saved | 10.9 min | AUROC=0.7969 | Brier=0.1520 | ETA ~155 min
+2026-10-07 00:56:20,447 [INFO]   [E1] fold 11/25 saved | 12.0 min | AUROC=0.9514 | Brier=0.1018 | ETA ~148 min
+2026-10-07 01:04:32,097 [INFO]   [E1] fold 12/25 saved | 8.2 min | AUROC=0.8516 | Brier=0.1453 | ETA ~133 min
+2026-10-07 01:16:08,608 [INFO]   [E1] fold 13/25 saved | 11.6 min | AUROC=0.7983 | Brier=0.1707 | ETA ~125 min
+2026-10-07 01:27:21,361 [INFO]   [E1] fold 14/25 saved | 11.2 min | AUROC=0.8739 | Brier=0.1394 | ETA ~116 min
+2026-10-07 01:41:19,989 [INFO]   [E1] fold 15/25 saved | 14.0 min | AUROC=0.8594 | Brier=0.1158 | ETA ~109 min
+2026-10-07 01:51:48,080 [INFO]   [E1] fold 16/25 saved | 10.5 min | AUROC=0.9792 | Brier=0.1076 | ETA ~97 min
+2026-10-07 02:03:04,033 [INFO]   [E1] fold 17/25 saved | 11.3 min | AUROC=0.9922 | Brier=0.0700 | ETA ~87 min
+2026-10-07 02:11:15,328 [INFO]   [E1] fold 18/25 saved | 8.2 min | AUROC=0.8235 | Brier=0.1954 | ETA ~75 min
+2026-10-07 02:22:15,882 [INFO]   [E1] fold 19/25 saved | 11.0 min | AUROC=0.8739 | Brier=0.1382 | ETA ~64 min
+2026-10-07 02:33:56,204 [INFO]   [E1] fold 20/25 saved | 11.7 min | AUROC=0.8203 | Brier=0.1483 | ETA ~54 min
+2026-10-07 02:45:16,165 [INFO]   [E1] fold 21/25 saved | 11.3 min | AUROC=0.7431 | Brier=0.2038 | ETA ~43 min
+2026-10-07 02:56:38,956 [INFO]   [E1] fold 22/25 saved | 11.4 min | AUROC=0.9375 | Brier=0.1340 | ETA ~32 min
+2026-10-07 03:07:07,602 [INFO]   [E1] fold 23/25 saved | 10.5 min | AUROC=0.9076 | Brier=0.1727 | ETA ~22 min
+2026-10-07 03:16:46,662 [INFO]   [E1] fold 24/25 saved | 9.7 min | AUROC=0.8151 | Brier=0.1632 | ETA ~11 min
+2026-10-07 03:28:12,775 [INFO]   [E1] fold 25/25 saved | 11.4 min | AUROC=0.8750 | Brier=0.1498 | ETA ~0 min
+2026-10-07 03:28:12,775 [INFO]   [E1] session time: 215.4 min (20 folds computed)
+2026-10-07 03:28:13,255 [INFO] --> E1 COMPLETE | Mean AUROC = 0.8716 [0.8475, 0.8956] | Brier = 0.1436
+2026-10-07 03:28:13,409 [INFO] E2: all 25 folds already on disk -> not retraining
+2026-10-07 03:28:13,565 [INFO] E3: all 25 folds already on disk -> not retraining
+2026-10-07 03:28:13,700 [INFO] E4: all 25 folds already on disk -> not retraining
+2026-10-07 03:28:13,869 [INFO] E5: all 25 folds already on disk -> not retraining
+2026-10-07 03:28:13,957 [INFO] E6: all 25 folds already on disk -> not retraining
+2026-10-07 03:28:14,258 [INFO] E7: all 25 folds already on disk -> not retraining
+2026-10-07 03:28:14,612 [INFO] E8: all 25 folds already on disk -> not retraining
+2026-10-07 03:28:14,951 [INFO] E10: all 25 folds already on disk -> not retraining
+2026-10-07 03:28:14,970 [INFO] Requested experiments finished in 215.44 minutes (this session).
+2026-10-07 03:28:15,339 [INFO] 
+--- Computing Nadeau-Bengio Corrected Paired Tests ---
+2026-10-07 03:28:15,362 [INFO] E1 vs mRNA ElasticNet: Diff=-0.0453, t=-1.037, p=0.3100
+2026-10-07 03:28:15,362 [INFO] E1 vs Early Fusion ElasticNet: Diff=-0.0580, t=-1.358, p=0.1871
+2026-10-07 03:28:15,363 [INFO] E1 vs E2: Diff=-0.0385, t=-1.111, p=0.2775
+2026-10-07 03:28:15,363 [INFO] E1 vs E3: Diff=-0.0160, t=-0.428, p=0.6722
+2026-10-07 03:28:15,363 [INFO] E1 vs E4: Diff=+0.0003, t=0.076, p=0.9398
+2026-10-07 03:28:15,364 [INFO] E1 vs E5: Diff=+0.0070, t=0.177, p=0.8613
+2026-10-07 03:28:15,364 [INFO] E1 vs E6: Diff=+0.0099, t=0.425, p=0.6744
+2026-10-07 03:28:15,364 [INFO] E1 vs E7: Diff=-0.0027, t=-0.102, p=0.9200
+2026-10-07 03:28:15,365 [INFO] E1 vs E10: Diff=-0.0160, t=-0.428, p=0.6722
+2026-10-07 03:28:15,365 [INFO] 
+===========================================================================
+2026-10-07 03:28:15,365 [INFO] STAGE 4: Explainability, Stability, Representation & Calibration
+2026-10-07 03:28:15,365 [INFO] ===========================================================================
+2026-10-07 03:28:15,365 [INFO] 
+C1: Computing Label-Permutation Null Stability Baseline (10 permutations)...
