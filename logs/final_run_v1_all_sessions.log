@@ -209,6 +209,7 @@
 2026-10-05 23:38:25,490 [INFO]   [E5] fold 17/25 saved | 15.8 min | AUROC=0.9297 | Brier=0.0820 | ETA ~130 min
 2026-10-05 23:38:30,216 [WARNING] Interrupted. Finished folds are saved on disk; re-run the same command to resume.
 >>>>>>> 8010155b7fe5dfdab515855da6a7a08a46d1503d
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 2026-10-06 09:44:17,478 [INFO] ===========================================================================
 2026-10-06 09:44:17,478 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
@@ -424,3 +425,53 @@
 2026-10-06 13:53:22,940 [INFO]   [E7] fold 14/25 saved | 16.9 min | AUROC=0.8655 | Brier=0.1365 | ETA ~201 min
 2026-10-06 14:22:17,453 [INFO]   [E7] fold 15/25 saved | 28.9 min | AUROC=0.8438 | Brier=0.1232 | ETA ~204 min
 2026-10-06 14:22:27,044 [WARNING] Interrupted. Finished folds are saved on disk; re-run the same command to resume.
+=======
+2026-10-06 10:40:34,964 [INFO] ===========================================================================
+2026-10-06 10:40:34,965 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-06 10:40:34,965 [INFO] ===========================================================================
+2026-10-06 10:40:34,965 [INFO] Python 3.13.14 | torch 2.14.1+cpu | args: {'exps': ['E10'], 'all': False, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-06 10:40:34,965 [INFO] Experiments requested: ['E10'] | Stage 4: False
+2026-10-06 10:40:34,995 [INFO] Loaded Core Cohort N=121 patients
+2026-10-06 10:40:34,996 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-06 10:40:34,996 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-06 10:40:35,800 [INFO] Feature matrix dimensions:
+2026-10-06 10:40:35,800 [INFO]   mRNA: (121, 11171)
+2026-10-06 10:40:35,801 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-06 10:40:35,801 [INFO]   Methylation: (121, 9778)
+2026-10-06 10:40:36,113 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-06 10:40:36,144 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-06 10:40:36,187 [INFO] 
+=======================================================
+2026-10-06 10:40:36,187 [INFO] Running Experiment E10: Methylation-token-free control (identical seeds & early stopping to E1)
+2026-10-06 10:40:36,187 [INFO] Modalities: ['mrna', 'mirna'] | Target: histology | Bias: True | Gate: True
+2026-10-06 10:40:36,187 [INFO] =======================================================
+2026-10-06 10:46:15,853 [INFO]   [E10] fold 01/25 saved | 5.7 min | AUROC=1.0000 | Brier=0.0831 | ETA ~136 min
+2026-10-06 10:52:05,890 [INFO]   [E10] fold 02/25 saved | 5.8 min | AUROC=0.9453 | Brier=0.1271 | ETA ~132 min
+2026-10-06 10:58:26,844 [INFO]   [E10] fold 03/25 saved | 6.3 min | AUROC=0.8739 | Brier=0.0944 | ETA ~131 min
+2026-10-06 11:04:03,404 [INFO]   [E10] fold 04/25 saved | 5.6 min | AUROC=0.8235 | Brier=0.1546 | ETA ~123 min
+2026-10-06 11:09:35,162 [INFO]   [E10] fold 05/25 saved | 5.5 min | AUROC=0.8359 | Brier=0.1732 | ETA ~116 min
+2026-10-06 11:14:26,544 [INFO]   [E10] fold 06/25 saved | 4.9 min | AUROC=0.9722 | Brier=0.1154 | ETA ~107 min
+2026-10-06 11:19:56,142 [INFO]   [E10] fold 07/25 saved | 5.5 min | AUROC=0.9219 | Brier=0.1569 | ETA ~101 min
+2026-10-06 11:25:58,506 [INFO]   [E10] fold 08/25 saved | 6.0 min | AUROC=0.9328 | Brier=0.1284 | ETA ~96 min
+2026-10-06 11:31:30,661 [INFO]   [E10] fold 09/25 saved | 5.5 min | AUROC=0.8824 | Brier=0.1601 | ETA ~91 min
+2026-10-06 11:37:58,092 [INFO]   [E10] fold 10/25 saved | 6.5 min | AUROC=0.8047 | Brier=0.1553 | ETA ~86 min
+2026-10-06 11:43:54,397 [INFO]   [E10] fold 11/25 saved | 5.9 min | AUROC=0.9653 | Brier=0.1055 | ETA ~81 min
+2026-10-06 11:52:09,343 [INFO]   [E10] fold 12/25 saved | 8.2 min | AUROC=0.8906 | Brier=0.1000 | ETA ~78 min
+2026-10-06 11:58:24,956 [INFO]   [E10] fold 13/25 saved | 6.3 min | AUROC=0.7563 | Brier=0.1943 | ETA ~72 min
+2026-10-06 12:04:16,998 [INFO]   [E10] fold 14/25 saved | 5.9 min | AUROC=0.8992 | Brier=0.1433 | ETA ~66 min
+2026-10-06 12:10:14,850 [INFO]   [E10] fold 15/25 saved | 6.0 min | AUROC=0.9219 | Brier=0.0988 | ETA ~60 min
+2026-10-06 12:17:12,768 [INFO]   [E10] fold 16/25 saved | 7.0 min | AUROC=0.9653 | Brier=0.1095 | ETA ~54 min
+2026-10-06 12:24:22,134 [INFO]   [E10] fold 17/25 saved | 7.2 min | AUROC=0.9453 | Brier=0.1000 | ETA ~49 min
+2026-10-06 12:29:56,898 [INFO]   [E10] fold 18/25 saved | 5.6 min | AUROC=0.9412 | Brier=0.1453 | ETA ~43 min
+2026-10-06 12:35:36,176 [INFO]   [E10] fold 19/25 saved | 5.7 min | AUROC=0.8739 | Brier=0.1725 | ETA ~36 min
+2026-10-06 12:41:16,838 [INFO]   [E10] fold 20/25 saved | 5.7 min | AUROC=0.7656 | Brier=0.1730 | ETA ~30 min
+2026-10-06 12:47:29,344 [INFO]   [E10] fold 21/25 saved | 6.2 min | AUROC=0.8333 | Brier=0.1567 | ETA ~24 min
+2026-10-06 12:53:02,337 [INFO]   [E10] fold 22/25 saved | 5.5 min | AUROC=0.8984 | Brier=0.1477 | ETA ~18 min
+2026-10-06 12:58:35,501 [INFO]   [E10] fold 23/25 saved | 5.6 min | AUROC=0.8908 | Brier=0.1547 | ETA ~12 min
+2026-10-06 13:04:25,447 [INFO]   [E10] fold 24/25 saved | 5.8 min | AUROC=0.8908 | Brier=0.1676 | ETA ~6 min
+2026-10-06 13:10:20,333 [INFO]   [E10] fold 25/25 saved | 5.9 min | AUROC=0.7578 | Brier=0.1706 | ETA ~0 min
+2026-10-06 13:10:20,334 [INFO]   [E10] session time: 149.7 min (25 folds computed)
+2026-10-06 13:10:20,609 [INFO] --> E10 COMPLETE | Mean AUROC = 0.8875 [0.8613, 0.9138] | Brier = 0.1395
+2026-10-06 13:10:20,610 [INFO] Requested experiments finished in 149.74 minutes (this session).
+2026-10-06 13:10:20,611 [INFO] Stage 4 not requested (use --stage4 or --all). Done.
+>>>>>>> Stashed changes
