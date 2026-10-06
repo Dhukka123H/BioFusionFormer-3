@@ -18,6 +18,3 @@
 2026-10-05 14:33:41,963 [INFO] --> E1 Completed in 19009.0s | Mean AUROC = 0.8460 [0.8077, 0.8843] | Brier = 0.1622
 2026-10-05 14:33:42,030 [INFO] 
 =======================================================
-2026-10-05 14:33:42,031 [INFO] Running Experiment E2: mRNA only (unimodal architecture control)
-2026-10-05 14:33:42,032 [INFO] Modalities: ['mrna'] | Target: histology | Bias: True | Gate: True
-2026-10-05 14:33:42,032 [INFO] =======================================================

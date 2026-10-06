@@ -1,4 +1,5 @@
 {
+  "signature": "a42642001739",
   "config": {
     "id": "E1",
     "name": "Full BioFusionFormer (3 omics, bias ON, gate ON, strong mask)",
