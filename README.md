@@ -119,7 +119,7 @@ python -m unittest tests/test_preprocessing_leakage.py
 python scripts/phase5_baselines.py
 
 # 6. Run the final BioFusionFormer benchmark and explainability suite
-python scripts/run_v1_benchmark_and_stages3_4‑.py
+python scripts/run_v1_benchmark_and_stages3_4_resumable.py
 ```
 
 ---
