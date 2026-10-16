@@ -1,48 +1,47 @@
-# BioFusionFormer
-
-# --- Raw data (> 1.6 GB raw downloads; never commit to Git to stay under 100MB GitHub limit and support low-bandwidth cloning) ---
-data.zip
+# --- raw / downloaded data (never commit) ---
 data/raw/
-
-# --- Intermediate large conversion files (> 15-30 MB non-essential cache) ---
+data.zip
 data/interim/cpg2gene.csv
 data/interim/mirna2gene_all.parquet
 data/interim/mirna2pathway_all.parquet
 data/processed/meth_cpg_top.parquet
 data/processed/clinical/
 
-# --- Trained model checkpoints ---
-models/checkpoints/
+# --- trained weights and run artefacts ---
+models/*
+!models/final/
+models/final/*
+!models/final/manifest.json
+*.pt
+*.pth
+experiments/*_smoke/
+experiments/*_repro/
+experiments/*.bak_*
+experiments/*/E1.bak_*
+experiments/**/.lock
+logs/e1_*.log
+results_smoke/
+figures_smoke/
 
-# --- Python virtual environment & caches ---
+# --- Python ---
 .venv/
 venv/
 env/
 __pycache__/
 *.py[cod]
-*.pyo
 *.egg-info/
 dist/
 build/
-*.egg
-
-# --- Jupyter notebook checkpoints ---
 .ipynb_checkpoints/
+.pytest_cache/
 
-# --- OS and editor artefacts ---
+# --- OS / editor ---
 .DS_Store
 Thumbs.db
 desktop.ini
 *.swp
-*.swo
 .idea/
 .vscode/
 *.code-workspace
-
-# # --- Log files (active runs) ---
-# logs/*.log
-# logs/*.txt
-
-# --- Environment files ---
 .env
 *.env
