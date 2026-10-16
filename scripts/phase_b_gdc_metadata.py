@@ -573,7 +573,7 @@ def main() -> None:
 
     if gdc_status != "OK":
         log.warning("GDC not OK (status=%s). Launching poller.", gdc_status)
-        print(f"\nGDC status = {gdc_status}. Run scripts/wait_for_gdc.py to poll.")
+        print(f"\nGDC status = {gdc_status}. Check https://api.gdc.cancer.gov/status and retry later.")
         sys.exit(2)
 
     print(f"\nGDC is UP: status={gdc_status}, "
