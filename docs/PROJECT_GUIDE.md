@@ -1,9 +1,11 @@
+> **AUDIT NOTICE (Stage 8.2 Applied).** This guide has been audited and updated to reflect the verified data: the frozen E1 headline AUROC is **0.8716** (Nadeau-Bengio 95% CI [0.8023, 0.9408]); dense trainable parameters are **4,249,284** with **47,221** effective free parameters; modality gate weights are relatively uniform (~0.28–0.40); attention rollout has a max/min ratio of **1.06x** (near-uniform; gradient-based Integrated Gradients must be used instead); and representations are in-sample visualizations. Authoritative sources: `results/model/E1_summary.md`, `results/model/parameter_count.md`, and `results/model/forking_paths.md`.
+
 # BioFusionFormer: Comprehensive Guide & Academic Defense Manual
 
 > **A Pathway-Aware Hierarchical Cross-Modal Transformer for Multi-Omics Data Fusion in Pediatric Wilms Tumor**  
 > *Target Cohort: NCI TARGET-WT (Pediatric Wilms Tumor, N=121 patients)*  
 > *Target Task: Histologic Subtype Classification (Favorable vs. Unfavorable / Diffuse Anaplasia)*  
-> *Secondary Task: Overall Vital Status Prognostication (Alive vs. Dead)*
+> *Data Lineage: Omics matrices from UCSC Xena GDC hub; clinical labels from GDC API*
 
 ---
 
@@ -29,11 +31,11 @@ When presenting to your project guide or an evaluation panel, start with this ex
 
 > *"In pediatric oncology, Wilms tumor is the most common kidney cancer in children. While overall survival is around 90%, patients with **unfavorable (anaplastic) histology** suffer disproportionate treatment failure and death. Distinguishing these patients early is critical for chemotherapy and radiation planning.*
 >
-> *Today, next-generation sequencing gives us multiple layers of biological data from tumor biopsies: **mRNA** (gene expression), **miRNA** (regulatory non-coding RNA), and **DNA methylation** (epigenetics). However, combining these datasets presents a severe machine learning challenge: we have only **121 pediatric patients**, but over **22,000 biological features** ($p \gg n$). Standard deep learning models (like standard multi-layer perceptrons or vanilla Vision Transformers) fail catastrophically because they memorize noise and overfit.*
+> *Today, next-generation sequencing gives us multiple layers of biological data from tumor biopsies: **mRNA** (gene expression), **miRNA** (regulatory non-coding RNA), and **DNA methylation** (epigenetics). However, combining these datasets presents a severe machine learning challenge: we have only **121 pediatric patients**, but over **21,900 biological features** ($p \gg n$). Standard unregularized deep learning models fail catastrophically because they memorize noise and overfit.*
 >
-> *To solve this, we created **BioFusionFormer**, a pathway-aware hierarchical cross-modal transformer. Instead of feeding thousands of unconstrained features to a neural network, BioFusionFormer injects **20+ years of curated biological knowledge** from the **Reactome Knowledge Graph** and **miRTarBase**. It groups genes into 192 biologically functional pathway tokens, biases transformer self-attention using molecular pathway adjacency, and uses an adaptive gating network to weight informative modalities over uninformative ones.*
+> *To solve this, we created **BioFusionFormer**, a pathway-aware hierarchical cross-modal transformer. Instead of feeding thousands of unconstrained features to a neural network, BioFusionFormer injects curated biological knowledge from the **Reactome Knowledge Graph** and **miRTarBase**. It groups genes into 192 biologically functional pathway tokens, biases transformer self-attention using molecular pathway adjacency, and fuses modalities using an adaptive gating network.*
 >
-> *We evaluated this model across 25 outer test folds (5-repeated 5-fold cross-validation) under strict zero-leakage conditions, demonstrating strong predictive discrimination (AUROC ~0.90–0.92) and biological interpretability via attention rollout and Integrated Gradients."*
+> *We evaluated this model across 25 outer test folds (5-repeated 5-fold cross-validation) under strict zero-leakage conditions, achieving a cross-validated AUROC of **0.8716** (Nadeau-Bengio 95% CI [0.8023, 0.9408]), competitive with penalized linear baselines while providing biological pathway attribution via Integrated Gradients."*
 
 ---
 
@@ -119,7 +121,7 @@ To constrain this enormous parameter space, BioFusionFormer injects **domain kno
 - How does a microRNA connect to a pathway? Through its experimentally validated mRNA targets!
 - We mapped each miRNA to target genes using **miRTarBase 2020** (strong experimental evidence: Reporter assay, Western blot, qPCR).
 - If miRNA-15a targets gene *BCL2*, and *BCL2* belongs to the *"Intrinsic Pathway for Apoptosis"*, then miRNA-15a is linked to that pathway.
-- **Fallback Token**: For miRNAs without known Reactome target genes, BioFusionFormer directs them to an explicit *"Unmapped miRNA"* token rather than dropping them silently.
+- **Unmapped miRNA Handling (Fork 6)**: For miRNAs without known Reactome target genes, the frozen v1 implementation wires them into the last selected pathway token (index $P-1$), rather than a dedicated unmapped token (see `results/model/forking_paths.md` Fork 6).
 
 ### Prior 3: Illumina 450K CpG-to-Gene Mapping
 - Methylation probes (CpGs) located within gene promoter regions (TSS1500, TSS200, 5' UTR, 1st Exon) are aggregated to their parent gene and mapped to the corresponding Reactome pathways.
@@ -128,7 +130,7 @@ To constrain this enormous parameter space, BioFusionFormer injects **domain kno
 
 ## 6. BioFusionFormer Architecture: Step-by-Step Deep Dive
 
-BioFusionFormer has **62,450 trainable parameters** (well within a compact 500k parameter budget). Here is how an input tensor flows through the model:
+BioFusionFormer has **4,249,284 dense trainable parameters** (`count_parameters()`), of which **47,221 are effective free parameters** (`count_effective_parameters()`). The remaining ~4.2M parameters in the masked linear projections are permanently fixed at zero by the biological prior masks and receive no gradient. The 62,450 figure reported earlier referred to free parameters, not dense weights. Here is how an input tensor flows through the model:
 
 ```
 [Raw Features: 11,171 mRNA | 1,035 miRNA | 9,778 Methylation]
@@ -169,7 +171,7 @@ BioFusionFormer has **62,450 trainable parameters** (well within a compact 500k 
 ### Stage 1: Pathway Token Projection
 Instead of 22,000 disconnected weights, the input projection uses **binary masks**:
 $$H_{p}^{(m)} = \text{ReLU}\left(W_p^{(m)} \cdot (x^{(m)} \odot \text{Mask}_p^{(m)}) + b_p^{(m)}\right)$$
-Each pathway token $p \in \{1, \dots, 192\}$ only listens to genes known to belong to pathway $p$. This reduces the parameter footprint by >95% and enforces biological modularity.
+Each pathway token $p \in \{1, \dots, 192\}$ only listens to genes known to belong to pathway $p$. This enforces biological modularity while leaving 47,221 active parameters for optimization.
 
 ### Stage 2: Biologically-Biased Attention
 In a standard transformer, attention between token $i$ and token $j$ is purely data-driven:
@@ -181,11 +183,11 @@ $$\text{Attn}(i, j) = \text{Softmax}\left(\frac{Q_i K_j^T}{\sqrt{d_k}} + B_{\tex
 - This guides attention to follow known cellular signaling networks while still allowing data-driven fine-tuning.
 
 ### Stage 3: Adaptive Modality Gating
-Different modalities contribute different levels of predictive signal. Rather than simple concatenation or uniform averaging, BioFusionFormer computes an instance-specific gating vector $g$:
+Different modalities contribute different levels of predictive signal. BioFusionFormer computes an instance-specific gating vector $g$:
 $$g = \text{Softmax}(W_{\text{gate}} \cdot \mathbf{h}_{\text{CLS}} + b_{\text{gate}}) \in \mathbb{R}^3$$
 The fused patient representation is:
 $$\mathbf{z}_{\text{fused}} = \mathbf{h}_{\text{CLS}} + \sum_{m \in \{\text{mRNA}, \text{miRNA}, \text{Meth}\}} g_m \left(\frac{1}{P}\sum_{p=1}^P \mathbf{h}_p^{(m)}\right)$$
-If a modality contains noise for a specific patient, the network dynamically suppresses that modality's gate weight toward zero!
+In practice on test patients, gate weights are relatively uniform: mRNA $0.321 \pm 0.035$, miRNA $0.399 \pm 0.051$, and Methylation $0.281 \pm 0.041$. The network does not fully suppress methylation to zero, but maintains balanced multi-modal fusion.
 
 ---
 
@@ -230,67 +232,59 @@ We conducted a pre-specified suite of 10 experiments across the same 25 folds (3
 | **E10** | **Meth-Token-Free Control**| mRNA + miRNA | Fair comparison control matching E1 training seeds |
 
 ### Key Benchmark Comparison:
-- **Baseline mRNA ElasticNet**: AUROC = **0.9169**
 - **Baseline Early Fusion ElasticNet**: AUROC = **0.9295**
-- **BioFusionFormer E1**: AUROC = **~0.90–0.92**
-- **Nadeau-Bengio Hypothesis Test**: $p > 0.05$ (difference is **not statistically significant**).
+- **Baseline mRNA ElasticNet**: AUROC = **0.9169**
+- **BioFusionFormer E1**: AUROC = **0.8716** (Nadeau-Bengio 95% CI: **[0.8023, 0.9408]**)
+- **Baseline miRNA ElasticNet**: AUROC = **0.8481**
+- **Baseline Clinical-only (Age + Sex)**: AUROC = **0.6296**
+- **Baseline Methylation ElasticNet**: AUROC = **0.4601**
+- **Nadeau-Bengio Corrected Hypothesis Tests**:
+  - E1 vs. mRNA ElasticNet: difference = −0.0453, $t = -1.06$, $p = 0.30$ (**not distinguishable with $N=121$**)
+  - E1 vs. Early Fusion ElasticNet: difference = −0.0580, $t = -1.39$, $p = 0.18$ (**not distinguishable with $N=121$**)
+  - E1 vs. Clinical-only: difference = +0.2419, $t = +3.43$, $p = 0.0022$ (statistically significant)
 
 ### What This Means (The Honest Scientific Conclusion):
-BioFusionFormer achieves predictive performance on par with well-regularized linear baselines, but provides **two decisive advantages**:
-1. **Direct Pathway-Level Interpretability**: ElasticNet yields individual disconnected gene coefficients; BioFusionFormer identifies coherent, cross-modal cellular pathways.
-2. **Cross-Modal Representation Learning**: BioFusionFormer creates a unified patient embedding that captures both histology subtype and survival status.
+With $N = 121$, BioFusionFormer's predictive discrimination is not statistically distinguishable from well-regularized linear baselines (ElasticNet on mRNA). However, it provides:
+1. **Direct Pathway-Level Attribution**: Unlike individual disconnected gene coefficients, BioFusionFormer groups features into 192 coherent, cross-modal cellular pathways.
+2. **Cross-Modal Unified Representations**: Combines mRNA, miRNA, and DNA methylation into a joint latent space.
 
 ---
 
 ## 9. The Methylation Discovery: Honest Science vs. "Paper Hype"
 
-One of the most critical scientific findings of this project is our **epigenetic audit**:
+One of the critical findings of this project is our **epigenetic audit**:
 
 ### The Finding:
-When evaluating DNA Methylation alone using ElasticNet or Random Forests, the model achieves an AUROC of **~0.45** (worse than random guessing, 0.50).
+When evaluating DNA Methylation alone using ElasticNet or Random Forests, the model achieves an AUROC of **0.4601** (no detectable discrimination signal, comparable to random guessing).
 
 ### Why? (Biological Context):
 Wilms tumor is an **embryonal neoplasm** characterized by developmental arrest in the metanephric blastema. Unlike adult epithelial carcinomas (e.g., colon or lung cancer), which accumulate decades of progressive promoter hypermethylation, unfavorable Wilms tumor is almost exclusively driven by specific genomic copy number alterations (1q gain, 16q loss, 1p loss) and somatically acquired *TP53* mutations. Genome-wide promoter CpG methylation displays vast inter-individual heterogeneity that does not correlate with histological anaplasia.
 
 ### How BioFusionFormer Handled This:
-Instead of forcing equal fusion or faking results, **BioFusionFormer's Adaptive Modality Gating learned this automatically**:
-- The gate network assigned mRNA **~65–70%** of the weight.
-- The gate network assigned miRNA **~20–25%** of the weight.
-- The gate network systematically suppressed Methylation to **< 15%** of the weight!
+The network gate weights across test patients settled on:
+- mRNA: **0.321 ± 0.035** (~32%)
+- miRNA: **0.399 ± 0.051** (~40%)
+- Methylation: **0.281 ± 0.041** (~28%)
 
-*In your project presentation, emphasize this finding! Project guides love to see that you understood the biology and audited your data honestly rather than blindly claiming all modalities gave 99% accuracy.*
+The model did not collapse methylation to zero, but maintained balanced multi-modal fusion while relying primarily on mRNA and miRNA signaling for final classification.
 
 ---
 
 ## 10. Explainability, Stability, and Representation Learning
 
-In Stage 4, we added rigorous mechanistic explainability:
+Stage 4 establishes mechanistic explainability under strict statistical controls:
 
-### 1. Attention Rollout & Top Pathways
-Using attention rollout across the transformer layers, we traced information flow from the `[CLS]` token to individual pathway tokens. The top 5 consistently prioritized pathways include:
-1. **Cell Cycle / Mitotic G1-G1/S Phases** (driven by aberrant proliferation in blastemal cells).
-2. **TP53 Regulates Transcription of Cell Cycle Genes** (the biological hallmark of diffuse anaplasia).
-3. **Signaling by Receptor Tyrosine Kinases (RTK / EGFR / FGFR)**.
-4. **WNT Signaling in Development** (canonical Wilms tumor pathway linked to *WT1* and *CTNNB1*).
-5. **Cellular Response to Stress & DNA Damage**.
+### 1. Attention Rollout vs. Integrated Gradients
+In evaluation across test folds, attention rollout from `[CLS]` across the transformer layers had a ratio of maximum to minimum pathway weight of only **1.06x** (near-uniform). Because attention weights do not sufficiently discriminate between pathways, **gradient-based attribution (Integrated Gradients)** across all three modalities is the primary interpretability method, aggregating gene/miRNA/CpG attributions to pathways using the biological masks.
 
-### 2. Label-Permutation Stability vs. Null Baseline
-A common flaw in deep learning explainability is that models output "convincing" pathway rankings even when trained on pure noise.
-- To prove our explanations are biologically real, we trained BioFusionFormer on **10 random permutations of shuffled labels** across all 25 folds.
-- **Null Shuffled Stability**: Top-20 pathway Jaccard similarity across folds was $\approx 0.12$ (random noise).
-- **Real E1 Stability**: Top-20 pathway Jaccard similarity was $\approx 0.45$ ($\Delta > +0.30$, $p < 0.001$).
-- This confirms that BioFusionFormer learns robust, reproducible biological features.
+### 2. Stability and Matched Null Baseline
+To evaluate pathway attribution stability, top-20 pathways are compared across test folds using pairwise Jaccard similarity. The stability must always be benchmarked against a **matched null baseline** trained on label permutations using the exact same training procedure (same epochs, early stopping, and seeds), avoiding false attribution claims.
 
-### 3. Integrated Gradients vs. ElasticNet SHAP
-We computed Integrated Gradients (IG) path attributions on BioFusionFormer and compared the pathway-projected scores against ElasticNet's analytical SHAP values ($|w_i|$). The top-20 pathways demonstrated statistically significant overlap (Jaccard > 0.40), confirming that deep attention mechanisms converge on the same core cancer drivers identified by sparse linear models.
+### 3. Representation Learning (PCA & UMAP)
+Patient embeddings are projected via PCA and UMAP. These representations are labeled **"in-sample, visualisation only"** (trained on all 121 cohort patients with 3 seeds) to avoid claiming out-of-fold clustering or non-trivial silhouette metrics.
 
-### 4. Shared Representation (PCA & UMAP)
-We extracted the 32-dimensional fused patient representation $\mathbf{z}_{\text{fused}}$ from each patient's out-of-fold test evaluation and projected it via PCA and UMAP:
-- **Histology Coloring**: Clear clustering of Favorable vs. Unfavorable histology with a positive silhouette score ($> 0.15$).
-- **Vital Status Coloring**: Despite being trained primarily on histology, the fused embeddings separate patients who died of disease from long-term survivors, proving the representation captures clinical tumor aggressiveness.
-
-### 5. Calibration Reliability (Brier Score)
-Probability calibration measures whether a predicted probability of 80% actually corresponds to an 80% true positive rate in clinical practice. BioFusionFormer achieves a competitive Brier score ($< 0.16$), confirming that the model outputs well-calibrated risk estimates suitable for clinical decision support.
+### 4. Calibration (Brier Score)
+BioFusionFormer achieves a competitive pooled Brier score of **0.1365** (fold mean 0.1436), reflecting well-calibrated posterior probability estimates for pediatric nephroblastoma histology.
 
 ---
 

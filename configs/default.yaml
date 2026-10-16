@@ -1,23 +1,21 @@
-# BioFusionFormer Frozen Configuration v1-frozen
+# BioFusionFormer Frozen Configuration (E1 only)
 # Final-year project: A Pathway-Aware Hierarchical Cross-Modal Transformer for Multi-Modal Data Fusion
 # Cohort: TARGET-WT (Wilms Tumor), N=121
 
 experiment:
-  name: "BioFusionFormer_v1_Frozen"
-  run_suite: "v1_final"
-  primary_task: "wilms_tumor_histologic_subtype.diagnoses"  # Favorable (0) vs Unfavorable (1)
-  secondary_task: "vital_status.demographic"               # Alive (0) vs Dead (1) [Exploratory E8]
+  name: "BioFusionFormer_E1_Frozen"
+  run_suite: "e1_only"
+  primary_task: "wilms_tumor_histologic_subtype"   # Favorable (0) vs Unfavorable (1); labels in data/processed/labels.csv
   random_seeds: [42, 123, 999]
   active_experiments:
-    - "E1"   # Full BioFusionFormer (3 omics, bias ON, gate ON, strong mask)
-    - "E2"   # mRNA only (unimodal architecture control)
-    - "E3"   # mRNA + miRNA (no methylation)
-    - "E4"   # No pathway attention bias (full attention ablation)
-    - "E5"   # RANDOM PRIOR control (5 random graph draws, preserving degree/density)
-    - "E6"   # Broad miRNA mask instead of strong
-    - "E7"   # Mean fusion instead of gated fusion
-    - "E8"   # Vital status exploratory task (E1 architecture on vital label)
-    - "E10"  # Methylation-token-free control (identical seeds & early stopping to E1)
+    - "E1"   # Full BioFusionFormer: mRNA + miRNA + methylation, pathway bias ON, gated fusion ON, strong miRNA mask
+  # E2-E10 (ablations) and the vital-status task were removed from the working tree; they are preserved in git
+  # under tag v1-archive-all-experiments. Their results are exploratory and are not part of the headline.
+  cv:
+    scheme: "repeated stratified 5-fold, splits_5x5.json (5 repeats x 5 folds = 25 outer folds)"
+    headline_folds: 25      # already computed; do not change
+    new_variant_folds: 15   # pre-declared for any NEW exploratory variant (first 3 repeats); paired with the same E1 folds
+    ci_method: "Nadeau-Bengio corrected resampled t-interval (never the naive SD/sqrt(K) interval)"
 
 data:
   cohort_path: "data/interim/cohort_patients.csv"
@@ -44,7 +42,9 @@ data:
 
 model:
   target_parameter_budget: 500000
-  actual_parameter_count: 62450
+  # NOTE: count_parameters() reports the DENSE masked weights (~4.2M); the number of FREE parameters
+  # (mask non-zeros + the rest) is given by BioFusionFormerModel.count_effective_parameters() (~50-60k).
+  effective_parameter_count_reported_earlier: 62450   # verify with count_effective_parameters()
   d_model: 32                   # Token dimension
   n_heads: 4
   n_layers: 2
