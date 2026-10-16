@@ -1,0 +1,29 @@
+{
+  "model_name": "BioFusionFormer_E1_Final",
+  "cohort": "TARGET-WT (N=121)",
+  "task": "wilms_tumor_histologic_subtype",
+  "created_at_utc": "2026-10-16T15:14:34.724737+00:00",
+  "git_commit": "d8f7a2e71c0292dd21b74da64cafdd0dcd6f4e96",
+  "seeds": [
+    42,
+    123,
+    999
+  ],
+  "n_pathways": 192,
+  "feature_counts": {
+    "mrna": 11171,
+    "mirna": 1035,
+    "meth": 9778
+  },
+  "file_hashes_sha256": {
+    "model_seed42.pt": "d197842bad926f7e30ccbfc9489d127b780177493a3cb743809859479702a0ef",
+    "model_seed123.pt": "53e8be0e60ca385de5e18a1087a627361e26bfae603704bc57082347afc82f7c",
+    "model_seed999.pt": "f0339a8100d5bfef665e9fd2aa82131cf6a0ca17cfd062e0685b1f55375d938e",
+    "preprocessors.pt": "e2a5b8531bd8be44e97e64ea9ecbeb9fbbf1c22974032b2c5e4dc46087f0701f",
+    "masks.pt": "d0d11e84289229447dc5ac46cdee72baed3c89cd5c7971d0e2a0910fa493382d",
+    "bio_bias.pt": "10bc9a9c542717a100de0d0819ec3ae709d6a73eb42d8c6a27a468ca2aabb21c",
+    "feature_names.json": "6ef1290b7bd0b52111e22d07e2769c56a8f87a67ed0d35831a60289a30683e26",
+    "pathways.json": "1af646f44f0b206ab23a9d01f2ad2ab871854961b706a0c4016ae9951e3844c5",
+    "config.yaml": "6fc4b8178a42d87d645df63bfa3756611dd40fcaaadbee256bf31b072ba7ae05"
+  }
+}
