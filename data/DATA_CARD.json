@@ -44,14 +44,20 @@
     "mrna": {
       "source_file": "data/raw/target_wt_xena/TARGET-WT.star_counts.tsv.gz",
       "processed_file": "data/processed/mrna_gene.parquet",
-      "shape": [121, 11171],
+      "shape": [
+        121,
+        11171
+      ],
       "unit": "log2(STAR_count + 1)",
       "filtering": "Intersection with Reactome pathway genes, non-zero variance filtered."
     },
     "mirna": {
       "source_file": "data/raw/target_wt_xena/TARGET-WT.mirna.tsv.gz",
       "processed_file": "data/processed/mirna.parquet",
-      "shape": [121, 1797],
+      "shape": [
+        121,
+        1797
+      ],
       "unit": "log2(RPM + 1)",
       "filtering": "Stem-loop precursors mapped to mature miRBase identifiers via hsa.gff3 and filtered to broad miRNA target prior."
     },
@@ -59,14 +65,23 @@
       "source_file": "data/raw/target_wt_xena/TARGET-WT.methylation450.tsv.gz",
       "processed_gene_file": "data/processed/meth_gene.parquet",
       "processed_cpg_file": "data/processed/meth_cpg_top.parquet",
-      "gene_shape": [121, 9778],
-      "cpg_shape": [121, 20000],
+      "gene_shape": [
+        121,
+        9778
+      ],
+      "cpg_shape": [
+        121,
+        20000
+      ],
       "unit": "Beta value (ratio of methylated probe intensity)",
       "filtering": "Gene promoter region CpGs (TSS1500, TSS200, 5'UTR, 1stExon) averaged to gene-level beta; top 20,000 variable non-sex chromosome CpGs."
     },
     "pathway_activity": {
       "processed_file": "data/processed/pathway_features_fold_agnostic.parquet",
-      "shape": [121, 3368],
+      "shape": [
+        121,
+        3368
+      ],
       "unit": "Mean feature z-score within pathway",
       "hierarchy_file": "data/processed/pathway_hierarchy_mapping.json",
       "coverage": "1,708 mRNA pathways and 1,660 DNA methylation pathways spanning 2,883 Reactome pathways (depths 1-13)."
@@ -75,7 +90,13 @@
   "cross_validation": {
     "splits_file": "data/splits/splits_5x5.json",
     "protocol": "Repeated Stratified 5-Fold Cross-Validation (5 repeats x 5 folds = 25 test folds)",
-    "seeds": [42, 43, 44, 45, 46],
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
     "leakage_guarantee": "All scaling, missing-value imputation, and feature screening fitted strictly inside outer and inner training folds."
   },
   "frozen_model_v1": {
@@ -89,10 +110,67 @@
       "raw_features": 1797,
       "unique_features": 1035,
       "processed_file": "data/processed/mirna_unique.parquet",
-      "unmapped_fallback_token": true
+      "unmapped_fallback_token": "partial: features without an edge are wired into the LAST SELECTED PATHWAY token (index P-1), not a dedicated token; see forking_paths.md Fork 6"
     },
     "methylation_status": "no detectable signal for histology (non-separable HM450 beta values)",
     "parameter_count": 62450,
-    "experiments": ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E10"]
-  }
+    "experiments": [
+      "E1"
+    ],
+    "parameter_note": "count_parameters() = dense masked weights (~4.22M entries, of which only 18,865 may be non-zero); free parameters ~ count_effective_parameters(); 62,450 was reported earlier as the free-parameter figure. Verify with parameter_count.md.",
+    "run_history": "E1 run twice: unseeded (AUROC 0.8460, discarded) then seeded (0.8716, stored). See results/model/forking_paths.md Fork 5.",
+    "experiments_note": "E2-E10 (ablations) archived in git tag v1-archive-all-experiments; exploratory only."
+  },
+  "clinical": {
+    "source": "GDC API (/cases endpoint and open-access clinical supplements)",
+    "gdc_data_release": "Data Release 46.0 - August 10, 2026",
+    "gdc_api_tag": "8.5.0",
+    "gdc_api_commit": "8f7c2a51ab0084b216ad1b62a3fae8b945439c53",
+    "download_date": "2026-10-16",
+    "files": {
+      "cases_mapping.json": {
+        "md5": "ae5070afa423a2f52746027aa9bb7ccb",
+        "endpoint": "https://api.gdc.cancer.gov/cases/_mapping"
+      },
+      "cases_raw.json": {
+        "md5": "de1c95a4737e391a472876e1f2092dd3",
+        "endpoint": "https://api.gdc.cancer.gov/cases"
+      },
+      "cases_flat.csv": {
+        "md5": "4cbc343fcd06057cdcdad37d742bab4a"
+      },
+      "TARGET_WT_ClinicalData_Discovery_20230322.xlsx": {
+        "md5": "6fa5f42e97604a5c30a0c3f0874df67c",
+        "file_id": "d3002b03-71e8-4395-90ab-cd5c1020efe1"
+      },
+      "TARGET_WT_CDE_20230322.xlsx": {
+        "md5": "346d4f619a78960c8ce20047070c5b6b",
+        "file_id": "e929a4d7-9355-458d-8b59-c970bba257cc"
+      },
+      "TARGET_WT_ClinicalData_Discovery_and_Validation_Percent_Tumor_Nuclei_and_Necrosis_Supplement_20230322.xlsx": {
+        "md5": "76ece614362d821e286053aafc1c0209",
+        "file_id": "72bd5aba-4b34-4d74-861c-5586b8321ab7"
+      },
+      "TARGET_WT_ClinicalData_Validation_20230322.xlsx": {
+        "md5": "a7a432e1b11637f1ea3ef5b88d9a646c",
+        "file_id": "5e3502fb-7211-4716-8355-8eaaa90c0c43"
+      },
+      "clinical_raw_121.csv": {
+        "md5": "8771fd12d2ee1939d4373c017f97540c",
+        "shape": [121, 88]
+      },
+      "clinical_candidates.csv": {
+        "md5": "1b351f43dcb280d1345a76418602b265",
+        "shape": [121, 9]
+      },
+      "labels.csv": {
+        "md5": "13d10acc8b0e1c1ffc502bd903706fb1",
+        "counts": {
+          "FH": 82,
+          "UH": 39
+        }
+      }
+    }
+  },
+  "lineage_note": "Omics matrices (mRNA, miRNA, methylation) are GDC-derived data obtained through the UCSC Xena GDC hub (hg38, Xena-transformed: mRNA log2(count+1), miRNA log2(RPM+1), methylation beta). Clinical labels come from the GDC API (scripts/download_clinical.py, scripts/build_labels.py). A GDC-native rebuild of the omics matrices has not been done; doing so requires re-running E1."
 }
