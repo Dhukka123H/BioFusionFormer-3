@@ -91,7 +91,6 @@
 2026-10-05 16:34:16,358 [INFO]   [E4] fold 03/25 saved | 12.3 min | AUROC=0.8655 | Brier=0.1013 | ETA ~265 min
 2026-10-05 16:46:34,861 [INFO]   [E4] fold 04/25 saved | 12.3 min | AUROC=0.8571 | Brier=0.1386 | ETA ~255 min
 2026-10-05 16:46:37,903 [WARNING] Interrupted. Finished folds are saved on disk; re-run the same command to resume.
-<<<<<<< HEAD
 2026-10-05 18:53:49,917 [INFO] ===========================================================================
 2026-10-05 18:53:49,917 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
 2026-10-05 18:53:49,917 [INFO] ===========================================================================
@@ -170,7 +169,6 @@
 2026-10-06 01:04:10,146 [INFO] --> E4 COMPLETE | Mean AUROC = 0.8712 [0.8475, 0.8949] | Brier = 0.1437
 2026-10-06 01:04:10,146 [INFO] Requested experiments finished in 349.06 minutes (this session).
 2026-10-06 01:04:10,146 [INFO] Stage 4 not requested (use --stage4 or --all). Done.
-=======
 2026-10-05 19:02:22,015 [INFO] ===========================================================================
 2026-10-05 19:02:22,017 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
 2026-10-05 19:02:22,018 [INFO] ===========================================================================
@@ -208,7 +206,6 @@
 2026-10-05 23:22:37,318 [INFO]   [E5] fold 16/25 saved | 10.9 min | AUROC=0.9444 | Brier=0.1152 | ETA ~146 min
 2026-10-05 23:38:25,490 [INFO]   [E5] fold 17/25 saved | 15.8 min | AUROC=0.9297 | Brier=0.0820 | ETA ~130 min
 2026-10-05 23:38:30,216 [WARNING] Interrupted. Finished folds are saved on disk; re-run the same command to resume.
->>>>>>> 8010155b7fe5dfdab515855da6a7a08a46d1503d
 <<<<<<< Updated upstream
 <<<<<<< HEAD
 2026-10-06 09:44:17,478 [INFO] ===========================================================================
@@ -904,3 +901,200 @@ C1: Computing Label-Permutation Null Stability Baseline (10 permutations)...
 2026-10-08 19:23:19,676 [INFO] Saved figures/pathway_stability_vs_null.png
 2026-10-08 19:23:19,676 [INFO] 
 C2: Comparing Integrated Gradients vs ElasticNet SHAP...
+2026-10-08 19:29:11,285 [INFO] ===========================================================================
+2026-10-08 19:29:11,287 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-08 19:29:11,287 [INFO] ===========================================================================
+2026-10-08 19:29:11,287 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': [], 'all': True, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-08 19:29:11,287 [INFO] Experiments requested: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E10'] | Stage 4: True
+2026-10-08 19:29:11,370 [INFO] Loaded Core Cohort N=121 patients
+2026-10-08 19:29:11,370 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-08 19:29:11,370 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-08 19:29:14,601 [INFO] Feature matrix dimensions:
+2026-10-08 19:29:14,601 [INFO]   mRNA: (121, 11171)
+2026-10-08 19:29:14,602 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-08 19:29:14,602 [INFO]   Methylation: (121, 9778)
+2026-10-08 19:29:15,122 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-08 19:29:15,208 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-08 19:29:16,018 [INFO] E1: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:16,504 [INFO] E2: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:16,985 [INFO] E3: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:17,539 [INFO] E4: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:18,024 [INFO] E5: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:18,338 [INFO] E6: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:18,649 [INFO] E7: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:19,067 [INFO] E8: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:19,433 [INFO] E10: all 25 folds already on disk -> not retraining
+2026-10-08 19:29:19,458 [INFO] Requested experiments finished in 0.07 minutes (this session).
+2026-10-08 19:29:19,988 [INFO] 
+--- Computing Nadeau-Bengio Corrected Paired Tests ---
+2026-10-08 19:29:20,010 [INFO] E1 vs mRNA ElasticNet: Diff=-0.0453, t=-1.037, p=0.3100
+2026-10-08 19:29:20,010 [INFO] E1 vs Early Fusion ElasticNet: Diff=-0.0580, t=-1.358, p=0.1871
+2026-10-08 19:29:20,011 [INFO] E1 vs E2: Diff=-0.0385, t=-1.111, p=0.2775
+2026-10-08 19:29:20,011 [INFO] E1 vs E3: Diff=-0.0160, t=-0.428, p=0.6722
+2026-10-08 19:29:20,012 [INFO] E1 vs E4: Diff=+0.0003, t=0.076, p=0.9398
+2026-10-08 19:29:20,012 [INFO] E1 vs E5: Diff=+0.0070, t=0.177, p=0.8613
+2026-10-08 19:29:20,013 [INFO] E1 vs E6: Diff=+0.0099, t=0.425, p=0.6744
+2026-10-08 19:29:20,014 [INFO] E1 vs E7: Diff=-0.0027, t=-0.102, p=0.9200
+2026-10-08 19:29:20,014 [INFO] E1 vs E10: Diff=-0.0160, t=-0.428, p=0.6722
+2026-10-08 19:29:20,015 [INFO] 
+===========================================================================
+2026-10-08 19:29:20,015 [INFO] STAGE 4: Explainability, Stability, Representation & Calibration
+2026-10-08 19:29:20,019 [INFO] ===========================================================================
+2026-10-08 19:29:20,020 [INFO] 
+C1: Computing Label-Permutation Null Stability Baseline (10 permutations)...
+2026-10-08 19:29:20,037 [INFO]   Permutation 01/10 loaded from checkpoint
+2026-10-08 19:29:20,050 [INFO]   Permutation 02/10 loaded from checkpoint
+2026-10-08 19:29:20,151 [INFO]   Permutation 03/10 loaded from checkpoint
+2026-10-08 19:29:20,177 [INFO]   Permutation 04/10 loaded from checkpoint
+2026-10-08 19:29:20,198 [INFO]   Permutation 05/10 loaded from checkpoint
+2026-10-08 19:29:20,212 [INFO]   Permutation 06/10 loaded from checkpoint
+2026-10-08 19:29:20,235 [INFO]   Permutation 07/10 loaded from checkpoint
+2026-10-08 19:29:20,259 [INFO]   Permutation 08/10 loaded from checkpoint
+2026-10-08 19:29:20,274 [INFO]   Permutation 09/10 loaded from checkpoint
+2026-10-08 19:29:20,291 [INFO]   Permutation 10/10 loaded from checkpoint
+2026-10-08 19:29:20,292 [INFO] --> Null Label-Permutation Stability: Mean Jaccard = 0.2063 +/- 0.0177
+2026-10-08 19:29:20,296 [INFO] --> Real E1 Pathway Stability across 25 folds: Mean Jaccard = 0.1104
+2026-10-08 19:29:20,296 [INFO] --> Difference vs Null: Delta = -0.0959 (empirical p = 1.000, 10 permutations)
+2026-10-08 19:29:20,704 [INFO] Saved figures/pathway_stability_vs_null.png
+2026-10-08 19:29:20,705 [INFO] 
+C2: Comparing Integrated Gradients vs ElasticNet SHAP...
+2026-10-08 19:34:01,804 [INFO] ===========================================================================
+2026-10-08 19:34:01,806 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-08 19:34:01,806 [INFO] ===========================================================================
+2026-10-08 19:34:01,806 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': [], 'all': True, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-08 19:34:01,806 [INFO] Experiments requested: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E10'] | Stage 4: True
+2026-10-08 19:34:01,877 [INFO] Loaded Core Cohort N=121 patients
+2026-10-08 19:34:01,877 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-08 19:34:01,877 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-08 19:34:06,673 [INFO] Feature matrix dimensions:
+2026-10-08 19:34:06,674 [INFO]   mRNA: (121, 11171)
+2026-10-08 19:34:06,674 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-08 19:34:06,674 [INFO]   Methylation: (121, 9778)
+2026-10-08 19:34:07,264 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-08 19:34:07,329 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-08 19:34:08,022 [INFO] E1: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:08,336 [INFO] E2: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:08,599 [INFO] E3: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:08,818 [INFO] E4: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:09,057 [INFO] E5: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:09,265 [INFO] E6: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:09,568 [INFO] E7: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:09,811 [INFO] E8: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:10,042 [INFO] E10: all 25 folds already on disk -> not retraining
+2026-10-08 19:34:10,058 [INFO] Requested experiments finished in 0.04 minutes (this session).
+2026-10-08 19:34:10,903 [INFO] 
+--- Computing Nadeau-Bengio Corrected Paired Tests ---
+2026-10-08 19:34:10,930 [INFO] E1 vs mRNA ElasticNet: Diff=-0.0453, t=-1.037, p=0.3100
+2026-10-08 19:34:10,931 [INFO] E1 vs Early Fusion ElasticNet: Diff=-0.0580, t=-1.358, p=0.1871
+2026-10-08 19:34:10,933 [INFO] E1 vs E2: Diff=-0.0385, t=-1.111, p=0.2775
+2026-10-08 19:34:10,934 [INFO] E1 vs E3: Diff=-0.0160, t=-0.428, p=0.6722
+2026-10-08 19:34:10,934 [INFO] E1 vs E4: Diff=+0.0003, t=0.076, p=0.9398
+2026-10-08 19:34:10,935 [INFO] E1 vs E5: Diff=+0.0070, t=0.177, p=0.8613
+2026-10-08 19:34:10,935 [INFO] E1 vs E6: Diff=+0.0099, t=0.425, p=0.6744
+2026-10-08 19:34:10,936 [INFO] E1 vs E7: Diff=-0.0027, t=-0.102, p=0.9200
+2026-10-08 19:34:10,936 [INFO] E1 vs E10: Diff=-0.0160, t=-0.428, p=0.6722
+2026-10-08 19:34:10,936 [INFO] 
+===========================================================================
+2026-10-08 19:34:10,936 [INFO] STAGE 4: Explainability, Stability, Representation & Calibration
+2026-10-08 19:34:10,937 [INFO] ===========================================================================
+2026-10-08 19:34:10,937 [INFO] 
+C1: Computing Label-Permutation Null Stability Baseline (10 permutations)...
+2026-10-08 19:34:10,938 [INFO]   Permutation 01/10 loaded from checkpoint
+2026-10-08 19:34:10,939 [INFO]   Permutation 02/10 loaded from checkpoint
+2026-10-08 19:34:10,940 [INFO]   Permutation 03/10 loaded from checkpoint
+2026-10-08 19:34:10,941 [INFO]   Permutation 04/10 loaded from checkpoint
+2026-10-08 19:34:10,942 [INFO]   Permutation 05/10 loaded from checkpoint
+2026-10-08 19:34:10,943 [INFO]   Permutation 06/10 loaded from checkpoint
+2026-10-08 19:34:10,958 [INFO]   Permutation 07/10 loaded from checkpoint
+2026-10-08 19:34:10,971 [INFO]   Permutation 08/10 loaded from checkpoint
+2026-10-08 19:34:10,983 [INFO]   Permutation 09/10 loaded from checkpoint
+2026-10-08 19:34:10,997 [INFO]   Permutation 10/10 loaded from checkpoint
+2026-10-08 19:34:10,997 [INFO] --> Null Label-Permutation Stability: Mean Jaccard = 0.2063 +/- 0.0177
+2026-10-08 19:34:11,003 [INFO] --> Real E1 Pathway Stability across 25 folds: Mean Jaccard = 0.1104
+2026-10-08 19:34:11,003 [INFO] --> Difference vs Null: Delta = -0.0959 (empirical p = 1.000, 10 permutations)
+2026-10-08 19:34:11,784 [INFO] Saved figures/pathway_stability_vs_null.png
+2026-10-08 19:34:11,784 [INFO] 
+C2: Comparing Integrated Gradients vs ElasticNet SHAP...
+2026-10-08 19:36:31,986 [INFO] ===========================================================================
+2026-10-08 19:36:31,998 [INFO] BioFusionFormer Final Benchmark Suite (v1-frozen) - RESUMABLE RUNNER
+2026-10-08 19:36:31,998 [INFO] ===========================================================================
+2026-10-08 19:36:31,999 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'exps': [], 'all': True, 'stage4': False, 'force': False, 'force_null': False, 'status': False, 'smoke': False}
+2026-10-08 19:36:32,000 [INFO] Experiments requested: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E10'] | Stage 4: True
+2026-10-08 19:36:33,553 [INFO] Loaded Core Cohort N=121 patients
+2026-10-08 19:36:33,612 [INFO]   Histology: Favorable=82, Unfavorable=39 (32.2%)
+2026-10-08 19:36:33,614 [INFO]   Vital Status: Alive=71, Dead=50 (41.3%)
+2026-10-08 19:36:43,714 [INFO] Feature matrix dimensions:
+2026-10-08 19:36:43,715 [INFO]   mRNA: (121, 11171)
+2026-10-08 19:36:43,716 [INFO]   miRNA (deduplicated unique): (121, 1035)
+2026-10-08 19:36:43,716 [INFO]   Methylation: (121, 9778)
+2026-10-08 19:36:44,509 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-08 19:36:44,638 [INFO] miRNA fallback active: 726 strong / 290 broad features mapped to fallback token.
+2026-10-08 19:36:45,644 [INFO] E1: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:45,761 [INFO] E2: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:45,837 [INFO] E3: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:45,918 [INFO] E4: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:46,031 [INFO] E5: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:46,098 [INFO] E6: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:46,202 [INFO] E7: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:46,312 [INFO] E8: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:46,405 [INFO] E10: all 25 folds already on disk -> not retraining
+2026-10-08 19:36:46,426 [INFO] Requested experiments finished in 0.03 minutes (this session).
+2026-10-08 19:36:48,226 [INFO] 
+--- Computing Nadeau-Bengio Corrected Paired Tests ---
+2026-10-08 19:36:48,256 [INFO] E1 vs mRNA ElasticNet: Diff=-0.0453, t=-1.037, p=0.3100
+2026-10-08 19:36:48,257 [INFO] E1 vs Early Fusion ElasticNet: Diff=-0.0580, t=-1.358, p=0.1871
+2026-10-08 19:36:48,263 [INFO] E1 vs E2: Diff=-0.0385, t=-1.111, p=0.2775
+2026-10-08 19:36:48,266 [INFO] E1 vs E3: Diff=-0.0160, t=-0.428, p=0.6722
+2026-10-08 19:36:48,267 [INFO] E1 vs E4: Diff=+0.0003, t=0.076, p=0.9398
+2026-10-08 19:36:48,268 [INFO] E1 vs E5: Diff=+0.0070, t=0.177, p=0.8613
+2026-10-08 19:36:48,270 [INFO] E1 vs E6: Diff=+0.0099, t=0.425, p=0.6744
+2026-10-08 19:36:48,272 [INFO] E1 vs E7: Diff=-0.0027, t=-0.102, p=0.9200
+2026-10-08 19:36:48,277 [INFO] E1 vs E10: Diff=-0.0160, t=-0.428, p=0.6722
+2026-10-08 19:36:48,279 [INFO] 
+===========================================================================
+2026-10-08 19:36:48,281 [INFO] STAGE 4: Explainability, Stability, Representation & Calibration
+2026-10-08 19:36:48,282 [INFO] ===========================================================================
+2026-10-08 19:36:48,283 [INFO] 
+C1: Computing Label-Permutation Null Stability Baseline (10 permutations)...
+2026-10-08 19:36:48,286 [INFO]   Permutation 01/10 loaded from checkpoint
+2026-10-08 19:36:48,290 [INFO]   Permutation 02/10 loaded from checkpoint
+2026-10-08 19:36:48,295 [INFO]   Permutation 03/10 loaded from checkpoint
+2026-10-08 19:36:48,299 [INFO]   Permutation 04/10 loaded from checkpoint
+2026-10-08 19:36:48,301 [INFO]   Permutation 05/10 loaded from checkpoint
+2026-10-08 19:36:48,303 [INFO]   Permutation 06/10 loaded from checkpoint
+2026-10-08 19:36:48,305 [INFO]   Permutation 07/10 loaded from checkpoint
+2026-10-08 19:36:48,307 [INFO]   Permutation 08/10 loaded from checkpoint
+2026-10-08 19:36:48,310 [INFO]   Permutation 09/10 loaded from checkpoint
+2026-10-08 19:36:48,312 [INFO]   Permutation 10/10 loaded from checkpoint
+2026-10-08 19:36:48,314 [INFO] --> Null Label-Permutation Stability: Mean Jaccard = 0.2063 +/- 0.0177
+2026-10-08 19:36:48,323 [INFO] --> Real E1 Pathway Stability across 25 folds: Mean Jaccard = 0.1104
+2026-10-08 19:36:48,325 [INFO] --> Difference vs Null: Delta = -0.0959 (empirical p = 1.000, 10 permutations)
+2026-10-08 19:36:49,224 [INFO] Saved figures/pathway_stability_vs_null.png
+2026-10-08 19:36:49,226 [INFO] 
+C2: Comparing Integrated Gradients vs ElasticNet SHAP...
+2026-10-08 19:57:21,996 [INFO] Top-20 Pathway Overlap: 12 / 20 shared pathways | Jaccard = 0.4286
+2026-10-08 19:57:23,279 [INFO] Saved figures/ig_vs_shap_top_pathways.png
+2026-10-08 19:57:23,279 [INFO] 
+C3: Shared Fused Patient Representation (UMAP & PCA)...
+2026-10-08 19:57:43,014 [INFO] Top-20 Pathway Overlap: 12 / 20 shared pathways | Jaccard = 0.4286
+2026-10-08 19:57:44,810 [INFO] Saved figures/ig_vs_shap_top_pathways.png
+2026-10-08 19:57:44,811 [INFO] 
+C3: Shared Fused Patient Representation (UMAP & PCA)...
+2026-10-08 19:57:56,213 [INFO] Histology Separation: PCA Silhouette = 0.0730 | UMAP Silhouette = -0.0115
+2026-10-08 19:57:56,214 [INFO] Vital Status Separation: PCA Silhouette = -0.0036 | UMAP Silhouette = -0.0168
+2026-10-08 19:57:56,938 [INFO] Saved figures/representation_histology_pca_umap.png
+2026-10-08 19:57:57,734 [INFO] Saved figures/representation_vital_status_pca_umap.png
+2026-10-08 19:57:57,734 [INFO] 
+C4: Calibration Reliability Curves...
+2026-10-08 19:58:14,806 [INFO] Histology Separation: PCA Silhouette = 0.0730 | UMAP Silhouette = -0.0115
+2026-10-08 19:58:14,806 [INFO] Vital Status Separation: PCA Silhouette = -0.0036 | UMAP Silhouette = -0.0168
+2026-10-08 19:58:15,646 [INFO] Saved figures/representation_histology_pca_umap.png
+2026-10-08 19:58:16,405 [INFO] Saved figures/representation_vital_status_pca_umap.png
+2026-10-08 19:58:16,405 [INFO] 
+C4: Calibration Reliability Curves...
+2026-10-08 20:09:39,793 [INFO] Saved figures/calibration_reliability_curves.png
+2026-10-08 20:09:42,161 [INFO] 
+ALL FINAL RUN V1 AND STAGE 4 TASKS COMPLETED SUCCESSFULLY!
+2026-10-08 20:10:05,187 [INFO] Saved figures/calibration_reliability_curves.png
+2026-10-08 20:10:06,718 [INFO] 
+ALL FINAL RUN V1 AND STAGE 4 TASKS COMPLETED SUCCESSFULLY!
