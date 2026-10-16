@@ -165,3 +165,14 @@ class BioFusionFormerModel(nn.Module):
             "fusion": fusion,
             "head": head,
         }
+
+    def count_effective_parameters(self) -> int:
+        """Trainable parameters that can actually be non-zero.
+
+        count_parameters() counts the DENSE (out x in) weight of every MaskedLinear, although all entries
+        outside the Reactome/miRTarBase mask are fixed at 0 and receive no gradient. This method subtracts
+        those permanently-zero entries, i.e. it reports the number of free parameters.
+        """
+        total = sum(p.numel() for p in self.parameters() if p.requires_grad)
+        dead = sum(int((enc.masked_linear.mask == 0).sum().item()) for enc in self.encoders.values())
+        return total - dead
