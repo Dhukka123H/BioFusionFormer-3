@@ -1,6 +1,6 @@
 # TARGET-WT Clinical Data & EHR Feature Audit
 
-**Generated:** 2026-10-05T06:37:17.832363+00:00 UTC  
+**Generated:** 2026-10-16T10:12:35.437542+00:00 UTC  
 **GDC API Data Release:** Data Release 46.0 - August 10, 2026  
 **GDC API Commit:** `8f7c2a51ab0084b216ad1b62a3fae8b945439c53`  
 **Cohort Size:** 121 Primary Solid Tumor (-01A) Patients Aligned to 3-Omics Core  
@@ -81,81 +81,81 @@ To strictly prevent data leakage with respect to the primary classification task
 
 | Column | Dtype | % Missing | Unique | Status | Exclusion Rationale |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| `gdc_case_id` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_submitter_id` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_project_id` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
-| `gdc_demographic.demographic_id` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_demographic.race` | `str` | 0.0% | 4 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_demographic.ethnicity` | `str` | 0.0% | 3 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_demographic.vital_status` | `str` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_demographic.updated_datetime` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_case_id` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_submitter_id` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_project_id` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_demographic.demographic_id` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_demographic.race` | `object` | 0.0% | 4 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_demographic.ethnicity` | `object` | 0.0% | 3 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_demographic.vital_status` | `object` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `gdc_demographic.updated_datetime` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_demographic.age_is_obfuscated` | `bool` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_demographic.age_at_index` | `float64` | 0.0% | 14 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_demographic.submitter_id` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_demographic.state` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_demographic.submitter_id` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_demographic.state` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_demographic.days_to_birth` | `float64` | 0.0% | 117 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_demographic.sex_at_birth` | `str` | 0.0% | 2 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_demographic.created_datetime` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_diagnoses.pediatric_kidney_staging` | `str` | 10.7% | 4 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_demographic.sex_at_birth` | `object` | 0.0% | 2 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_demographic.created_datetime` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_diagnoses.pediatric_kidney_staging` | `object` | 10.7% | 4 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
 | `gdc_diagnoses.days_to_diagnosis` | `int64` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
-| `gdc_diagnoses.created_datetime` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_diagnoses.created_datetime` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
 | `gdc_diagnoses.last_known_disease_status` | `object` | 100.0% | 0 | ❌ EXCLUDE | HIGH MISSINGNESS: 100.0% missing (> 50% threshold) |
-| `gdc_diagnoses.tissue_or_organ_of_origin` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_diagnoses.tissue_or_organ_of_origin` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_diagnoses.days_to_last_follow_up` | `float64` | 0.0% | 118 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
 | `gdc_diagnoses.age_at_diagnosis` | `float64` | 0.0% | 117 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_diagnoses.primary_diagnosis` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
-| `gdc_diagnoses.updated_datetime` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_diagnoses.primary_diagnosis` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_diagnoses.updated_datetime` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_diagnoses.year_of_diagnosis` | `float64` | 0.0% | 9 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_diagnoses.state` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_diagnoses.state` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_diagnoses.diagnosis_is_primary_disease` | `bool` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_diagnoses.days_to_last_known_disease_status` | `object` | 100.0% | 0 | ❌ EXCLUDE | HIGH MISSINGNESS: 100.0% missing (> 50% threshold) |
 | `gdc_diagnoses.days_to_recurrence` | `object` | 100.0% | 0 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_diagnoses.morphology` | `str` | 0.0% | 1 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
-| `gdc_diagnoses.submitter_id` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_diagnoses.wilms_tumor_histologic_subtype` | `str` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
-| `gdc_diagnoses.classification_of_tumor` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
-| `gdc_diagnoses.diagnosis_id` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `gdc_diagnoses.icd_10_code` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_diagnoses.morphology` | `object` | 0.0% | 1 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
+| `gdc_diagnoses.submitter_id` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_diagnoses.wilms_tumor_histologic_subtype` | `object` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
+| `gdc_diagnoses.classification_of_tumor` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_diagnoses.diagnosis_id` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `gdc_diagnoses.icd_10_code` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_diagnoses.cog_renal_stage` | `object` | 100.0% | 0 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
-| `gdc_diagnoses.site_of_resection_or_biopsy` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `gdc_diagnoses.site_of_resection_or_biopsy` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
 | `gdc_diagnoses.tumor_grade` | `object` | 100.0% | 0 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
 | `gdc_diagnoses.progression_or_recurrence` | `object` | 100.0% | 0 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_follow_ups.timepoint_category` | `str` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_follow_ups.follow_up_id` | `str` | 0.0% | 121 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_follow_ups.updated_datetime` | `str` | 0.0% | 1 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_follow_ups.submitter_id` | `str` | 0.0% | 121 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `gdc_follow_ups.timepoint_category` | `object` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `gdc_follow_ups.follow_up_id` | `object` | 0.0% | 121 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `gdc_follow_ups.updated_datetime` | `object` | 0.0% | 1 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `gdc_follow_ups.submitter_id` | `object` | 0.0% | 121 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
 | `gdc_follow_ups.year_of_follow_up` | `float64` | 48.8% | 16 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_follow_ups.state` | `str` | 0.0% | 1 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `gdc_follow_ups.state` | `object` | 0.0% | 1 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
 | `gdc_follow_ups.days_to_follow_up` | `float64` | 0.0% | 113 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_follow_ups.created_datetime` | `str` | 0.0% | 121 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_demographic.cause_of_death` | `str` | 58.7% | 3 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `gdc_follow_ups.created_datetime` | `object` | 0.0% | 121 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `gdc_demographic.cause_of_death` | `object` | 58.7% | 3 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
 | `gdc_demographic.days_to_death` | `float64` | 58.7% | 49 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
 | `gdc_follow_ups.days_to_first_event` | `float64` | 51.2% | 53 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `gdc_follow_ups.first_event` | `str` | 51.2% | 3 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `supp_TARGET USI` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `supp_Gender` | `str` | 0.0% | 2 | ✅ KEEP | Clean baseline feature |
-| `supp_Race` | `str` | 0.0% | 4 | ✅ KEEP | Clean baseline feature |
-| `supp_Ethnicity` | `str` | 0.0% | 3 | ✅ KEEP | Clean baseline feature |
+| `gdc_follow_ups.first_event` | `object` | 51.2% | 3 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `supp_TARGET USI` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `supp_Gender` | `object` | 0.0% | 2 | ✅ KEEP | Clean baseline feature |
+| `supp_Race` | `object` | 0.0% | 4 | ✅ KEEP | Clean baseline feature |
+| `supp_Ethnicity` | `object` | 0.0% | 3 | ✅ KEEP | Clean baseline feature |
 | `supp_Age at Diagnosis in Days` | `int64` | 0.0% | 117 | ✅ KEEP | Clean baseline feature |
-| `supp_First Event` | `str` | 20.7% | 2 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `supp_First Event` | `object` | 20.7% | 2 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
 | `supp_Event Free Survival Time in Days` | `int64` | 0.0% | 109 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `supp_Vital Status` | `str` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `supp_Vital Status` | `object` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
 | `supp_Overall Survival Time in Days` | `int64` | 0.0% | 118 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
 | `supp_Year of Diagnosis` | `int64` | 0.0% | 9 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
 | `supp_Year of Last Follow Up` | `int64` | 0.0% | 19 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `supp_Protocol` | `str` | 0.0% | 2 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `supp_Stage` | `str` | 0.0% | 5 | ✅ KEEP | Clean baseline feature |
-| `supp_ICD-O-3-M` | `str` | 0.0% | 1 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
-| `supp_ICD-O-3-T` | `str` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
-| `supp_Histologic Classification of Primary Tumor` | `str` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
-| `supp_Reason for Death` | `str` | 58.7% | 4 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
-| `nuclei_TARGET USI` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `nuclei_TARGET - Sample ID` | `str` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
-| `nuclei_Histological Subtype` | `str` | 1.7% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
-| `nuclei_Specimen Type` | `str` | 0.8% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
-| `nuclei_Specimen Sub type` | `str` | 100.0% | 0 | ❌ EXCLUDE | HIGH MISSINGNESS: 100.0% missing (> 50% threshold) |
-| `nuclei_Adequate Tissue (Y/N)` | `str` | 100.0% | 0 | ❌ EXCLUDE | HIGH MISSINGNESS: 100.0% missing (> 50% threshold) |
-| `nuclei_Pathology: Diagnosis Confirmed` | `str` | 1.7% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
+| `supp_Protocol` | `object` | 0.0% | 2 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `supp_Stage` | `object` | 0.0% | 5 | ✅ KEEP | Clean baseline feature |
+| `supp_ICD-O-3-M` | `object` | 0.0% | 1 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
+| `supp_ICD-O-3-T` | `object` | 0.0% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `supp_Histologic Classification of Primary Tumor` | `object` | 0.0% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
+| `supp_Reason for Death` | `object` | 58.7% | 4 | ❌ EXCLUDE | LEAKAGE: Survival/Outcome/Follow-up (post-baseline event, not baseline clinical EHR) |
+| `nuclei_TARGET USI` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `nuclei_TARGET - Sample ID` | `object` | 0.0% | 121 | ❌ EXCLUDE | ADMINISTRATIVE: Identifier, timestamp, study year, or constant/uninformative metadata |
+| `nuclei_Histological Subtype` | `object` | 1.7% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
+| `nuclei_Specimen Type` | `object` | 0.8% | 1 | ❌ EXCLUDE | LOW VARIANCE: Constant column (unique values = 1) |
+| `nuclei_Specimen Sub type` | `object` | 100.0% | 0 | ❌ EXCLUDE | HIGH MISSINGNESS: 100.0% missing (> 50% threshold) |
+| `nuclei_Adequate Tissue (Y/N)` | `object` | 100.0% | 0 | ❌ EXCLUDE | HIGH MISSINGNESS: 100.0% missing (> 50% threshold) |
+| `nuclei_Pathology: Diagnosis Confirmed` | `object` | 1.7% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
 | `nuclei_% Tumor Nuclei: Top` | `float64` | 0.8% | 8 | ✅ KEEP | Clean baseline feature |
 | `nuclei_% Non tumor Nuclei: Top` | `float64` | 0.8% | 8 | ❌ EXCLUDE | REDUNDANT: Collinear biopsy metric (complement or duplicate of Top section) |
 | `nuclei_% Cellular Tumor: Top` | `float64` | 0.8% | 13 | ❌ EXCLUDE | REDUNDANT: Collinear biopsy metric (complement or duplicate of Top section) |
@@ -168,7 +168,7 @@ To strictly prevent data leakage with respect to the primary classification task
 | `nuclei_% Normal: Bottom` | `float64` | 0.8% | 4 | ❌ EXCLUDE | REDUNDANT: Collinear biopsy metric (complement or duplicate of Top section) |
 | `nuclei_% Stroma: Bottom` | `float64` | 0.8% | 13 | ❌ EXCLUDE | REDUNDANT: Collinear biopsy metric (complement or duplicate of Top section) |
 | `nuclei_% Necrosis: Bottom` | `float64` | 0.8% | 7 | ❌ EXCLUDE | REDUNDANT: Collinear biopsy metric (complement or duplicate of Top section) |
-| `nuclei_Pathology Pass/Fail` | `str` | 0.8% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
+| `nuclei_Pathology Pass/Fail` | `object` | 0.8% | 2 | ❌ EXCLUDE | LEAKAGE: Histology/Subtype/Morphology/COG risk (correlates directly with target) |
 
 ---
 
