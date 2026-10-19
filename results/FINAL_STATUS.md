@@ -27,17 +27,19 @@ The parameter count discrepancy identified in Fork 7 has been rigorously resolve
 - **Dense Total Trainable Parameters:** **4,249,284** (~4.25M)
 - **Effective Free Parameters (non-zero by mask):** **47,221** (~47.2k)
 
-| Component | Dense Total Parameters | Effective Free Parameters | Description |
-| :--- | :---: | :---: | :--- |
-| **mRNA Modality Encoder** | 2,145,024 | 12,059 | 192 Reactome pathways $\times$ 11,171 genes (MaskedLinear) |
-| **miRNA Modality Encoder** | 198,912 | 1,223 | 192 Reactome pathways $\times$ 1,035 unique miRNAs |
-| **Methylation Modality Encoder** | 1,877,568 | 8,151 | 192 Reactome pathways $\times$ 9,778 CpG promoter means |
-| **Cross-Modal Transformer** | 25,218 | 25,218 | 2 layers, 4 heads, $d_{\text{model}}=32$, $d_{\text{ff}}=128$ |
-| **Adaptive Modality Gate** | 545 | 545 | Modality-specific gating network (mRNA, miRNA, meth) |
-| **Classification Head** | 545 | 545 | 2-layer MLP: $32 \rightarrow 16 \rightarrow 1$ |
-| **Total** | **4,249,284** | **47,221** | Trainable parameters (documented in `results/model/parameter_count.md`) |
+| Component | Dense Total Parameters | Mask Non-Zeros | Extra Parameters | Effective Free Parameters | Description |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **mRNA Modality Encoder** | 2,145,472 | 7,148 | 640 | 7,788 | 192 Reactome pathways $\times$ 11,171 genes (MaskedLinear + extra 640) |
+| **miRNA Modality Encoder** | 199,360 | 5,768 | 640 | 6,408 | 192 Reactome pathways $\times$ 1,035 miRNAs (incl. 726 fallback edges + extra 640) |
+| **Methylation Modality Encoder** | 1,878,016 | 5,949 | 640 | 6,589 | 192 Reactome pathways $\times$ 9,778 CpGs (MaskedLinear + extra 640) |
+| **[CLS] Token** | 32 | — | — | 32 | Learnable classification token ($1 \times 1 \times 32$) |
+| **Modality Embedding** | 96 | — | — | 96 | Modality type embeddings ($3 \times 32$) |
+| **Cross-Modal Transformer** | 25,218 | — | — | 25,218 | 2 layers, 4 heads, $d_{\text{model}}=32$, $d_{\text{ff}}=128$ |
+| **Adaptive Modality Gate** | 545 | — | — | 545 | Modality-specific gating network (mRNA, miRNA, meth) |
+| **Classification Head** | 545 | — | — | 545 | 2-layer MLP: $32 \rightarrow 16 \rightarrow 1$ |
+| **Total** | **4,249,284** | **18,865** | **1,920** | **47,221** | Trainable parameters (documented in `results/model/parameter_count.md`) |
 
-*Clarification:* The previous "62,450" figure referenced the non-zero effective parameters in earlier unpruned masks. Both numbers are now quoted together.
+*Clarification:* 62,450 appeared in an earlier draft and could not be reproduced. The verified free-parameter count is 47,221.
 
 ---
 
@@ -45,13 +47,14 @@ The parameter count discrepancy identified in Fork 7 has been rigorously resolve
 
 Evaluated across all 25 outer folds ($5 \times 5$-fold CV) with seeds `[42, 123, 999]`:
 
-| Metric | Frozen Value | Nadeau-Bengio 95% CI | Naive 95% CI (Invalid) |
-| :--- | :---: | :---: | :---: |
-| **AUROC** | **0.8716** | **[0.8023, 0.9408]** | [0.8470, 0.8961] |
-| **AUPRC** | **0.7725** | [0.6558, 0.8892] | [0.7317, 0.8133] |
-| **Brier Score** | **0.1365** | [0.1065, 0.1664] | [0.1260, 0.1469] |
-| **Balanced Accuracy** | **0.7969** | [0.7303, 0.8635] | [0.7736, 0.8202] |
-| **Macro F1 Score** | **0.7938** | [0.7259, 0.8617] | [0.7701, 0.8175] |
+| Metric | Cross-Validated Mean | Nadeau-Bengio 95% CI | Type |
+| :--- | :---: | :---: | :--- |
+| **AUROC** | **0.8716** | **[0.8023, 0.9408]** | Fold-mean |
+| **AUPRC** | **0.8332** | [0.7434, 0.9230] | Fold-mean |
+| **Balanced Accuracy** | **0.7653** | [0.6821, 0.8486] | Fold-mean |
+| **Macro F1 Score** | **0.7697** | [0.6839, 0.8554] | Fold-mean |
+| **Brier Score (fold mean)** | **0.1436** | [0.1089, 0.1783] | Fold-mean |
+| **Brier Score (pooled)** | **0.1365** | — | pooled (no CI) |
 
 - **Adaptive Modality Gate Weights:** mRNA: **0.321**, miRNA: **0.399**, Methylation: **0.281** (balanced integration across all 3 omics).
 - **Attention Rollout Spread:** Max/min ratio = **1.06x** (near uniform; attention rollout cannot be claimed as an explanation mechanism).

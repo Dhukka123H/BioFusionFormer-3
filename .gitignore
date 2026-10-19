@@ -19,7 +19,8 @@ experiments/*_repro/
 experiments/*.bak_*
 experiments/*/E1.bak_*
 experiments/**/.lock
-logs/e1_*.log
+logs/*.log
+logs/**/*.log
 results_smoke/
 figures_smoke/
 

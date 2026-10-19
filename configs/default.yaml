@@ -42,9 +42,9 @@ data:
 
 model:
   target_parameter_budget: 500000
-  # NOTE: count_parameters() reports the DENSE masked weights (~4.2M); the number of FREE parameters
-  # (mask non-zeros + the rest) is given by BioFusionFormerModel.count_effective_parameters() (~50-60k).
-  effective_parameter_count_reported_earlier: 62450   # verify with count_effective_parameters()
+  # NOTE: count_parameters() reports dense masked weights (4,249,284); free parameters = 47,221 (BioFusionFormerModel.count_effective_parameters()).
+  # 62,450 appeared in an earlier draft and could not be reproduced.
+  effective_free_parameters: 47221
   d_model: 32                   # Token dimension
   n_heads: 4
   n_layers: 2

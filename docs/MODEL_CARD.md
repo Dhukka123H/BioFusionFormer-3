@@ -55,11 +55,11 @@ Confidence intervals use the **Nadeau-Bengio corrected resampled $t$-interval** 
 | Metric | Cross-Validated Mean | Nadeau-Bengio 95% CI |
 |---|---|---|
 | **AUROC** | **0.8716** | **[0.8023, 0.9408]** |
-| **AUPRC** (prevalence 0.322) | **0.8332** | [0.7410, 0.9254] |
-| **Balanced Accuracy** | **0.7653** | [0.7011, 0.8295] |
-| **Macro-F1** | **0.7697** | [0.7092, 0.8302] |
-| **Brier Score (fold mean)** | **0.1436** | [0.1182, 0.1690] |
-| **Brier Score (pooled OOF)** | **0.1365** | — |
+| **AUPRC** (prevalence 0.322) | **0.8332** | [0.7434, 0.9230] |
+| **Balanced Accuracy** | **0.7653** | [0.6821, 0.8486] |
+| **Macro-F1** | **0.7697** | [0.6839, 0.8554] |
+| **Brier Score (fold mean)** | **0.1436** | [0.1089, 0.1783] |
+| **Brier Score (pooled OOF)** | **0.1365** | pooled (no CI) |
 
 *Per-repeat mean AUROCs:* 0.876, 0.861, 0.867, 0.898, 0.856 (run-to-run SD: 0.017).
 

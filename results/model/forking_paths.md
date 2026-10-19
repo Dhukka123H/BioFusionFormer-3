@@ -66,8 +66,8 @@ behaviour. A dedicated extra token is an architecture change and would be a new,
 
 ### Fork 7: parameter count
 `count_parameters()` counts the dense masked weight matrices (192 x 11,171 + 192 x 1,035 + 192 x 9,778 = 4,220,928 entries);
-only 18,865 of them are allowed to be non-zero. The "62,450 trainable parameters" figure refers to free parameters.
-Use `BioFusionFormerModel.count_effective_parameters()` and quote both numbers.
+only 18,865 of them are allowed to be non-zero. The verified free-parameter count is 47,221 (62,450 appeared in an earlier draft and could not be reproduced).
+Use `BioFusionFormerModel.count_effective_parameters()` (47,221) and dense count (4,249,284) and quote both numbers.
 
 ### Fork 8: modality dropout only affects the gate
 During training modality dropout masks gate logits only; the transformer and the [CLS] token always see every modality, and
