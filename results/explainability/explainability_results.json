@@ -1,483 +1,823 @@
 {
-  "n_folds": 5,
+  "n_folds_evaluated": 5,
   "n_ig_steps": 50,
-  "ig_stability": {
-    "mean_pairwise_jaccard": 0.3885000087631666,
-    "recurrent_pathways_80pct": [
-      [
-        "R-HSA-350562",
-        1.0
-      ],
-      [
-        "R-HSA-72172",
-        1.0
-      ],
-      [
-        "R-HSA-72613",
-        0.8
-      ],
-      [
-        "R-HSA-72187",
-        0.8
-      ],
-      [
-        "R-HSA-72737",
-        0.8
-      ],
-      [
-        "R-HSA-72163",
-        0.8
-      ]
-    ]
+  "size_bias": {
+    "spearman_genuine_sum": 0.9098863154432858,
+    "p_val_genuine_sum": 1.5972424042455903e-74,
+    "spearman_size_norm": 0.4412818986993749,
+    "p_val_size_norm": 1.4887889204446668e-10,
+    "interpretation": "Genuine member sum correlates strongly with pathway feature count (Spearman 0.91). Size-normalised mean (|IG| / feature count) controls for pathway size."
   },
-  "en_stability": {
-    "mean_pairwise_jaccard": 0.5681506499497503,
-    "recurrent_pathways_80pct": [
-      [
-        "R-HSA-72613",
-        1.0
-      ],
-      [
-        "R-HSA-69618",
-        1.0
-      ],
-      [
-        "R-HSA-141424",
-        1.0
-      ],
-      [
-        "R-HSA-2408522",
-        1.0
-      ],
-      [
-        "R-HSA-156827",
-        1.0
-      ],
-      [
-        "R-HSA-72737",
-        1.0
-      ],
-      [
-        "R-HSA-9633012",
-        1.0
-      ],
-      [
-        "R-HSA-1799339",
-        1.0
-      ],
-      [
-        "R-HSA-72706",
-        1.0
-      ],
-      [
-        "R-HSA-2408557",
-        0.8
-      ],
-      [
-        "R-HSA-72689",
-        0.8
-      ],
-      [
-        "R-HSA-9954716",
-        0.8
-      ],
-      [
-        "R-HSA-8854518",
-        0.8
-      ],
-      [
-        "R-HSA-141444",
-        0.8
-      ]
-    ]
+  "redundancy_and_clusters": {
+    "total_pathways": 192,
+    "total_independent_clusters_jaccard_05": 93,
+    "top20_genuine_sum_clusters_count": 4,
+    "top20_genuine_sum_clusters": [
+      {
+        "cluster_id": 1,
+        "size": 15,
+        "members": [
+          "Cap-dependent Translation Initiation",
+          "Eukaryotic Translation Initiation",
+          "GTP hydrolysis and joining of the 60S ribosomal subunit",
+          "L13a-mediated translational silencing of Ceruloplasmin expression",
+          "Response of EIF2AK4 (GCN2) to amino acid deficiency",
+          "Selenoamino acid metabolism",
+          "Formation of a pool of free 40S subunits",
+          "SRP-dependent cotranslational protein targeting to membrane",
+          "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+          "Selenocysteine synthesis",
+          "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+          "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+          "Eukaryotic Translation Elongation",
+          "Eukaryotic Translation Termination",
+          "Peptide chain elongation"
+        ]
+      },
+      {
+        "cluster_id": 2,
+        "size": 2,
+        "members": [
+          "mRNA Splicing",
+          "mRNA Splicing - Major Pathway"
+        ]
+      },
+      {
+        "cluster_id": 3,
+        "size": 2,
+        "members": [
+          "mRNA 3'-end processing",
+          "mRNA Polyadenylation"
+        ]
+      },
+      {
+        "cluster_id": 4,
+        "size": 1,
+        "members": [
+          "Mitotic Spindle Checkpoint"
+        ]
+      }
+    ],
+    "top20_size_norm_clusters_count": 3,
+    "top20_size_norm_clusters": [
+      {
+        "cluster_id": 1,
+        "size": 14,
+        "members": [
+          "Peptide chain elongation",
+          "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+          "Selenocysteine synthesis",
+          "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+          "Eukaryotic Translation Termination",
+          "Formation of a pool of free 40S subunits",
+          "Eukaryotic Translation Elongation",
+          "Response of EIF2AK4 (GCN2) to amino acid deficiency",
+          "L13a-mediated translational silencing of Ceruloplasmin expression",
+          "GTP hydrolysis and joining of the 60S ribosomal subunit",
+          "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+          "Eukaryotic Translation Initiation",
+          "Cap-dependent Translation Initiation",
+          "SRP-dependent cotranslational protein targeting to membrane"
+        ]
+      },
+      {
+        "cluster_id": 3,
+        "size": 5,
+        "members": [
+          "Signaling by CTNNB1 phospho-site mutants",
+          "CTNNB1 S45 mutants aren't phosphorylated",
+          "CTNNB1 T41 mutants aren't phosphorylated",
+          "Signaling by GSK3beta mutants",
+          "CTNNB1 S37 mutants aren't phosphorylated"
+        ]
+      },
+      {
+        "cluster_id": 2,
+        "size": 1,
+        "members": [
+          "Formation of the ternary complex, and subsequently, the 43S complex"
+        ]
+      }
+    ],
+    "cluster_level_top5_stability": {
+      "genuine_sum": 0.4619047619047619,
+      "size_norm": 0.43690476190476185,
+      "null_cluster_sum_mean": null,
+      "null_cluster_norm_mean": null
+    }
   },
-  "null_stability": {
-    "n_perms_used": 0,
-    "mean_jaccard": null,
-    "std_jaccard": null,
-    "note": "Matched null: same E1 training procedure (max_epochs=100, patience=20). 0 permutation(s) used."
+  "stability_jaccard_top20": {
+    "ig_genuine_sum": 0.6170104405398524,
+    "ig_size_norm": 0.2765336765336765,
+    "elastic_net_mrna_sum": 0.5681506499497503,
+    "elastic_net_mrna_size_norm": 0.3682743182743182,
+    "null_matched_sum_values": [
+      0.4905819258888312,
+      0.2880382426544829,
+      0.39748841361744586
+    ],
+    "null_matched_sum_mean": 0.39203619405358664,
+    "null_matched_norm_values": [
+      0.37188158057723275,
+      0.23062440018961755,
+      0.25858836815358555
+    ],
+    "null_matched_norm_mean": 0.28703144964014526,
+    "n_null_permutations": 3,
+    "note": "Evaluated on 3 matched null permutations (seed 42 only). With 3 permutations, no p-value is given."
   },
-  "ig_vs_en_per_fold": {
-    "jaccard_top20": [
-      0.6666666666666666,
-      0.1111111111111111,
-      0.0,
-      0.6,
-      0.3333333333333333
-    ],
-    "spearman_all192": [
-      0.45313221586421304,
-      0.21152716538383817,
-      -0.025480473071978666,
-      0.45154315924801347,
-      0.4006936251257231
-    ],
-    "mean_jaccard": 0.3422222222222222,
-    "mean_spearman": 0.29828313850996185
+  "ig_en_agreement": {
+    "genuine_sum": {
+      "mean_top20_jaccard": 0.4899145299145299,
+      "mean_spearman_rho": 0.4731629870511015
+    },
+    "size_normalised": {
+      "mean_top20_jaccard": 0.010526315789473684,
+      "mean_spearman_rho": 0.024865341942291036
+    }
   },
-  "attention_rollout_secondary": {
-    "max_min_ratios_per_fold": [
-      1.1190285682678223,
-      1.1106435060501099,
-      1.0861150026321411,
-      1.1008622646331787,
-      1.055862307548523
+  "gene_and_feature_level_attribution": {
+    "stability_top20_jaccard": {
+      "mrna": 0.094651463459513,
+      "mirna": 0.08852266259387002,
+      "meth": 0.05080910870384554
+    },
+    "top20_mrna_genes": [
+      {
+        "rank": 1,
+        "name": "ENSG00000161970",
+        "score": 0.07586288452148438
+      },
+      {
+        "rank": 2,
+        "name": "ENSG00000182774",
+        "score": 0.06120331957936287
+      },
+      {
+        "rank": 3,
+        "name": "ENSG00000109475",
+        "score": 0.052820365875959396
+      },
+      {
+        "rank": 4,
+        "name": "ENSG00000100316",
+        "score": 0.04608392342925072
+      },
+      {
+        "rank": 5,
+        "name": "ENSG00000177600",
+        "score": 0.042173776775598526
+      },
+      {
+        "rank": 6,
+        "name": "ENSG00000265681",
+        "score": 0.04028726741671562
+      },
+      {
+        "rank": 7,
+        "name": "ENSG00000185088",
+        "score": 0.03611283376812935
+      },
+      {
+        "rank": 8,
+        "name": "ENSG00000108559",
+        "score": 0.035241805016994476
+      },
+      {
+        "rank": 9,
+        "name": "ENSG00000167526",
+        "score": 0.03409109637141228
+      },
+      {
+        "rank": 10,
+        "name": "ENSG00000280969",
+        "score": 0.03390319272875786
+      },
+      {
+        "rank": 11,
+        "name": "ENSG00000186468",
+        "score": 0.03307405859231949
+      },
+      {
+        "rank": 12,
+        "name": "ENSG00000110700",
+        "score": 0.03202056139707565
+      },
+      {
+        "rank": 13,
+        "name": "ENSG00000100353",
+        "score": 0.03118029609322548
+      },
+      {
+        "rank": 14,
+        "name": "ENSG00000125691",
+        "score": 0.029960360378026962
+      },
+      {
+        "rank": 15,
+        "name": "ENSG00000163923",
+        "score": 0.029379386454820633
+      },
+      {
+        "rank": 16,
+        "name": "ENSG00000105193",
+        "score": 0.029226362705230713
+      },
+      {
+        "rank": 17,
+        "name": "ENSG00000129824",
+        "score": 0.029194300994277
+      },
+      {
+        "rank": 18,
+        "name": "ENSG00000171858",
+        "score": 0.02866462990641594
+      },
+      {
+        "rank": 19,
+        "name": "ENSG00000166441",
+        "score": 0.027965882793068886
+      },
+      {
+        "rank": 20,
+        "name": "ENSG00000142676",
+        "score": 0.02718358114361763
+      }
     ],
-    "mean": 1.094502329826355,
-    "note": "Rollout near 1x indicates near-uniform attention; not used as primary explanation."
+    "top20_mirna_features": [
+      {
+        "rank": 1,
+        "name": "hsa-miR-34a-5p+coll_2",
+        "score": 0.041360873728990555
+      },
+      {
+        "rank": 2,
+        "name": "hsa-miR-100-5p+coll_2",
+        "score": 0.032119493931531906
+      },
+      {
+        "rank": 3,
+        "name": "hsa-miR-145-5p+coll_2",
+        "score": 0.030708789825439453
+      },
+      {
+        "rank": 4,
+        "name": "hsa-miR-155-5p+coll_2",
+        "score": 0.029874641448259354
+      },
+      {
+        "rank": 5,
+        "name": "hsa-miR-302b-5p+coll_2",
+        "score": 0.029736941680312157
+      },
+      {
+        "rank": 6,
+        "name": "hsa-miR-302d-5p+coll_2",
+        "score": 0.029398977756500244
+      },
+      {
+        "rank": 7,
+        "name": "hsa-miR-214-5p+coll_2",
+        "score": 0.02791156806051731
+      },
+      {
+        "rank": 8,
+        "name": "hsa-miR-132-5p+coll_2",
+        "score": 0.0274837426841259
+      },
+      {
+        "rank": 9,
+        "name": "hsa-miR-506-5p+coll_2",
+        "score": 0.026062076911330223
+      },
+      {
+        "rank": 10,
+        "name": "hsa-miR-223-5p+coll_2",
+        "score": 0.024986663833260536
+      },
+      {
+        "rank": 11,
+        "name": "hsa-miR-106a-5p+coll_2",
+        "score": 0.0244180615991354
+      },
+      {
+        "rank": 12,
+        "name": "hsa-miR-139-5p+coll_2",
+        "score": 0.022841621190309525
+      },
+      {
+        "rank": 13,
+        "name": "hsa-miR-3925-5p+coll_2",
+        "score": 0.02228350192308426
+      },
+      {
+        "rank": 14,
+        "name": "hsa-let-7b-5p+coll_2",
+        "score": 0.022154446691274643
+      },
+      {
+        "rank": 15,
+        "name": "hsa-miR-203a-5p+coll_2",
+        "score": 0.022000949829816818
+      },
+      {
+        "rank": 16,
+        "name": "hsa-miR-3174-5p+coll_2",
+        "score": 0.021441858261823654
+      },
+      {
+        "rank": 17,
+        "name": "hsa-miR-29b-3p",
+        "score": 0.02105727605521679
+      },
+      {
+        "rank": 18,
+        "name": "hsa-miR-6084-3p",
+        "score": 0.020764581859111786
+      },
+      {
+        "rank": 19,
+        "name": "hsa-miR-7-5p",
+        "score": 0.020692558959126472
+      },
+      {
+        "rank": 20,
+        "name": "hsa-miR-503-5p+coll_2",
+        "score": 0.02046341821551323
+      }
+    ],
+    "top20_meth_features": [
+      {
+        "rank": 1,
+        "name": "ENSG00000229117",
+        "score": 0.01863080821931362
+      },
+      {
+        "rank": 2,
+        "name": "ENSG00000147604",
+        "score": 0.016155552119016647
+      },
+      {
+        "rank": 3,
+        "name": "ENSG00000145425",
+        "score": 0.014853586442768574
+      },
+      {
+        "rank": 4,
+        "name": "ENSG00000069248",
+        "score": 0.01470954529941082
+      },
+      {
+        "rank": 5,
+        "name": "ENSG00000085415",
+        "score": 0.014355035498738289
+      },
+      {
+        "rank": 6,
+        "name": "ENSG00000145592",
+        "score": 0.014093553647398949
+      },
+      {
+        "rank": 7,
+        "name": "ENSG00000151247",
+        "score": 0.014083889313042164
+      },
+      {
+        "rank": 8,
+        "name": "ENSG00000149273",
+        "score": 0.012756231240928173
+      },
+      {
+        "rank": 9,
+        "name": "ENSG00000089009",
+        "score": 0.012729656882584095
+      },
+      {
+        "rank": 10,
+        "name": "ENSG00000134419",
+        "score": 0.011603513732552528
+      },
+      {
+        "rank": 11,
+        "name": "ENSG00000137818",
+        "score": 0.011546380817890167
+      },
+      {
+        "rank": 12,
+        "name": "ENSG00000161970",
+        "score": 0.010999382473528385
+      },
+      {
+        "rank": 13,
+        "name": "ENSG00000120253",
+        "score": 0.010875383391976357
+      },
+      {
+        "rank": 14,
+        "name": "ENSG00000221983",
+        "score": 0.01056797243654728
+      },
+      {
+        "rank": 15,
+        "name": "ENSG00000182774",
+        "score": 0.010562384501099586
+      },
+      {
+        "rank": 16,
+        "name": "ENSG00000162244",
+        "score": 0.010162312537431717
+      },
+      {
+        "rank": 17,
+        "name": "ENSG00000112306",
+        "score": 0.009673671796917915
+      },
+      {
+        "rank": 18,
+        "name": "ENSG00000105568",
+        "score": 0.009499038569629192
+      },
+      {
+        "rank": 19,
+        "name": "ENSG00000110713",
+        "score": 0.009254300966858864
+      },
+      {
+        "rank": 20,
+        "name": "ENSG00000177954",
+        "score": 0.009239062666893005
+      }
+    ],
+    "label": "Descriptive gene- and feature-level attribution view",
+    "null_baseline_note": "Null attributions were not stored at feature level; no matched null baseline exists for feature-level rankings."
   },
-  "calibration": {
-    "brier_pooled_oof_25folds": 0.13651328750083577,
-    "logistic_recalibration_slope": 4.206935763111955,
-    "logistic_recalibration_intercept": 3.080152514752109,
-    "note": "Calibration uses all 25 frozen fold OOF predictions averaged over repeats. Logistic recalibration (Platt scaling) slope: >1 = overconfident, <1 = underconfident."
+  "recalibration": {
+    "ensemble_repeat_averaged": {
+      "slope": 2.2538630965826125,
+      "slope_ci_95": [
+        1.7692666432443043,
+        3.153584951280702
+      ],
+      "intercept": -0.07588014978142035,
+      "intercept_ci_95": [
+        -0.6017752706300574,
+        0.5243974083994337
+      ],
+      "brier_before": 0.13651328750083577,
+      "brier_after_5fold_cv": 0.12128860019246597,
+      "formula": "logit_cal = slope * logit(p) + intercept",
+      "previous_bug_explanation": "The previous 4.207 / 3.080 values arose from calling np.log(oof) instead of logit(oof). The mathematically correct logit-space slope is ~2.25 and intercept ~ -0.08."
+    },
+    "deployment_single_repeat_check": {
+      "per_repeat": [
+        {
+          "repeat": 1,
+          "slope": 1.9736642115449965,
+          "intercept": -0.22311677085553688,
+          "brier_before": 0.13549974595541017,
+          "brier_after": 0.11939606691545843,
+          "within_earlier_ci": true
+        },
+        {
+          "repeat": 2,
+          "slope": 1.9490065152356162,
+          "intercept": -0.2214456911887306,
+          "brier_before": 0.15153024341565746,
+          "brier_after": 0.1336607300278253,
+          "within_earlier_ci": true
+        },
+        {
+          "repeat": 3,
+          "slope": 1.685743126120096,
+          "intercept": -0.2718324304977895,
+          "brier_before": 0.13431645485503124,
+          "brier_after": 0.11986849056643972,
+          "within_earlier_ci": false
+        },
+        {
+          "repeat": 4,
+          "slope": 1.7393158336361947,
+          "intercept": -0.17666921580287817,
+          "brier_before": 0.13169869363752637,
+          "brier_after": 0.12074150869040928,
+          "within_earlier_ci": false
+        },
+        {
+          "repeat": 5,
+          "slope": 1.4342871890491975,
+          "intercept": -0.38606429150342947,
+          "brier_before": 0.16502449648839967,
+          "brier_after": 0.1538687835246322,
+          "within_earlier_ci": false
+        }
+      ],
+      "pooled_single_repeat": {
+        "slope": 1.730962498539443,
+        "slope_ci_95": [
+          1.3521675255640095,
+          2.285664784038914
+        ],
+        "intercept": -0.270988870008182,
+        "intercept_ci_95": [
+          -0.7188055952803026,
+          0.20217827447940426
+        ]
+      },
+      "earlier_ensemble_ci": [
+        1.7692666432443043,
+        3.153584951280702
+      ],
+      "is_consistent_with_earlier_ci": false,
+      "policy_recommendation": "Show raw score with 'not calibrated' label"
+    }
   },
-  "top20_ig_per_fold": [
-    [
-      "R-HSA-350562",
-      "R-HSA-72613",
-      "R-HSA-72737",
-      "R-HSA-72706",
-      "R-HSA-156827",
-      "R-HSA-9633012",
-      "R-HSA-1799339",
-      "R-HSA-72689",
-      "R-HSA-2408522",
-      "R-HSA-2408557",
-      "R-HSA-975956",
-      "R-HSA-9954714",
-      "R-HSA-156842",
-      "R-HSA-9954716",
-      "R-HSA-72764",
-      "R-HSA-156902",
-      "R-HSA-72172",
-      "R-HSA-72163",
-      "R-HSA-72187",
-      "R-HSA-9770562"
-    ],
-    [
-      "R-HSA-350562",
-      "R-HSA-72172",
-      "R-HSA-72163",
-      "R-HSA-72187",
-      "R-HSA-5674400",
-      "R-HSA-9770562",
-      "R-HSA-8934593",
-      "R-HSA-1538133",
-      "R-HSA-9670439",
-      "R-HSA-9669938",
-      "R-HSA-9671555",
-      "R-HSA-9673770",
-      "R-HSA-9673767",
-      "R-HSA-8953750",
-      "R-HSA-9665348",
-      "R-HSA-9703465",
-      "R-HSA-5637810",
-      "R-HSA-5637812",
-      "R-HSA-72613",
-      "R-HSA-72737"
-    ],
-    [
-      "R-HSA-350562",
-      "R-HSA-5674400",
-      "R-HSA-9670439",
-      "R-HSA-9669938",
-      "R-HSA-8934593",
-      "R-HSA-9703465",
-      "R-HSA-9671555",
-      "R-HSA-1538133",
-      "R-HSA-9673770",
-      "R-HSA-9673767",
-      "R-HSA-8953750",
-      "R-HSA-9665348",
-      "R-HSA-5637810",
-      "R-HSA-5637812",
-      "R-HSA-198693",
-      "R-HSA-9931509",
-      "R-HSA-69205",
-      "R-HSA-9013420",
-      "R-HSA-72172",
-      "R-HSA-9617629"
-    ],
-    [
-      "R-HSA-350562",
-      "R-HSA-72172",
-      "R-HSA-72163",
-      "R-HSA-72613",
-      "R-HSA-72737",
-      "R-HSA-156827",
-      "R-HSA-72706",
-      "R-HSA-9633012",
-      "R-HSA-72689",
-      "R-HSA-72187",
-      "R-HSA-975956",
-      "R-HSA-2408522",
-      "R-HSA-1799339",
-      "R-HSA-156842",
-      "R-HSA-9954716",
-      "R-HSA-9954714",
-      "R-HSA-156902",
-      "R-HSA-72764",
-      "R-HSA-2408557",
-      "R-HSA-9770562"
-    ],
-    [
-      "R-HSA-350562",
-      "R-HSA-72172",
-      "R-HSA-72163",
-      "R-HSA-72613",
-      "R-HSA-72737",
-      "R-HSA-72706",
-      "R-HSA-156827",
-      "R-HSA-9633012",
-      "R-HSA-9669938",
-      "R-HSA-9670439",
-      "R-HSA-9671555",
-      "R-HSA-72689",
-      "R-HSA-9673767",
-      "R-HSA-9673770",
-      "R-HSA-8934593",
-      "R-HSA-2408522",
-      "R-HSA-1799339",
-      "R-HSA-975956",
-      "R-HSA-2408557",
-      "R-HSA-72187"
-    ]
+  "top20_genuine_member_sum": [
+    {
+      "rank": 1,
+      "id": "R-HSA-72737",
+      "name": "Cap-dependent Translation Initiation",
+      "score": 3.1622188091278076,
+      "is_generic": true
+    },
+    {
+      "rank": 2,
+      "id": "R-HSA-72613",
+      "name": "Eukaryotic Translation Initiation",
+      "score": 3.1622188091278076,
+      "is_generic": true
+    },
+    {
+      "rank": 3,
+      "id": "R-HSA-72706",
+      "name": "GTP hydrolysis and joining of the 60S ribosomal subunit",
+      "score": 3.034426212310791,
+      "is_generic": true
+    },
+    {
+      "rank": 4,
+      "id": "R-HSA-156827",
+      "name": "L13a-mediated translational silencing of Ceruloplasmin expression",
+      "score": 3.0255625247955322,
+      "is_generic": true
+    },
+    {
+      "rank": 5,
+      "id": "R-HSA-72172",
+      "name": "mRNA Splicing",
+      "score": 3.012373447418213,
+      "is_generic": true
+    },
+    {
+      "rank": 6,
+      "id": "R-HSA-72163",
+      "name": "mRNA Splicing - Major Pathway",
+      "score": 2.9704227447509766,
+      "is_generic": true
+    },
+    {
+      "rank": 7,
+      "id": "R-HSA-9633012",
+      "name": "Response of EIF2AK4 (GCN2) to amino acid deficiency",
+      "score": 2.861863613128662,
+      "is_generic": false
+    },
+    {
+      "rank": 8,
+      "id": "R-HSA-2408522",
+      "name": "Selenoamino acid metabolism",
+      "score": 2.7190518379211426,
+      "is_generic": false
+    },
+    {
+      "rank": 9,
+      "id": "R-HSA-72689",
+      "name": "Formation of a pool of free 40S subunits",
+      "score": 2.7021353244781494,
+      "is_generic": false
+    },
+    {
+      "rank": 10,
+      "id": "R-HSA-1799339",
+      "name": "SRP-dependent cotranslational protein targeting to membrane",
+      "score": 2.6733479499816895,
+      "is_generic": true
+    },
+    {
+      "rank": 11,
+      "id": "R-HSA-975956",
+      "name": "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+      "score": 2.594393253326416,
+      "is_generic": false
+    },
+    {
+      "rank": 12,
+      "id": "R-HSA-2408557",
+      "name": "Selenocysteine synthesis",
+      "score": 2.5367636680603027,
+      "is_generic": false
+    },
+    {
+      "rank": 13,
+      "id": "R-HSA-9954716",
+      "name": "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+      "score": 2.524401903152466,
+      "is_generic": true
+    },
+    {
+      "rank": 14,
+      "id": "R-HSA-9954714",
+      "name": "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+      "score": 2.520383596420288,
+      "is_generic": true
+    },
+    {
+      "rank": 15,
+      "id": "R-HSA-156842",
+      "name": "Eukaryotic Translation Elongation",
+      "score": 2.5079948902130127,
+      "is_generic": true
+    },
+    {
+      "rank": 16,
+      "id": "R-HSA-72764",
+      "name": "Eukaryotic Translation Termination",
+      "score": 2.5029404163360596,
+      "is_generic": true
+    },
+    {
+      "rank": 17,
+      "id": "R-HSA-156902",
+      "name": "Peptide chain elongation",
+      "score": 2.4887194633483887,
+      "is_generic": true
+    },
+    {
+      "rank": 18,
+      "id": "R-HSA-72187",
+      "name": "mRNA 3'-end processing",
+      "score": 2.376523494720459,
+      "is_generic": false
+    },
+    {
+      "rank": 19,
+      "id": "R-HSA-9770562",
+      "name": "mRNA Polyadenylation",
+      "score": 2.061156749725342,
+      "is_generic": false
+    },
+    {
+      "rank": 20,
+      "id": "R-HSA-69618",
+      "name": "Mitotic Spindle Checkpoint",
+      "score": 1.6122872829437256,
+      "is_generic": false
+    }
   ],
-  "top20_en_per_fold": [
-    [
-      "R-HSA-72737",
-      "R-HSA-72613",
-      "R-HSA-156827",
-      "R-HSA-72706",
-      "R-HSA-9633012",
-      "R-HSA-2408522",
-      "R-HSA-1799339",
-      "R-HSA-72689",
-      "R-HSA-72764",
-      "R-HSA-350562",
-      "R-HSA-975956",
-      "R-HSA-166663",
-      "R-HSA-9954714",
-      "R-HSA-2408557",
-      "R-HSA-156842",
-      "R-HSA-156902",
-      "R-HSA-9954716",
-      "R-HSA-69618",
-      "R-HSA-8854518",
-      "R-HSA-141424"
-    ],
-    [
-      "R-HSA-2168880",
-      "R-HSA-2029485",
-      "R-HSA-166663",
-      "R-HSA-166786",
-      "R-HSA-2029481",
-      "R-HSA-5690714",
-      "R-HSA-2730905",
-      "R-HSA-69618",
-      "R-HSA-141424",
-      "R-HSA-141444",
-      "R-HSA-9633012",
-      "R-HSA-72613",
-      "R-HSA-72737",
-      "R-HSA-72706",
-      "R-HSA-156827",
-      "R-HSA-2408522",
-      "R-HSA-1799339",
-      "R-HSA-72163",
-      "R-HSA-72172",
-      "R-HSA-8854518"
-    ],
-    [
-      "R-HSA-1799339",
-      "R-HSA-72613",
-      "R-HSA-72737",
-      "R-HSA-2408522",
-      "R-HSA-72706",
-      "R-HSA-156827",
-      "R-HSA-9633012",
-      "R-HSA-69618",
-      "R-HSA-72689",
-      "R-HSA-141424",
-      "R-HSA-141444",
-      "R-HSA-72764",
-      "R-HSA-975956",
-      "R-HSA-9954716",
-      "R-HSA-2168880",
-      "R-HSA-156902",
-      "R-HSA-156842",
-      "R-HSA-2408557",
-      "R-HSA-9954714",
-      "R-HSA-2029485"
-    ],
-    [
-      "R-HSA-69618",
-      "R-HSA-72613",
-      "R-HSA-72737",
-      "R-HSA-72706",
-      "R-HSA-156827",
-      "R-HSA-141444",
-      "R-HSA-141424",
-      "R-HSA-1799339",
-      "R-HSA-9633012",
-      "R-HSA-2408522",
-      "R-HSA-72163",
-      "R-HSA-72172",
-      "R-HSA-72187",
-      "R-HSA-72689",
-      "R-HSA-8854518",
-      "R-HSA-350562",
-      "R-HSA-2029485",
-      "R-HSA-9954714",
-      "R-HSA-2408557",
-      "R-HSA-9954716"
-    ],
-    [
-      "R-HSA-72737",
-      "R-HSA-72613",
-      "R-HSA-156827",
-      "R-HSA-72706",
-      "R-HSA-9633012",
-      "R-HSA-69618",
-      "R-HSA-141424",
-      "R-HSA-141444",
-      "R-HSA-1799339",
-      "R-HSA-8854518",
-      "R-HSA-2408522",
-      "R-HSA-5620912",
-      "R-HSA-72689",
-      "R-HSA-975956",
-      "R-HSA-72764",
-      "R-HSA-156842",
-      "R-HSA-72695",
-      "R-HSA-2408557",
-      "R-HSA-9954716",
-      "R-HSA-156902"
-    ]
+  "top20_size_normalised_mean": [
+    {
+      "rank": 1,
+      "id": "R-HSA-156902",
+      "name": "Peptide chain elongation",
+      "score": 0.014060560727523545,
+      "is_generic": true
+    },
+    {
+      "rank": 2,
+      "id": "R-HSA-9954714",
+      "name": "PELO:HBS1L and ABCE1 dissociate a ribosome on a non-stop mRNA",
+      "score": 0.013924771975417163,
+      "is_generic": true
+    },
+    {
+      "rank": 3,
+      "id": "R-HSA-2408557",
+      "name": "Selenocysteine synthesis",
+      "score": 0.013786759713421698,
+      "is_generic": false
+    },
+    {
+      "rank": 4,
+      "id": "R-HSA-975956",
+      "name": "Nonsense Mediated Decay (NMD) independent of the Exon Junction Complex (EJC)",
+      "score": 0.013654701333296927,
+      "is_generic": false
+    },
+    {
+      "rank": 5,
+      "id": "R-HSA-72764",
+      "name": "Eukaryotic Translation Termination",
+      "score": 0.013602936915729358,
+      "is_generic": true
+    },
+    {
+      "rank": 6,
+      "id": "R-HSA-72689",
+      "name": "Formation of a pool of free 40S subunits",
+      "score": 0.01357856994897277,
+      "is_generic": false
+    },
+    {
+      "rank": 7,
+      "id": "R-HSA-156842",
+      "name": "Eukaryotic Translation Elongation",
+      "score": 0.013556729845098547,
+      "is_generic": true
+    },
+    {
+      "rank": 8,
+      "id": "R-HSA-9633012",
+      "name": "Response of EIF2AK4 (GCN2) to amino acid deficiency",
+      "score": 0.013435979628227127,
+      "is_generic": false
+    },
+    {
+      "rank": 9,
+      "id": "R-HSA-156827",
+      "name": "L13a-mediated translational silencing of Ceruloplasmin expression",
+      "score": 0.013387444167010553,
+      "is_generic": true
+    },
+    {
+      "rank": 10,
+      "id": "R-HSA-72706",
+      "name": "GTP hydrolysis and joining of the 60S ribosomal subunit",
+      "score": 0.013308886686960859,
+      "is_generic": true
+    },
+    {
+      "rank": 11,
+      "id": "R-HSA-9954716",
+      "name": "ZNF598 and the Ribosome-associated Quality Trigger (RQT) complex dissociate a ribosome stalled on a no-go mRNA",
+      "score": 0.01321676414050357,
+      "is_generic": true
+    },
+    {
+      "rank": 12,
+      "id": "R-HSA-72613",
+      "name": "Eukaryotic Translation Initiation",
+      "score": 0.012907015158205614,
+      "is_generic": true
+    },
+    {
+      "rank": 13,
+      "id": "R-HSA-72737",
+      "name": "Cap-dependent Translation Initiation",
+      "score": 0.012907015158205614,
+      "is_generic": true
+    },
+    {
+      "rank": 14,
+      "id": "R-HSA-72695",
+      "name": "Formation of the ternary complex, and subsequently, the 43S complex",
+      "score": 0.012344307806885358,
+      "is_generic": false
+    },
+    {
+      "rank": 15,
+      "id": "R-HSA-1799339",
+      "name": "SRP-dependent cotranslational protein targeting to membrane",
+      "score": 0.012207067176087263,
+      "is_generic": true
+    },
+    {
+      "rank": 16,
+      "id": "R-HSA-4839743",
+      "name": "Signaling by CTNNB1 phospho-site mutants",
+      "score": 0.011994885436950192,
+      "is_generic": false
+    },
+    {
+      "rank": 17,
+      "id": "R-HSA-5358751",
+      "name": "CTNNB1 S45 mutants aren't phosphorylated",
+      "score": 0.011994885436950192,
+      "is_generic": false
+    },
+    {
+      "rank": 18,
+      "id": "R-HSA-5358752",
+      "name": "CTNNB1 T41 mutants aren't phosphorylated",
+      "score": 0.011994885436950192,
+      "is_generic": false
+    },
+    {
+      "rank": 19,
+      "id": "R-HSA-5339716",
+      "name": "Signaling by GSK3beta mutants",
+      "score": 0.011994885436950192,
+      "is_generic": false
+    },
+    {
+      "rank": 20,
+      "id": "R-HSA-5358749",
+      "name": "CTNNB1 S37 mutants aren't phosphorylated",
+      "score": 0.011994885436950192,
+      "is_generic": false
+    }
   ],
-  "pathway_freq_across_5_folds": [
-    [
-      "R-HSA-350562",
-      1.0
-    ],
-    [
-      "R-HSA-72172",
-      1.0
-    ],
-    [
-      "R-HSA-72613",
-      0.8
-    ],
-    [
-      "R-HSA-72187",
-      0.8
-    ],
-    [
-      "R-HSA-72737",
-      0.8
-    ],
-    [
-      "R-HSA-72163",
-      0.8
-    ],
-    [
-      "R-HSA-2408557",
-      0.6
-    ],
-    [
-      "R-HSA-2408522",
-      0.6
-    ],
-    [
-      "R-HSA-975956",
-      0.6
-    ],
-    [
-      "R-HSA-156827",
-      0.6
-    ],
-    [
-      "R-HSA-72689",
-      0.6
-    ],
-    [
-      "R-HSA-9633012",
-      0.6
-    ],
-    [
-      "R-HSA-1799339",
-      0.6
-    ],
-    [
-      "R-HSA-72706",
-      0.6
-    ],
-    [
-      "R-HSA-9770562",
-      0.6
-    ],
-    [
-      "R-HSA-8934593",
-      0.6
-    ],
-    [
-      "R-HSA-9673767",
-      0.6
-    ],
-    [
-      "R-HSA-9671555",
-      0.6
-    ],
-    [
-      "R-HSA-9670439",
-      0.6
-    ],
-    [
-      "R-HSA-9673770",
-      0.6
-    ],
-    [
-      "R-HSA-9669938",
-      0.6
-    ],
-    [
-      "R-HSA-156842",
-      0.4
-    ],
-    [
-      "R-HSA-9954714",
-      0.4
-    ],
-    [
-      "R-HSA-9954716",
-      0.4
-    ],
-    [
-      "R-HSA-72764",
-      0.4
-    ],
-    [
-      "R-HSA-156902",
-      0.4
-    ],
-    [
-      "R-HSA-1538133",
-      0.4
-    ],
-    [
-      "R-HSA-9665348",
-      0.4
-    ],
-    [
-      "R-HSA-5674400",
-      0.4
-    ],
-    [
-      "R-HSA-9703465",
-      0.4
-    ]
-  ],
-  "generic_fraction_fold0_top20": 0.55,
-  "generic_note": "Pathways flagged as generic (translation/ribosome/splicing keywords). May reflect proliferation rate, tumour cell content, or sequencing quality rather than histology-specific biology."
+  "generic_fraction": {
+    "genuine_member_sum": 0.6,
+    "size_normalised_mean": 0.5
+  },
+  "odc_artefact_note": "Regulation of ornithine decarboxylase (ODC, R-HSA-350562) was an artefact of Fork 6 fallback wiring, which connected all 726 orphaned miRNA features to pathway index P-1. When fallback edges are excluded from attribution, ODC drops out of the top rankings."
 }
