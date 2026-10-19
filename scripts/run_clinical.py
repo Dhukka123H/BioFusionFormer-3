@@ -205,9 +205,7 @@ def train_single_seed_clinical(
     patience: int,
     batch_size: int,
 ) -> Tuple[np.ndarray, nn.Module]:
-    loss_fn = LabelSmoothedBCEWithLogitsLoss(
-        smoothing=0.1, pos_weight=torch.tensor([pos_weight], dtype=torch.float32)
-    )
+    loss_fn = LabelSmoothedBCEWithLogitsLoss(eps=0.05, pos_weight=pos_weight)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     # In-fold split for validation (80/20 train/val)
@@ -241,7 +239,7 @@ def train_single_seed_clinical(
             b_y = sub_tr_y[b_inds]
             optimizer.zero_grad()
             out = model(b_in)
-            loss = loss_fn(out["logits"], b_y)
+            loss = loss_fn(out["logit"], b_y)
             loss.backward()
             nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
@@ -249,7 +247,7 @@ def train_single_seed_clinical(
         model.eval()
         with torch.no_grad():
             v_out = model(val_in)
-            v_loss = float(loss_fn(v_out["logits"], val_y).item())
+            v_loss = float(loss_fn(v_out["logit"], val_y).item())
         if v_loss < best_val_loss - 1e-4:
             best_val_loss = v_loss
             best_weights = {k: v.cpu().clone() for k, v in model.state_dict().items()}
@@ -266,7 +264,7 @@ def train_single_seed_clinical(
     with torch.no_grad():
         te_in = {k: torch.tensor(v, dtype=torch.float32) for k, v in X_te_dict.items()}
         te_out = model(te_in)
-        probs = te_out["probs"].squeeze(-1).cpu().numpy()
+        probs = torch.sigmoid(te_out["logit"]).cpu().numpy()
     return probs, model
 
 
@@ -407,8 +405,27 @@ def load_e1_results(n_folds: int) -> Optional[List[dict]]:
     return recs
 
 
-def generate_clinical_report(variants: List[str], n_folds: int):
+def generate_clinical_report(variants: List[str], n_folds: Optional[int] = None):
     log.info("Generating Clinical Report...")
+    # Determine maximum number of consecutive completed matched folds across variants
+    target_folds = n_folds if n_folds is not None else 15
+    avail_counts = []
+    for var in variants:
+        var_dir = EXP_DIR / var / "folds"
+        c = 0
+        while (var_dir / f"fold_{c:02d}.json").exists() and c < target_folds:
+            c += 1
+        avail_counts.append(c)
+
+    k_matched = min(avail_counts) if avail_counts else 0
+    if k_matched == 0:
+        log.warning("No completed folds found across variants.")
+        return
+
+    if n_folds is not None and k_matched < n_folds:
+        log.info(f"Target was {n_folds} folds; reporting on {k_matched} completed matched folds across variants.")
+    n_folds = k_matched
+
     e1_recs = load_e1_results(n_folds)
     e1_aurocs = [r["auroc"] for r in e1_recs] if e1_recs is not None else None
 
@@ -418,9 +435,6 @@ def generate_clinical_report(variants: List[str], n_folds: int):
         recs = []
         for f_i in range(n_folds):
             fpath = var_dir / f"fold_{f_i:02d}.json"
-            if not fpath.exists():
-                log.warning(f"Fold {f_i} for {var} missing. Incomplete runs.")
-                return
             with open(fpath) as f:
                 recs.append(json.load(f))
         var_results[var] = recs
@@ -430,7 +444,10 @@ def generate_clinical_report(variants: List[str], n_folds: int):
     lines.append("# Clinical Modality Integration Report (Stage 5.3)")
     lines.append("")
     lines.append(f"**Date:** {datetime.date.today().isoformat()}  ")
-    lines.append(f"**Evaluation:** {n_folds} CV folds ({n_folds // 5} repeats x 5 folds) strictly matched across all variants.  ")
+    if n_folds % 5 == 0:
+        lines.append(f"**Evaluation:** {n_folds} CV folds ({n_folds // 5} repeat(s) x 5 folds) strictly matched across all variants.  ")
+    else:
+        lines.append(f"**Evaluation:** {n_folds} CV folds ({n_folds // 5} full repeat(s) + {n_folds % 5} folds; stopped at fold {n_folds}/15) strictly matched across all variants.  ")
     lines.append(f"**Zero-Leakage Guarantee:** Imputation and scaling performed strictly within training folds. Histology/survival columns blacklisted.  ")
     lines.append("")
     lines.append("## 1. Summary Metrics & Nadeau-Bengio Intervals")
@@ -441,7 +458,7 @@ def generate_clinical_report(variants: List[str], n_folds: int):
     if e1_aurocs is not None:
         e1_mean = float(np.mean(e1_aurocs))
         e1_ci = nb_interval(e1_aurocs, n_train=97, n_test=24)
-        lines.append(f"| **E1 (Frozen Omics)** | mRNA + miRNA + Meth | {e1_mean:.4f} | [{e1_ci[0]:.4f}, {e1_ci[1]:.4f}] | — | — |")
+        lines.append(f"| **E1 (Frozen Omics)** | mRNA + miRNA + Meth | {e1_mean:.4f} | [{e1_ci[1]:.4f}, {e1_ci[2]:.4f}] | — | — |")
 
     metrics_out = {}
     for var in variants:
@@ -454,10 +471,10 @@ def generate_clinical_report(variants: List[str], n_folds: int):
         mean_auprc = float(np.mean(auprcs))
         mean_brier = float(np.mean(briers))
         mod_desc = VARIANT_CONFIGS[var]["name"].split("(")[1].rstrip(")")
-        lines.append(f"| **{var}** | {mod_desc} | **{mean_auc:.4f}** | [{ci[0]:.4f}, {ci[1]:.4f}] | {mean_auprc:.4f} | {mean_brier:.4f} |")
+        lines.append(f"| **{var}** | {mod_desc} | **{mean_auc:.4f}** | [{ci[1]:.4f}, {ci[2]:.4f}] | {mean_auprc:.4f} | {mean_brier:.4f} |")
         metrics_out[var] = {
             "mean_auroc": mean_auc,
-            "nb_95_ci": list(ci),
+            "nb_95_ci": [ci[1], ci[2]],
             "mean_auprc": mean_auprc,
             "mean_brier": mean_brier,
             "fold_aurocs": aurocs,
@@ -477,7 +494,7 @@ def generate_clinical_report(variants: List[str], n_folds: int):
             diffs = np.array(aurocs) - np.array(e1_aurocs)
             mean_diff = float(np.mean(diffs))
             # Nadeau-Bengio paired t-test
-            t_stat, nb_p = nadeau_bengio_t(diffs, n_train=97, n_test=24)
+            t_stat, nb_p, _, _ = nadeau_bengio_t(aurocs, e1_aurocs, n_train=97, n_test=24)
             # Wilcoxon signed-rank test
             try:
                 w_stat, wilc_p = stats.wilcoxon(diffs, alternative="two-sided")
@@ -500,7 +517,7 @@ def generate_clinical_report(variants: List[str], n_folds: int):
         ehr4_auc = [r["auroc"] for r in ehr4_recs]
         en_auc = [r["en_auroc"] for r in ehr4_recs]
         diff_en = np.array(ehr4_auc) - np.array(en_auc)
-        t_stat, p_en = nadeau_bengio_t(diff_en, n_train=97, n_test=24)
+        t_stat, p_en, _, _ = nadeau_bengio_t(ehr4_auc, en_auc, n_train=97, n_test=24)
         lines.append(f"- **EHR4 (Neural Architecture)** Mean AUROC: **{np.mean(ehr4_auc):.4f}**")
         lines.append(f"- **Elastic-Net Clinical-Only Baseline** Mean AUROC: **{np.mean(en_auc):.4f}**")
         lines.append(f"- Paired Difference (EHR4 - EN): {np.mean(diff_en):+.4f} (Nadeau-Bengio $p = {p_en:.4f}$)")
@@ -516,14 +533,22 @@ def generate_clinical_report(variants: List[str], n_folds: int):
 
     report_content = "\n".join(lines) + "\n"
     summary_path = RES_DIR / "clinical_summary.md"
+    clin_res_dir = ROOT / "results" / "clinical"
+    clin_res_dir.mkdir(parents=True, exist_ok=True)
+    summary_c_path = clin_res_dir / "summary.md"
     with open(summary_path, "w", encoding="utf-8") as f:
         f.write(report_content)
-    log.info(f"Wrote {summary_path}")
+    with open(summary_c_path, "w", encoding="utf-8") as f:
+        f.write(report_content)
+    log.info(f"Wrote {summary_path} and {summary_c_path}")
 
     metrics_path = RES_DIR / "clinical_metrics.json"
+    metrics_c_path = clin_res_dir / "clinical_metrics.json"
     with open(metrics_path, "w", encoding="utf-8") as f:
         json.dump(metrics_out, f, indent=2)
-    log.info(f"Wrote {metrics_path}")
+    with open(metrics_c_path, "w", encoding="utf-8") as f:
+        json.dump(metrics_out, f, indent=2)
+    log.info(f"Wrote {metrics_path} and {metrics_c_path}")
 
 
 def main():
@@ -559,16 +584,29 @@ def main():
     if ARGS.smoke:
         hp.update(max_epochs=3, patience=2)
 
-    # Pathway priors
-    pway_idx, _ = select_unsupervised_pathways(DATA_DIR / "priors" / "reactome_symbol.gmt", min_genes=15, max_genes=300)
-    P = len(pway_idx)
-    pri = DATA_DIR / "priors"
-    mask_mrna = sp.load_npz(pri / "mask_mrna.npz").toarray()
-    mask_mirna = sp.load_npz(pri / "mask_mirna.npz").toarray()
-    mask_meth = sp.load_npz(pri / "mask_meth.npz").toarray()
+    # Pathway priors (identical to E1)
+    selected_pways, pway_summary = select_unsupervised_pathways(DATA_DIR, top_k=192)
+    P = len(selected_pways)
+
+    pri = DATA_DIR / "interim" / "priors"
+    prior_pathways = json.load(open(pri / "gene_pathway_mask_pathways.json"))
+    pway_map = {p: i for i, p in enumerate(prior_pathways)}
+    pway_idx = [pway_map[p] for p in selected_pways]
+
+    mask_gene_full = sp.load_npz(pri / "gene_pathway_mask.npz")
+    gene_names = json.load(open(pri / "gene_pathway_mask_genes.json"))
+    gene_map = {g: i for i, g in enumerate(gene_names)}
+    mask_mrna = mask_gene_full[[gene_map[c] for c in mrna_df.columns], :][:, pway_idx].T.toarray()
+    mask_meth = mask_gene_full[[gene_map[c] for c in meth_df.columns], :][:, pway_idx].T.toarray()
+
+    sub_mask_strong = sp.load_npz(pri / "mirna_unique_pathway_mask_strong.npz")[:, pway_idx].toarray()
+    zero_strong = sub_mask_strong.sum(axis=1) == 0
+    sub_mask_strong[zero_strong, P - 1] = True  # frozen v1 fallback token
+    mask_mirna_strong = sub_mask_strong.T
+
     masks = {
         "mrna": torch.tensor(mask_mrna, dtype=torch.bool),
-        "mirna": torch.tensor(mask_mirna, dtype=torch.bool),
+        "mirna": torch.tensor(mask_mirna_strong, dtype=torch.bool),
         "meth": torch.tensor(mask_meth, dtype=torch.bool),
     }
     feat_dims = {"mrna": mrna_df.shape[1], "mirna": mirna_df.shape[1], "meth": meth_df.shape[1]}
