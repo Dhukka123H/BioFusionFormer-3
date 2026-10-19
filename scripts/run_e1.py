@@ -79,6 +79,8 @@ def parse_args():
     ap.add_argument("--n-repeats", type=int, default=5, choices=[1, 2, 3, 4, 5],
                     help="Use the first n-repeats x 5 outer folds of splits_5x5.json (default 5 = all 25). "
                          "Decide this BEFORE looking at any result.")
+    ap.add_argument("--seeds", default="42,123,999",
+                    help="Comma-separated random seeds (default: '42,123,999')")
     args = ap.parse_args()
     if not (args.run or args.report or args.status):
         ap.print_help()
@@ -372,7 +374,7 @@ def main():
     with open(DATA_DIR / "splits" / "splits_5x5.json") as f:
         all_splits = json.load(f)["folds"]
     splits = all_splits[: 5 * ARGS.n_repeats]
-    seeds = list(SEEDS)
+    seeds = [int(s.strip()) for s in ARGS.seeds.split(",") if s.strip()]
     hp = dict(HP)
     if ARGS.smoke:
         splits = all_splits[:2]
@@ -517,8 +519,14 @@ def main():
             dt = time.time() - t_fold
             times.append(dt)
             remaining = sum(1 for k in range(n_folds) if not (fold_dir / f"fold_{k:02d}.json").exists())
+            try:
+                import psutil
+                peak_ram_mb = psutil.Process().memory_info().rss / (1024 * 1024)
+                ram_str = f" | Peak RAM={peak_ram_mb:.1f} MB"
+            except Exception:
+                ram_str = ""
             log.info(f"  fold {f_i+1:02d}/{n_folds} saved | {dt/60:.1f} min | AUROC={rec['auroc']:.4f} | "
-                     f"Brier={rec['brier']:.4f} | ETA ~{remaining*np.mean(times)/60:.0f} min")
+                     f"Brier={rec['brier']:.4f}{ram_str} | ETA ~{remaining*np.mean(times)/60:.0f} min")
         log.info(f"session time {(time.time()-t0)/60:.1f} min")
 
     if ARGS.run:

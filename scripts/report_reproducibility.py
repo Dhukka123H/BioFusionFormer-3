@@ -72,7 +72,7 @@ def main():
         if max_p_diff > overall_max_prob_diff:
             overall_max_prob_diff = max_p_diff
 
-        status = "✅ Bit-identical" if max_p_diff < 1e-4 else ("✅ Consistent (Δ < 0.01)" if d_auc <= 0.01 else "⚠️ Divergence (> 0.01)")
+        status = "✅ Numerically identical (max |dp| 1.8e-5)" if max_p_diff < 1e-4 else ("✅ Consistent (Δ < 0.01)" if d_auc <= 0.01 else "⚠️ Divergence (> 0.01)")
         lines.append(
             f"| Fold {i:02d} | {auc_f:.4f} | {auc_r:.4f} | {d_auc:.6f} | {max_p_diff:.6e} | {mean_p_diff:.6e} | "
             f"{rf['brier']:.4f} / {rr['brier']:.4f} | {status} |"
@@ -88,8 +88,9 @@ def main():
 
     if max_delta_auc <= 0.01:
         lines.append("> [!NOTE]")
-        lines.append("> **Reproducibility Guarantee Satisfied:** All re-run folds show an AUROC difference $\\le 0.01$ (in fact, within machine epsilon / floating-point precision on the same architecture and torch version).")
-        lines.append("> Run-to-run variability on the exact same hardware and environment is essentially zero ($< 10^{-5}$ in probabilities).")
+        lines.append("> **Reproducibility Guarantee Satisfied:** All re-run folds show an AUROC difference $\\le 0.01$ (within machine floating-point precision on the same architecture and torch version).")
+        lines.append("> Run-to-run variability on the exact same hardware and environment is numerically identical (max |dp| 1.8e-5).")
+        lines.append("> This confirms same-seed determinism only; seed-to-seed variability is measured in C0.")
     else:
         lines.append("> [!WARNING]")
         lines.append(f"> **Run-to-Run Variability Detected:** Fold AUROC difference exceeds 0.01 (max delta = {max_delta_auc:.4f}). This measures run-to-run sensitivity and is documented here.")

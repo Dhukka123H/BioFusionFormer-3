@@ -113,11 +113,11 @@
       "unmapped_fallback_token": "partial: features without an edge are wired into the LAST SELECTED PATHWAY token (index P-1), not a dedicated token; see forking_paths.md Fork 6"
     },
     "methylation_status": "no detectable signal for histology (non-separable HM450 beta values)",
-    "parameter_count": 62450,
+    "parameter_count": 47221,
     "experiments": [
       "E1"
     ],
-    "parameter_note": "count_parameters() = dense masked weights (~4.22M entries, of which only 18,865 may be non-zero); free parameters ~ count_effective_parameters(); 62,450 was reported earlier as the free-parameter figure. Verify with parameter_count.md.",
+    "parameter_note": "count_parameters() = dense masked weights (4,249,284 entries); free parameters = 47,221 (count_effective_parameters()); 62,450 appeared in an earlier draft and could not be reproduced. See parameter_count.md.",
     "run_history": "E1 run twice: unseeded (AUROC 0.8460, discarded) then seeded (0.8716, stored). See results/model/forking_paths.md Fork 5.",
     "experiments_note": "E2-E10 (ablations) archived in git tag v1-archive-all-experiments; exploratory only."
   },

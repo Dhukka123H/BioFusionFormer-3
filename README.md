@@ -41,8 +41,31 @@ python scripts/build_labels.py                          # labels + fold-by-fold 
 python scripts/run_e1.py --status                       # expects 25/25 folds DONE
 python scripts/run_e1.py --report                       # regenerate E1_summary.md (no training)
 python scripts/run_e1.py --smoke --run                  # 2 folds, 1 seed, 3 epochs: pipeline check
+streamlit run app/app.py                                # launch interactive clinical research interface
 ```
 
+## Results
+
+Evaluated across all 25 outer folds (5 repeats x 5-fold CV, N=121):
+
+| Metric | Cross-Validated Mean | Nadeau-Bengio 95% CI |
+|---|:---:|:---:|
+| **AUROC** | **0.8716** | **[0.8023, 0.9408]** |
+| **AUPRC** (prevalence 0.322) | **0.8332** | [0.7434, 0.9230] |
+| **Balanced Accuracy** | **0.7653** | [0.6821, 0.8486] |
+| **Macro-F1** | **0.7697** | [0.6839, 0.8554] |
+| **Brier Score (fold mean)** | **0.1436** | [0.1089, 0.1783] |
+| **Brier Score (pooled)** | **0.1365** | pooled (no CI) |
+
+### Baseline Comparisons (Paired Nadeau-Bengio Test)
+
+| Baseline Model | Baseline AUROC | Difference (E1 − Baseline) | p-value | Conclusion |
+|---|:---:|:---:|:---:|---|
+| Early Fusion ElasticNet | 0.9295 | −0.0580 | 0.1778 | Not distinguishable with N=121 (p >= 0.05) |
+| mRNA ElasticNet | 0.9169 | −0.0453 | 0.2996 | Not distinguishable with N=121 (p >= 0.05) |
+| miRNA ElasticNet | 0.8481 | +0.0235 | 0.6209 | Not distinguishable with N=121 (p >= 0.05) |
+| Methylation ElasticNet | 0.4601 | +0.4114 | < 0.0001 | Statistically distinguishable |
+| Clinical-only (Age + Sex) | 0.6296 | +0.2419 | 0.0022 | Statistically distinguishable |
 ## Rules of the project
 
 1. No tuning on outer-fold results. Every change after a result was seen goes into `results/model/forking_paths.md`.

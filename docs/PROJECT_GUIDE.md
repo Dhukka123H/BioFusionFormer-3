@@ -214,9 +214,9 @@ A major reason why published machine learning models fail in medical practice is
 
 ---
 
-## 8. Benchmark Experiments & Key Findings (E1–E10)
+## 8. Benchmark Experiments & Key Findings (E1–E10) *(E2–E10 archived, exploratory)*
 
-We conducted a pre-specified suite of 10 experiments across the same 25 folds (3 seeds per fold):
+We evaluated the primary model (**E1**) alongside an exploratory ablation suite (**E2–E10**; archived in git tag `v1-archive-all-experiments`):
 
 | Experiment | Name / Architecture | Modalities | Primary Purpose |
 |---|---|---|---|
@@ -313,14 +313,14 @@ When speaking with your guide or examiners, follow this structured presentation 
   - Statistical significance evaluated with the Nadeau-Bengio corrected test.
 
 ### Slide 4: Results & Honest Biological Discoveries
-- Show the benchmark table: BioFusionFormer achieves AUROC ~0.91, comparable to ElasticNet (0.9295), with statistical equivalence ($p > 0.05$).
-- Explain the **Methylation Finding**: Methylation has no detectable signal for histology, and the model's gating network learned to suppress it automatically.
-- Show the **Ablation Studies**: Removing the biological bias matrix (E4) or randomizing the prior graph (E5) demonstrates the impact of biological topology.
+- Show the benchmark table: BioFusionFormer achieves AUROC 0.8716 (Nadeau-Bengio 95% CI: [0.8023, 0.9408]), comparable to ElasticNet (0.9295), with statistical equivalence ($p > 0.05$).
+- Explain the **Methylation Finding**: Methylation has no detectable signal for histology alone (AUROC 0.4601), and the model assigns it a gate weight of ~0.28.
+- Show the **Ablation Studies (Archived, Exploratory)**: Removing the biological bias matrix (E4) or randomizing the prior graph (E5) showed no statistically distinguishable difference (E5 random prior $p = 0.86$; the prior was not shown to help).
 
 ### Slide 5: Explainability & Representation
-- Show the **Attention Rollout**: Top pathways identified are *TP53*, *Cell Cycle*, and *WNT Signaling*—the exact known drivers of Wilms tumor anaplasia.
-- Show the **Permutation Stability Plot**: Real model pathway consistency significantly outperforms the shuffled-label null ($p < 0.001$).
-- Show the **UMAP/PCA plots**: Fused embeddings separate both histology and patient mortality.
+- Show the **Integrated Gradients**: Primary attribution mechanism; note that attention rollout is near-uniform (1.06x) and not an informative explanation.
+- Show the **Permutation Stability**: Benchmarked against a matched shuffled-label null; with 3 permutations no p-value is claimed.
+- Show the **UMAP/PCA plots**: In-sample patient representations reflect training labels; not evidence of generalisation.
 
 ---
 
@@ -330,19 +330,19 @@ When speaking with your guide or examiners, follow this structured presentation 
 > **Answer**: *"CNNs assume spatial locality (like neighboring pixels in an image), which does not exist in genomic data where gene order on an array is arbitrary. Random Forests treat features independently and struggle to capture cross-modal regulatory interactions (such as a microRNA downregulating multiple genes in a single pathway). Transformers utilize multi-head self-attention, which allows every pathway token to interact with every other pathway across all three modalities. Furthermore, transformers allow us to inject graph adjacency directly as an additive attention bias ($B_{\text{bio}}$)."*
 
 #### Q2: "Why didn't BioFusionFormer achieve 99% accuracy?"
-> **Answer**: *"In a cohort of 121 patients with 22,000 features, claiming 99% accuracy is almost always an indicator of data leakage (such as scaling or selecting features before splitting the dataset). Unfavorable histology in Wilms tumor has biological heterogeneity and label noise (e.g., focal anaplasia that was missed on biopsy). An AUROC of ~0.91 evaluated across 25 outer folds with strictly in-fold preprocessing is a strong, clinically realistic result that reflects true generalization."*
+> **Answer**: *"In a cohort of 121 patients with 22,000 features, claiming 99% accuracy is almost always an indicator of data leakage (such as scaling or selecting features before splitting the dataset). Unfavorable histology in Wilms tumor has biological heterogeneity and label noise (e.g., focal anaplasia that was missed on biopsy). An AUROC of 0.8716 (Nadeau-Bengio 95% CI: [0.8023, 0.9408]) evaluated across 25 outer folds with strictly in-fold preprocessing is a strong, clinically realistic result that reflects true generalization."*
 
 #### Q3: "What is the Nadeau-Bengio correction, and why did you use it instead of a regular Student's t-test?"
 > **Answer**: *"A standard paired Student's t-test assumes that each sample in the comparison is independent. In repeated cross-validation (like our 5 repeats of 5-fold CV), training sets overlap heavily between splits (each pair of folds shares ~75% of their training data). This overlap induces positive correlation between test scores, causing standard t-tests to drastically underestimate variance and produce false-positive significance. The Nadeau-Bengio corrected test adjusts the variance estimator by incorporating the ratio of test to train sample size ($n_{\text{test}} / n_{\text{train}}$), providing a statistically rigorous, conservative hypothesis test."*
 
 #### Q4: "Why did DNA methylation perform so poorly for histology classification?"
-> **Answer**: *"Our baseline experiments and confounder audits revealed that DNA methylation alone achieved an AUROC of ~0.45. Biologically, Wilms tumor histology is driven by genetic mutations (such as TP53) and large-scale copy number alterations rather than genome-wide promoter hypermethylation. Methylation in pediatric blastemal tumors exhibits high inter-patient epigenetic variance that reflects developmental cell of origin rather than anaplastic transformation. Crucially, BioFusionFormer's adaptive gating network successfully identified this and downweighted the methylation modality to <15%."*
+> **Answer**: *"Our baseline experiments and confounder audits revealed that DNA methylation alone achieved an AUROC of ~0.46. Biologically, Wilms tumor histology is driven by genetic mutations (such as TP53) and large-scale copy number alterations rather than genome-wide promoter hypermethylation. Methylation in pediatric blastemal tumors exhibits high inter-patient epigenetic variance that reflects developmental cell of origin rather than anaplastic transformation. Crucially, BioFusionFormer's modality gating network assigned methylation a gate weight of 0.281 ± 0.041 (with weights across all modalities remaining in the 0.28–0.40 range across all patients)."*
 
 #### Q5: "How did you prevent data leakage during pathway selection?"
 > **Answer**: *"We performed unsupervised pathway selection based solely on feature variance across the cohort, without ever referencing the histology or vital status labels. Furthermore, all data imputation (median) and feature scaling (StandardScaler) were computed strictly inside the training split of each fold, ensuring that the test set remained completely invisible to the pipeline."*
 
 #### Q6: "What is the purpose of the label-permutation control experiment?"
-> **Answer**: *"Deep neural networks have sufficient capacity to output arbitrary pathway attributions even when fitting random noise. To prove our attention rollout was identifying true biological signal, we trained the model on 10 random permutations of shuffled labels. The cross-fold pathway stability (Jaccard similarity) on shuffled labels was near zero (~0.12), whereas the real model exhibited high stability (~0.45, $p < 0.001$). This formally proves the explainability reflects true biological patterns rather than structural bias."*
+> **Answer**: *"Deep neural networks have sufficient capacity to output arbitrary pathway attributions even when fitting random noise. To benchmark pathway stability honestly, attributions must be evaluated against a matched shuffled-label null trained with the exact same procedure (same epochs, early stopping, and seeds). In our matched null analysis, stability is evaluated side-by-side without ungrounded significance claims."*
 
 ---
 
