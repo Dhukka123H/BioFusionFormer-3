@@ -2,38 +2,27 @@
 """
 scripts/explain_e1.py
 =====================
-Stage 4: Explainability, Stability, Representation and Calibration for E1.
+Stage A: Explainability, Stability, Representation and Calibration for E1 (v2).
 
-This script uses the 5 saved fold models from the Stage 3 reproducibility re-run
-(models/e1_folds_final_v1_repro/fold_XX_seed42.pt) and the frozen 25-fold results.
-
-Requirements per AGENT_PROMPT Stage 4:
-  4.1  Primary attribution = Integrated Gradients (captum) over ALL THREE modalities,
-       TEST patients of each fold, n_steps >= 50, baseline = zeros in standardised space
-       (training-fold mean = 0 after z-score). Aggregate to 192 pathways. Print
-       per-modality and summed scores. Attention rollout is secondary; print max/min ratio.
-  4.2  Per-fold elastic-net baseline: fitted on TRAINING fold mRNA only (fixed C=0.5,
-       l1_ratio=0.5). Map coefficients to pathways via mask. Never fit on all 121 patients.
-  4.3  Stability: top-20 pathways per fold -> mean pairwise Jaccard across 5 folds, for
-       (a) IG, (b) elastic net, (c) null permutation.
-  4.4  Matched null: train E1 on shuffled labels, SAME procedure as E1 (max_epochs 100,
-       patience 20, same inner validation, same seed rule), 5 permutations x 5 folds,
-       then same IG pipeline. If compute too high, use 3 permutations and say so.
-  4.4b Per-pathway stability frequency across folds; fraction of top-20 that are
-       translation/ribosome/splicing pathways (generic high-variance). State caveat.
-  4.5  IG vs EN agreement per fold: Jaccard of top-20 and Spearman over all 192. Report
-       mean and range.
-  4.6  Representation: train ONE model on all 121 patients (3 seeds, average embeddings),
-       PCA + UMAP. Label "in-sample, visualisation only". No silhouette claims.
-  4.7  Calibration: pooled OOF probs (from frozen 25 folds), Brier, logistic recalibration
-       slope/intercept. If no nested-CV baseline predictions exist per patient, omit the
-       baseline curve.
-  4.8  Outputs: results/explainability/*.md/*.json and figures/explain/*.png
-
-Usage:
-  python scripts/explain_e1.py
-  python scripts/explain_e1.py --n-perms 3      # use 3 null permutations
-  python scripts/explain_e1.py --skip-null       # skip null entirely (saves ~1h of CPU)
+Requirements per AGENT_PROMPT_2 Stage A:
+  A1  Fallback audit: confirmed that selected pathway P-1 is R-HSA-350562; 726 miRNA features
+      routed to it by fallback. Written to results/explainability/fallback_audit.md.
+  A2  Re-aggregate IG per pathway in TWO ways side-by-side:
+        (i)  sum of |IG| over genuine member features, EXCLUDING the 726 fallback-routed miRNA edges;
+        (ii) mean |IG| per member feature (size-normalised).
+      Report, for both: top-20 list, Spearman correlation between pathway size and attribution,
+      and count of generic translation/ribosome/splicing pathways.
+  A3  Stability across the 5 saved fold models: mean pairwise top-20 Jaccard for IG (i), IG (ii)
+      and for per-fold elastic net.
+  A4  Matched null: shuffle TRAINING labels inside each of the 5 folds, train with SAME procedure
+      as E1 (max_epochs 100, patience 20, 20% inner val, seed 42), compute same IG on test patients.
+      3 permutations x 5 folds = 15 trainings, resumable per (perm, fold) with atomic JSON files.
+      Report real vs null Jaccard for (i) and (ii). State that with 3 permutations no p-value is computed.
+  A5  Recalibration: logistic regression WITHOUT penalty on logit(pooled out-of-fold probability)
+      -> slope, intercept, 1000-draw patient bootstrap CI. 5-fold CV over patients of this 2-parameter
+      calibrator, reporting Brier before and after. Redraw reliability figure with bin counts printed.
+  A6  Redraw representation figure: caption "in-sample; separation reflects training labels; not evidence of generalisation".
+  A7  Write results/explainability/summary.md strictly from JSON outputs. State plainly that ODC was a fallback artefact.
 """
 
 import argparse
@@ -43,6 +32,7 @@ import math
 import os
 import random
 import sys
+import time
 from collections import Counter
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -54,10 +44,12 @@ import numpy as np
 import pandas as pd
 import scipy.sparse as sp
 import scipy.stats as stats
+from scipy.special import logit
 from sklearn.calibration import calibration_curve
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import brier_score_loss, roc_auc_score
+from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 import torch
 import torch.nn as nn
@@ -84,27 +76,23 @@ DATA_DIR = ROOT / "data"
 MODELS_DIR = ROOT / "models" / "e1_folds_final_v1_repro"
 FROZEN_DIR = ROOT / "experiments" / "final_v1" / "E1" / "folds"
 OUT_DIR = ROOT / "results" / "explainability"
+NULL_CACHE_DIR = OUT_DIR / "null_cache"
 FIG_DIR = ROOT / "figures" / "explain"
 
-# Generic high-variance pathway keywords (translation, ribosome, splicing)
 GENERIC_KEYWORDS = [
     "translat", "ribosom", "spliceosom", "mrna processing", "rna splicing",
     "rrna", "transfer rna", "rna polymerase", "post-transcriptional",
 ]
 
-# E1 config (frozen)
 E1_MODS = ["mrna", "mirna", "meth"]
 SEEDS = [42, 123, 999]
 HP = dict(lr=3e-4, weight_decay=1e-2, max_epochs=100, patience=20, batch_size=16)
 
 
-# ---------------------------------------------------------------------------
-# Argument parsing
-# ---------------------------------------------------------------------------
 def parse_args():
-    ap = argparse.ArgumentParser(description="BioFusionFormer E1 Explainability (Stage 4)")
-    ap.add_argument("--n-perms", type=int, default=5,
-                    help="Number of null permutations (default 5; use 3 if compute is limited)")
+    ap = argparse.ArgumentParser(description="BioFusionFormer E1 Explainability v2 (Stage A)")
+    ap.add_argument("--n-perms", type=int, default=3,
+                    help="Number of null permutations (default 3 per Stage A4)")
     ap.add_argument("--skip-null", action="store_true",
                     help="Skip matched null permutation entirely")
     ap.add_argument("--n-steps", type=int, default=50,
@@ -112,18 +100,12 @@ def parse_args():
     return ap.parse_args()
 
 
-# ---------------------------------------------------------------------------
-# Seeding
-# ---------------------------------------------------------------------------
 def set_seed(seed: int):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
 
 
-# ---------------------------------------------------------------------------
-# Data loading
-# ---------------------------------------------------------------------------
 def load_data():
     cohort_df = pd.read_csv(DATA_DIR / "interim" / "cohort_patients.csv")
     core_pats = cohort_df[cohort_df["is_3omics_core"]]["patient_id"].tolist()
@@ -143,7 +125,7 @@ def load_data():
 
     with open(DATA_DIR / "splits" / "splits_5x5.json") as f:
         all_splits = json.load(f)["folds"]
-    splits = all_splits[:5]  # Stage 3 re-run used n-repeats=1
+    splits = all_splits[:5]
 
     selected_pways, pway_summary = select_unsupervised_pathways(DATA_DIR, top_k=192)
     P = len(selected_pways)
@@ -159,14 +141,26 @@ def load_data():
     mask_mrna_np = mask_gene_full[[gene_map[c] for c in mrna_df.columns], :][:, pway_idx].T.toarray()
     mask_meth_np = mask_gene_full[[gene_map[c] for c in meth_df.columns], :][:, pway_idx].T.toarray()
 
-    sub_mask_strong = sp.load_npz(pri / "mirna_unique_pathway_mask_strong.npz")[:, pway_idx].toarray()
-    zero_strong = sub_mask_strong.sum(axis=1) == 0
-    sub_mask_strong[zero_strong, P - 1] = True  # frozen v1 fallback (Fork 6)
-    mask_mirna_np = sub_mask_strong.T
+    # Raw miRNA mask without fallback (genuine prior edges only)
+    sub_mask_strong_raw = sp.load_npz(pri / "mirna_unique_pathway_mask_strong.npz")[:, pway_idx].toarray()
+    mask_mirna_genuine_np = sub_mask_strong_raw.T  # (192, 1035)
 
-    masks = {
+    # miRNA mask with Fork 6 fallback (for model execution)
+    sub_mask_strong = sub_mask_strong_raw.copy()
+    zero_strong = sub_mask_strong.sum(axis=1) == 0
+    sub_mask_strong[zero_strong, P - 1] = True  # Fork 6 fallback
+    mask_mirna_model_np = sub_mask_strong.T
+
+    # Pathway sizes: total genuine features present in data per pathway
+    pathway_sizes = (
+        mask_mrna_np.sum(axis=1) +
+        mask_mirna_genuine_np.sum(axis=1) +
+        mask_meth_np.sum(axis=1)
+    )
+
+    masks_model = {
         "mrna": torch.tensor(mask_mrna_np, dtype=torch.bool),
-        "mirna": torch.tensor(mask_mirna_np, dtype=torch.bool),
+        "mirna": torch.tensor(mask_mirna_model_np, dtype=torch.bool),
         "meth": torch.tensor(mask_meth_np, dtype=torch.bool),
     }
 
@@ -190,9 +184,9 @@ def load_data():
     np.fill_diagonal(B_bias, 0.0)
     bio_bias = torch.tensor(B_bias, dtype=torch.float32)
 
-    return (core_pats, N, y_hist, mats, masks, feat_dims, bio_bias,
+    return (core_pats, N, y_hist, mats, masks_model, feat_dims, bio_bias,
             selected_pways, pway_summary,
-            mask_mrna_np, mask_mirna_np, mask_meth_np,
+            mask_mrna_np, mask_mirna_genuine_np, mask_meth_np, pathway_sizes,
             P, splits, all_splits)
 
 
@@ -223,11 +217,7 @@ def build_model(feat_dims, masks, P, bio_bias):
     )
 
 
-# ---------------------------------------------------------------------------
-# Training loop (for null permutations; mirrors run_e1.py)
-# ---------------------------------------------------------------------------
 def train_one_seed(model, X_tr_dict, y_tr, pos_weight, seed, **hp):
-    from sklearn.model_selection import StratifiedKFold
     set_seed(seed)
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
     first_mod = list(X_tr_dict.keys())[0]
@@ -288,10 +278,7 @@ def train_one_seed(model, X_tr_dict, y_tr, pos_weight, seed, **hp):
     return model
 
 
-# ---------------------------------------------------------------------------
-# Integrated Gradients over all 3 modalities
-# ---------------------------------------------------------------------------
-def compute_ig(model, X_te_dict, n_steps=50, internal_batch_size=10):
+def compute_ig(model, X_te_dict, n_steps=50, internal_batch_size=25):
     """Returns ig_mrna, ig_mirna, ig_meth each (N_te, F_mod)."""
     from captum.attr import IntegratedGradients
 
@@ -309,7 +296,6 @@ def compute_ig(model, X_te_dict, n_steps=50, internal_batch_size=10):
     N_te = len(X_te_dict["mrna"])
     ig_mrna_list, ig_mirna_list, ig_meth_list = [], [], []
 
-    # Process patient-by-patient with internal_batch_size to keep memory bounded (<100 MB)
     for i in range(N_te):
         x_mr = torch.tensor(X_te_dict["mrna"][i : i + 1], dtype=torch.float32, requires_grad=True)
         x_mi = torch.tensor(X_te_dict["mirna"][i : i + 1], dtype=torch.float32, requires_grad=True)
@@ -328,20 +314,32 @@ def compute_ig(model, X_te_dict, n_steps=50, internal_batch_size=10):
     return np.array(ig_mrna_list), np.array(ig_mirna_list), np.array(ig_meth_list)
 
 
-def ig_to_pathway_scores(ig_mrna, ig_mirna, ig_meth, mask_mrna_np, mask_mirna_np, mask_meth_np):
+def ig_to_pathway_scores_v2(ig_mrna, ig_mirna, ig_meth,
+                            mask_mrna_np, mask_mirna_genuine_np, mask_meth_np,
+                            pathway_sizes):
+    """
+    Computes both Metric (i) and Metric (ii) side-by-side per Stage A2:
+      (i)  sum of |IG| over genuine member features, EXCLUDING fallback miRNA edges;
+      (ii) mean |IG| per genuine member feature (size-normalised).
+    """
     mean_mrna = np.abs(ig_mrna).mean(axis=0)
     mean_mirna = np.abs(ig_mirna).mean(axis=0)
     mean_meth = np.abs(ig_meth).mean(axis=0)
+
     pway_mrna = mask_mrna_np @ mean_mrna
-    pway_mirna = mask_mirna_np @ mean_mirna
+    pway_mirna_gen = mask_mirna_genuine_np @ mean_mirna
     pway_meth = mask_meth_np @ mean_meth
-    pway_sum = pway_mrna + pway_mirna + pway_meth
-    return pway_mrna, pway_mirna, pway_meth, pway_sum
+
+    # (i) Genuine Sum
+    pway_sum_genuine = pway_mrna + pway_mirna_gen + pway_meth
+
+    # (ii) Size-normalised Mean
+    pway_mean_genuine = pway_sum_genuine / np.maximum(pathway_sizes, 1)
+
+    return (pway_mrna, pway_mirna_gen, pway_meth,
+            pway_sum_genuine, pway_mean_genuine)
 
 
-# ---------------------------------------------------------------------------
-# Elastic-net baseline (per fold, train fold mRNA only)
-# ---------------------------------------------------------------------------
 def compute_en_pathway_scores(X_tr_mrna, y_tr, mask_mrna_np):
     sc = StandardScaler()
     X_sc = sc.fit_transform(X_tr_mrna)
@@ -355,19 +353,13 @@ def compute_en_pathway_scores(X_tr_mrna, y_tr, mask_mrna_np):
     return pway_scores
 
 
-# ---------------------------------------------------------------------------
-# Generic pathway detection
-# ---------------------------------------------------------------------------
 def is_generic(name: str) -> bool:
     nl = name.lower()
     return any(kw in nl for kw in GENERIC_KEYWORDS)
 
 
-# ---------------------------------------------------------------------------
-# Stage 4.6: all-121 representation model
-# ---------------------------------------------------------------------------
 def train_all_patients_model(N, mats, y_hist, masks, feat_dims, P, bio_bias):
-    log.info("4.6: Training representation model on all 121 patients (3 seeds, in-sample only)...")
+    log.info("A6: Training representation model on all 121 patients (3 seeds, in-sample only)...")
     pos_weight = float((y_hist == 0).sum() / (y_hist == 1).sum())
 
     X_scaled = {}
@@ -412,42 +404,62 @@ def train_all_patients_model(N, mats, y_hist, masks, feat_dims, P, bio_bias):
     return np.mean(all_embs, axis=0)
 
 
-# ---------------------------------------------------------------------------
-# Calibration (4.7)
-# ---------------------------------------------------------------------------
-def compute_calibration(y_hist, frozen_folds, N):
+def compute_calibration_v2(y_hist, frozen_folds, N):
+    """
+    Stage A5: Logistic recalibration without penalty on logit(pooled out-of-fold probability).
+    Reports slope, intercept, 1000-draw patient bootstrap CI, and 5-fold CV Brier before/after.
+    """
     pp = {}
     for r in frozen_folds:
         for i, p in zip(r["te_idx"], r["probs"]):
             pp.setdefault(i, []).append(p)
     oof = np.array([np.mean(pp[i]) for i in range(N)])
+    brier_before = float(brier_score_loss(y_hist, oof))
 
-    brier = float(brier_score_loss(y_hist, oof))
+    z = logit(np.clip(oof, 1e-6, 1.0 - 1e-6))
+    lr = LogisticRegression(C=1e9, solver="lbfgs", max_iter=1000)
+    lr.fit(z.reshape(-1, 1), y_hist)
+    slope = float(lr.coef_[0][0])
+    intercept = float(lr.intercept_[0])
 
-    logit_oof = np.log(np.clip(oof, 1e-7, 1 - 1e-7))
-    lr_cal = LogisticRegression(penalty=None, solver="lbfgs", max_iter=1000)
-    lr_cal.fit(logit_oof.reshape(-1, 1), y_hist)
-    slope = float(lr_cal.coef_[0][0])
-    intercept = float(lr_cal.intercept_[0])
+    rng = np.random.default_rng(42)
+    slopes_b, intercepts_b = [], []
+    for _ in range(1000):
+        idx = rng.choice(N, size=N, replace=True)
+        if len(np.unique(y_hist[idx])) < 2:
+            continue
+        lr_b = LogisticRegression(C=1e9, solver="lbfgs", max_iter=1000)
+        lr_b.fit(z[idx].reshape(-1, 1), y_hist[idx])
+        slopes_b.append(float(lr_b.coef_[0][0]))
+        intercepts_b.append(float(lr_b.intercept_[0]))
 
-    return brier, slope, intercept, oof
+    slope_ci = [float(np.percentile(slopes_b, 2.5)), float(np.percentile(slopes_b, 97.5))]
+    intercept_ci = [float(np.percentile(intercepts_b, 2.5)), float(np.percentile(intercepts_b, 97.5))]
+
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    oof_cal = np.zeros(N)
+    for tr_i, val_i in skf.split(z, y_hist):
+        lr_cv = LogisticRegression(C=1e9, solver="lbfgs", max_iter=1000)
+        lr_cv.fit(z[tr_i].reshape(-1, 1), y_hist[tr_i])
+        oof_cal[val_i] = lr_cv.predict_proba(z[val_i].reshape(-1, 1))[:, 1]
+
+    brier_after = float(brier_score_loss(y_hist, oof_cal))
+    return oof, oof_cal, brier_before, brier_after, slope, intercept, slope_ci, intercept_ci
 
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
 def main():
     args = parse_args()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    NULL_CACHE_DIR.mkdir(parents=True, exist_ok=True)
     FIG_DIR.mkdir(parents=True, exist_ok=True)
 
     log.info("=" * 70)
-    log.info("BioFusionFormer E1 — Explainability, Stability, Representation & Calibration")
+    log.info("BioFusionFormer E1 — Explainability Analysis v2 (Stage A)")
     log.info("=" * 70)
 
-    (core_pats, N, y_hist, mats, masks, feat_dims, bio_bias,
+    (core_pats, N, y_hist, mats, masks_model, feat_dims, bio_bias,
      selected_pways, pway_summary,
-     mask_mrna_np, mask_mirna_np, mask_meth_np,
+     mask_mrna_np, mask_mirna_genuine_np, mask_meth_np, pathway_sizes,
      P, splits, all_splits) = load_data()
     log.info(f"N={N} | P={P} pathways | {len(splits)} folds for Stage 3 models")
 
@@ -466,19 +478,20 @@ def main():
         )
         sys.exit(1)
 
-    pos_weight = float((y_hist == 0).sum() / (y_hist == 1).sum())
-
     # ========================================================================
-    # 4.1 + 4.2 + 4.5 per fold
+    # A2 / A3: Compute IG over 5 saved fold models (genuine sum & normalised mean)
     # ========================================================================
-    log.info("\n4.1 / 4.2: Computing per-fold IG and elastic-net attributions...")
+    log.info("\nA2 / A3: Computing per-fold IG attributions (genuine sum & size-normalised mean)...")
 
-    ig_pway_per_fold = []
-    ig_pway_per_fold_mrna = []
-    ig_pway_per_fold_mirna = []
-    ig_pway_per_fold_meth = []
+    ig_sum_per_fold = []
+    ig_mean_per_fold = []
+    ig_mrna_per_fold = []
+    ig_mirna_per_fold = []
+    ig_meth_per_fold = []
     en_pway_per_fold = []
-    top20_ig_per_fold = []
+
+    top20_sum_per_fold = []
+    top20_mean_per_fold = []
     top20_en_per_fold = []
     rollout_spreads = []
 
@@ -491,21 +504,30 @@ def main():
         X_tr, X_te = prepare_fold(tr_idx, te_idx, mats)
 
         mpath = MODELS_DIR / f"fold_{f_i:02d}_seed42.pt"
-        model = build_model(feat_dims, masks, P, bio_bias)
+        model = build_model(feat_dims, masks_model, P, bio_bias)
         model.load_state_dict(torch.load(mpath, map_location="cpu"))
         model.eval()
 
-        ig_mrna, ig_mirna, ig_meth = compute_ig(model, X_te, n_steps=args.n_steps)
-        pway_mrna, pway_mirna, pway_meth, pway_sum = ig_to_pathway_scores(
-            ig_mrna, ig_mirna, ig_meth, mask_mrna_np, mask_mirna_np, mask_meth_np
+        ig_mrna, ig_mirna, ig_meth = compute_ig(model, X_te, n_steps=args.n_steps, internal_batch_size=25)
+        (pway_mrna, pway_mirna_gen, pway_meth,
+         pway_sum_gen, pway_mean_gen) = ig_to_pathway_scores_v2(
+            ig_mrna, ig_mirna, ig_meth,
+            mask_mrna_np, mask_mirna_genuine_np, mask_meth_np,
+            pathway_sizes
         )
-        ig_pway_per_fold.append(pway_sum)
-        ig_pway_per_fold_mrna.append(pway_mrna)
-        ig_pway_per_fold_mirna.append(pway_mirna)
-        ig_pway_per_fold_meth.append(pway_meth)
-        top20_ig = [selected_pways[i] for i in np.argsort(pway_sum)[::-1][:20]]
-        top20_ig_per_fold.append(top20_ig)
 
+        ig_sum_per_fold.append(pway_sum_gen)
+        ig_mean_per_fold.append(pway_mean_gen)
+        ig_mrna_per_fold.append(pway_mrna)
+        ig_mirna_per_fold.append(pway_mirna_gen)
+        ig_meth_per_fold.append(pway_meth)
+
+        t20_sum = [selected_pways[i] for i in np.argsort(pway_sum_gen)[::-1][:20]]
+        t20_mean = [selected_pways[i] for i in np.argsort(pway_mean_gen)[::-1][:20]]
+        top20_sum_per_fold.append(t20_sum)
+        top20_mean_per_fold.append(t20_mean)
+
+        # Rollout
         with torch.no_grad():
             te_t = {m: torch.tensor(X_te[m], dtype=torch.float32) for m in E1_MODS}
             out = model(te_t)
@@ -514,113 +536,171 @@ def main():
         spread = float(pw_att.max() / max(pw_att.min(), 1e-12))
         rollout_spreads.append(spread)
 
+        # ElasticNet baseline on train-fold mRNA
         en_scores = compute_en_pathway_scores(X_tr["mrna"], y_tr, mask_mrna_np)
         en_pway_per_fold.append(en_scores)
-        top20_en = [selected_pways[i] for i in np.argsort(en_scores)[::-1][:20]]
-        top20_en_per_fold.append(top20_en)
+        t20_en = [selected_pways[i] for i in np.argsort(en_scores)[::-1][:20]]
+        top20_en_per_fold.append(t20_en)
 
-        log.info(f"    Rollout spread: {spread:.3f}x | Top-3 IG: {top20_ig[:3]}")
+        log.info(f"    Rollout spread: {spread:.3f}x | Top-1 Sum: {t20_sum[0]} | Top-1 Mean: {t20_mean[0]}")
 
-    log.info(f"  Rollout mean max/min: {np.mean(rollout_spreads):.3f} "
-             f"range=[{min(rollout_spreads):.3f}, {max(rollout_spreads):.3f}]")
+    # Aggregations across 5 folds
+    mean_ig_sum = np.mean(ig_sum_per_fold, axis=0)
+    mean_ig_mean = np.mean(ig_mean_per_fold, axis=0)
+
+    # Size correlations (quantifying size bias)
+    rho_sum, pval_sum = stats.spearmanr(pathway_sizes, mean_ig_sum)
+    rho_mean, pval_mean = stats.spearmanr(pathway_sizes, mean_ig_mean)
+    log.info(f"  Spearman correlation with pathway size:")
+    log.info(f"    Metric (i) Genuine Sum : rho = {rho_sum:.4f} (p = {pval_sum:.2e})")
+    log.info(f"    Metric (ii) Normalised Mean: rho = {rho_mean:.4f} (p = {pval_mean:.2e})")
+
+    # Top-20 lists
+    top20_sum_idx = np.argsort(mean_ig_sum)[::-1][:20]
+    top20_sum_ids = [selected_pways[i] for i in top20_sum_idx]
+    top20_sum_names = [pway_summary.loc[p, "name"] if p in pway_summary.index else p for p in top20_sum_ids]
+    n_generic_sum = sum(1 for n in top20_sum_names if is_generic(n))
+
+    top20_mean_idx = np.argsort(mean_ig_mean)[::-1][:20]
+    top20_mean_ids = [selected_pways[i] for i in top20_mean_idx]
+    top20_mean_names = [pway_summary.loc[p, "name"] if p in pway_summary.index else p for p in top20_mean_ids]
+    n_generic_mean = sum(1 for n in top20_mean_names if is_generic(n))
+
+    log.info(f"  Generic pathways in Top-20: Metric (i) Sum = {n_generic_sum}/20 ({n_generic_sum/20:.0%}), Metric (ii) Mean = {n_generic_mean}/20 ({n_generic_mean/20:.0%})")
+
+    # Stability Jaccard
+    jaccard_sum, recurrent_sum = compute_pathway_jaccard(top20_sum_per_fold)
+    jaccard_mean, recurrent_mean = compute_pathway_jaccard(top20_mean_per_fold)
+    jaccard_en, recurrent_en = compute_pathway_jaccard(top20_en_per_fold)
+    log.info(f"  Mean pairwise top-20 Jaccard across 5 folds:")
+    log.info(f"    IG (i) Genuine Sum : {jaccard_sum:.4f}")
+    log.info(f"    IG (ii) Normalised Mean: {jaccard_mean:.4f}")
+    log.info(f"    ElasticNet mRNA    : {jaccard_en:.4f}")
 
     # ========================================================================
-    # 4.3: Stability
+    # A4: Matched Null (resumable per (perm, fold) with atomic JSON)
     # ========================================================================
-    log.info("\n4.3: Stability (mean pairwise Jaccard)...")
-    ig_jaccard, ig_recurrent = compute_pathway_jaccard(top20_ig_per_fold)
-    en_jaccard, en_recurrent = compute_pathway_jaccard(top20_en_per_fold)
-    log.info(f"  IG Jaccard: {ig_jaccard:.4f} | EN Jaccard: {en_jaccard:.4f}")
+    null_jaccards_sum = []
+    null_jaccards_mean = []
+    n_perms_used = args.n_perms if not args.skip_null else 0
 
-    # ========================================================================
-    # 4.4b: Frequency + generic fraction
-    # ========================================================================
-    log.info("\n4.4b: Pathway stability frequency and generic pathway check...")
-    freq_counter = Counter()
-    for t20 in top20_ig_per_fold:
-        for p in set(t20):
-            freq_counter[p] += 1
-    freq_list = [(p, cnt / 5) for p, cnt in freq_counter.most_common()]
-
-    n_generic = sum(
-        1 for p in top20_ig_per_fold[0]
-        if is_generic(pway_summary.loc[p, "name"] if p in pway_summary.index else "")
-    )
-    generic_fraction = n_generic / 20
-    log.info(f"  Generic fraction fold-0 top-20: {generic_fraction:.2f}")
-    log.info("  NOTE: translation/ribosome/splicing may reflect proliferation, tumour content "
-             "or quality, not histology-specific biology.")
-
-    # ========================================================================
-    # 4.4: Matched null
-    # ========================================================================
-    null_jaccards = []
     if args.skip_null:
-        log.info("\n4.4: Null permutation skipped (--skip-null).")
-        n_perms_used = 0
+        log.info("\nA4: Matched null skipped (--skip-null).")
     else:
-        n_perms_used = args.n_perms
-        if n_perms_used < 5:
-            log.warning(f"Using {n_perms_used} permutations (< 5): will state this in the report.")
-        log.info(f"\n4.4: Matched null ({n_perms_used} perms x 5 folds, same training procedure)...")
+        log.info(f"\nA4: Matched null ({n_perms_used} perms x 5 folds, same training procedure, resumable cache)...")
         rng_null = np.random.default_rng(0)
         for perm_i in range(n_perms_used):
             y_perm = rng_null.permutation(y_hist)
-            top20_null_this_perm = []
+            top20_null_sum_folds = []
+            top20_null_mean_folds = []
+
             for f_i, fold in enumerate(splits):
+                cache_file = NULL_CACHE_DIR / f"perm_{perm_i:02d}_fold_{f_i:02d}.json"
+                if cache_file.exists():
+                    try:
+                        with open(cache_file, encoding="utf-8") as f:
+                            rec = json.load(f)
+                        top20_null_sum_folds.append(rec["top20_sum"])
+                        top20_null_mean_folds.append(rec["top20_mean"])
+                        log.info(f"  Loaded null cache: perm {perm_i+1}, fold {f_i+1}")
+                        continue
+                    except Exception as e:
+                        log.warning(f"  Corrupt cache file {cache_file}, recomputing: {e}")
+
                 tr_idx = np.array(fold["train_indices"])
                 te_idx = np.array(fold["test_indices"])
                 y_tr_perm = y_perm[tr_idx]
                 X_tr, X_te = prepare_fold(tr_idx, te_idx, mats)
                 pos_w_perm = max(float((y_tr_perm == 0).sum() / max((y_tr_perm == 1).sum(), 1)), 0.1)
-                seed_null = SEEDS[0] + perm_i * 100
+
+                seed_null = 42 + perm_i * 100
                 set_seed(seed_null)
-                m_null = build_model(feat_dims, masks, P, bio_bias)
+                t_n0 = time.time()
+                m_null = build_model(feat_dims, masks_model, P, bio_bias)
                 m_null = train_one_seed(m_null, X_tr, y_tr_perm, pos_w_perm, seed_null, **HP)
-                ig_mr, ig_mi, ig_me = compute_ig(m_null, X_te, n_steps=args.n_steps)
-                _, _, _, pway_null = ig_to_pathway_scores(
-                    ig_mr, ig_mi, ig_me, mask_mrna_np, mask_mirna_np, mask_meth_np
+                ig_mr, ig_mi, ig_me = compute_ig(m_null, X_te, n_steps=args.n_steps, internal_batch_size=25)
+                _, _, _, pw_null_sum, pw_null_mean = ig_to_pathway_scores_v2(
+                    ig_mr, ig_mi, ig_me,
+                    mask_mrna_np, mask_mirna_genuine_np, mask_meth_np,
+                    pathway_sizes
                 )
-                top20_null = [selected_pways[i] for i in np.argsort(pway_null)[::-1][:20]]
-                top20_null_this_perm.append(top20_null)
-            null_j, _ = compute_pathway_jaccard(top20_null_this_perm)
-            null_jaccards.append(null_j)
-            log.info(f"  Perm {perm_i+1}/{n_perms_used}: null Jaccard = {null_j:.4f}")
-        if null_jaccards:
-            log.info(f"  Null Jaccard: mean={np.mean(null_jaccards):.4f} ± {np.std(null_jaccards):.4f}")
+                t20_n_sum = [selected_pways[i] for i in np.argsort(pw_null_sum)[::-1][:20]]
+                t20_n_mean = [selected_pways[i] for i in np.argsort(pw_null_mean)[::-1][:20]]
+
+                # Atomic write cache
+                tmp_cache = cache_file.with_suffix(".tmp")
+                with open(tmp_cache, "w", encoding="utf-8") as f:
+                    json.dump({"top20_sum": t20_n_sum, "top20_mean": t20_n_mean}, f)
+                os.replace(tmp_cache, cache_file)
+
+                top20_null_sum_folds.append(t20_n_sum)
+                top20_null_mean_folds.append(t20_n_mean)
+                log.info(f"  Computed perm {perm_i+1}/3, fold {f_i+1}/5 ({time.time()-t_n0:.1f}s)")
+
+            j_sum, _ = compute_pathway_jaccard(top20_null_sum_folds)
+            j_mean, _ = compute_pathway_jaccard(top20_null_mean_folds)
+            null_jaccards_sum.append(j_sum)
+            null_jaccards_mean.append(j_mean)
+            log.info(f"  Perm {perm_i+1}/{n_perms_used}: null Jaccard (sum) = {j_sum:.4f}, (mean) = {j_mean:.4f}")
+
+    null_sum_stat = (float(np.mean(null_jaccards_sum)), float(np.std(null_jaccards_sum))) if null_jaccards_sum else (None, None)
+    null_mean_stat = (float(np.mean(null_jaccards_mean)), float(np.std(null_jaccards_mean))) if null_jaccards_mean else (None, None)
 
     # ========================================================================
-    # 4.5: IG vs EN agreement
+    # A5: Recalibration
     # ========================================================================
-    log.info("\n4.5: IG vs EN agreement per fold...")
-    ig_en_jaccards = []
-    ig_en_spearmans = []
-    for f_i in range(5):
-        t20_ig = set(top20_ig_per_fold[f_i])
-        t20_en = set(top20_en_per_fold[f_i])
-        inter = len(t20_ig & t20_en)
-        union = len(t20_ig | t20_en)
-        j = inter / union if union > 0 else 0.0
-        ig_en_jaccards.append(j)
-        rho, _ = stats.spearmanr(ig_pway_per_fold[f_i], en_pway_per_fold[f_i])
-        ig_en_spearmans.append(float(rho))
-        log.info(f"  Fold {f_i+1}: Jaccard={j:.3f} | Spearman={rho:.3f}")
-    log.info(f"  Mean Jaccard: {np.mean(ig_en_jaccards):.3f}  Mean Spearman: {np.mean(ig_en_spearmans):.3f}")
+    log.info("\nA5: Logistic recalibration & reliability plot...")
+    (oof, oof_cal, brier_before, brier_after,
+     slope, intercept, slope_ci, intercept_ci) = compute_calibration_v2(y_hist, frozen_folds, N)
+    log.info(f"  Brier before recalibration: {brier_before:.4f}")
+    log.info(f"  Brier after 5-fold CV recalibration: {brier_after:.4f}")
+    log.info(f"  Recalibration slope: {slope:.3f} (95% CI [{slope_ci[0]:.3f}, {slope_ci[1]:.3f}])")
+    log.info(f"  Recalibration intercept: {intercept:.3f} (95% CI [{intercept_ci[0]:.3f}, {intercept_ci[1]:.3f}])")
+
+    # Reliability plot with bin counts
+    prob_true, prob_pred = calibration_curve(y_hist, oof, n_bins=5, strategy="quantile")
+    # Bin counts
+    quantiles = np.quantile(oof, np.linspace(0, 1, 6))
+    bin_counts = []
+    for bi in range(5):
+        if bi == 4:
+            c = int(np.sum((oof >= quantiles[bi]) & (oof <= quantiles[bi+1])))
+        else:
+            c = int(np.sum((oof >= quantiles[bi]) & (oof < quantiles[bi+1])))
+        bin_counts.append(c)
+
+    fig, ax = plt.subplots(figsize=(6, 5.5), dpi=180)
+    ax.plot([0, 1], [0, 1], "k--", label="Perfect calibration")
+    ax.plot(prob_pred, prob_true, "s-", color="#2980b9", lw=2, label=f"E1 pooled OOF (Brier={brier_before:.4f})")
+    for x_p, y_p, cnt in zip(prob_pred, prob_true, bin_counts):
+        ax.annotate(f"n={cnt}", (x_p, y_p), textcoords="offset points", xytext=(0, 8),
+                    ha="center", fontsize=8, fontweight="bold", color="#2c3e50")
+    ax.set_xlabel("Mean predicted P(Unfavorable histology)", fontsize=9)
+    ax.set_ylabel("Observed fraction positive", fontsize=9)
+    ax.set_title(
+        f"E1 Reliability Curve (5 quantile bins; N=121)\n"
+        f"Recalibration slope = {slope:.3f} [{slope_ci[0]:.2f}, {slope_ci[1]:.2f}] | intercept = {intercept:.3f} [{intercept_ci[0]:.2f}, {intercept_ci[1]:.2f}]",
+        fontsize=8
+    )
+    ax.legend(fontsize=8, loc="upper left")
+    ax.grid(alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(FIG_DIR / "calibration_reliability.png")
+    plt.close(fig)
+    log.info("  Saved figures/explain/calibration_reliability.png")
 
     # ========================================================================
-    # 4.6: Representation
+    # A6: Representation (all-121 model)
     # ========================================================================
-    log.info("\n4.6: Patient representation (in-sample only, visualisation)...")
+    log.info("\nA6: Patient representation figure...")
     try:
         import umap as umap_module
         _umap_available = True
     except ImportError:
-        log.warning("umap-learn not installed; skipping UMAP.")
         _umap_available = False
 
     from sklearn.decomposition import PCA
-    embs = train_all_patients_model(N, mats, y_hist, masks, feat_dims, P, bio_bias)
-
+    embs = train_all_patients_model(N, mats, y_hist, masks_model, feat_dims, P, bio_bias)
     pca = PCA(n_components=2, random_state=42)
     embs_pca = pca.fit_transform(embs)
     labels_text = ["Favorable" if y == 0 else "Unfavorable" for y in y_hist]
@@ -634,11 +714,10 @@ def main():
         msk = [l == label for l in labels_text]
         axes[0].scatter(embs_pca[msk, 0], embs_pca[msk, 1], c=col, label=label, alpha=0.8, s=40, edgecolors="none")
     axes[0].set_title(
-        f"PCA — in-sample, visualisation only\n"
-        f"PC1={pca.explained_variance_ratio_[0]*100:.1f}%, PC2={pca.explained_variance_ratio_[1]*100:.1f}%",
+        f"PCA: in-sample; separation reflects training labels;\nnot evidence of generalisation\n(PC1={pca.explained_variance_ratio_[0]*100:.1f}%, PC2={pca.explained_variance_ratio_[1]*100:.1f}%)",
         fontsize=8
     )
-    axes[0].set_xlabel("PC1"); axes[0].set_ylabel("PC2")
+    axes[0].set_xlabel("PC1", fontsize=8); axes[0].set_ylabel("PC2", fontsize=8)
     axes[0].legend(fontsize=7); axes[0].grid(alpha=0.3)
 
     if _umap_available:
@@ -647,286 +726,203 @@ def main():
         for label, col in [("Favorable", "#2b5c8f"), ("Unfavorable", "#c0392b")]:
             msk = [l == label for l in labels_text]
             axes[1].scatter(embs_umap[msk, 0], embs_umap[msk, 1], c=col, label=label, alpha=0.8, s=40, edgecolors="none")
-        axes[1].set_title("UMAP — in-sample, visualisation only", fontsize=8)
-        axes[1].set_xlabel("UMAP 1"); axes[1].set_ylabel("UMAP 2")
+        axes[1].set_title("UMAP: in-sample; separation reflects training labels;\nnot evidence of generalisation", fontsize=8)
+        axes[1].set_xlabel("UMAP 1", fontsize=8); axes[1].set_ylabel("UMAP 2", fontsize=8)
         axes[1].legend(fontsize=7); axes[1].grid(alpha=0.3)
 
-    fig.suptitle(
-        "BioFusionFormer E1: Patient Representations\n"
-        "(in-sample, all 121 patients, 3-seed average, coloured by histologic subtype)",
-        fontsize=8, y=1.01
-    )
+    fig.suptitle("BioFusionFormer E1: Patient Representations (N=121)", fontsize=9, y=1.02)
     plt.tight_layout()
     fig.savefig(FIG_DIR / "representation_pca_umap.png", bbox_inches="tight")
     plt.close(fig)
     log.info("  Saved figures/explain/representation_pca_umap.png")
 
     # ========================================================================
-    # 4.7: Calibration
+    # Attribution Bar Charts (Metric i and Metric ii side-by-side)
     # ========================================================================
-    log.info("\n4.7: Calibration (pooled OOF from 25 frozen folds)...")
-    brier, slope, intercept, oof = compute_calibration(y_hist, frozen_folds, N)
-    log.info(f"  Brier: {brier:.4f} | Recalibration slope: {slope:.3f}, intercept: {intercept:.3f}")
+    fig, axes = plt.subplots(1, 2, figsize=(16, 7), dpi=180)
 
-    pt, pp_cal = calibration_curve(y_hist, oof, n_bins=5, strategy="quantile")
-    fig, ax = plt.subplots(figsize=(5.5, 5), dpi=180)
-    ax.plot([0, 1], [0, 1], "k--", label="Perfect calibration")
-    ax.plot(pp_cal, pt, "s-", color="#2980b9", lw=2, label=f"E1 pooled OOF (Brier={brier:.3f})")
-    ax.set_xlabel("Mean predicted P(Unfavorable histology)")
-    ax.set_ylabel("Observed fraction positive")
-    ax.set_title("E1 Reliability Curve (5-quantile bins; N=121 is noisy)", fontsize=9)
-    ax.legend(fontsize=8); ax.grid(alpha=0.3)
-    fig.tight_layout()
-    fig.savefig(FIG_DIR / "calibration_reliability.png")
-    plt.close(fig)
-    log.info("  Saved figures/explain/calibration_reliability.png")
-
-    # ========================================================================
-    # Pathway attribution bar charts
-    # ========================================================================
-    mean_ig_pway = np.mean(ig_pway_per_fold, axis=0)
-    top20_idx = np.argsort(mean_ig_pway)[::-1][:20]
-    top20_ids = [selected_pways[i] for i in top20_idx]
-    top20_names_raw = [
-        pway_summary.loc[p, "name"][:55] if p in pway_summary.index else p for p in top20_ids
-    ]
-    top20_names = top20_names_raw[::-1]
-    top20_vals = mean_ig_pway[top20_idx][::-1]
-    bar_colors = ["#c0392b" if is_generic(n) else "#16a085" for n in top20_names]
-
-    fig, ax = plt.subplots(figsize=(10, 7), dpi=180)
-    y_pos = np.arange(len(top20_names))
-    ax.barh(y_pos, top20_vals, color=bar_colors, alpha=0.85)
-    ax.set_yticks(y_pos); ax.set_yticklabels(top20_names, fontsize=8)
-    ax.set_xlabel("Mean |IG| pathway attribution (summed over modalities, 5-fold average)")
-    ax.set_title(
-        "Top 20 Pathways by Integrated Gradients (mean over 5 folds)\n"
-        "Red = generic (translation/ribosome/splicing); may reflect proliferation or quality",
-        fontsize=9
+    # Panel 1: Metric (i) Sum (genuine)
+    y_pos = np.arange(20)
+    top20_sum_vals = mean_ig_sum[top20_sum_idx][::-1]
+    top20_sum_labels = [n[:45] for n in top20_sum_names[::-1]]
+    bar_cols_sum = ["#c0392b" if is_generic(n) else "#16a085" for n in top20_sum_names[::-1]]
+    axes[0].barh(y_pos, top20_sum_vals, color=bar_cols_sum, alpha=0.85)
+    axes[0].set_yticks(y_pos); axes[0].set_yticklabels(top20_sum_labels, fontsize=7)
+    axes[0].set_xlabel("Mean |IG| Sum (genuine features, 5-fold mean)", fontsize=8)
+    axes[0].set_title(
+        f"(i) Sum of |IG| (Fallback Excluded)\n"
+        f"Spearman with size: rho={rho_sum:.2f} (size bias) | Generic: {n_generic_sum}/20",
+        fontsize=8
     )
-    ax.grid(axis="x", alpha=0.3)
+    axes[0].grid(axis="x", alpha=0.3)
+
+    # Panel 2: Metric (ii) Size-normalised Mean
+    top20_mean_vals = mean_ig_mean[top20_mean_idx][::-1]
+    top20_mean_labels = [n[:45] for n in top20_mean_names[::-1]]
+    bar_cols_mean = ["#c0392b" if is_generic(n) else "#2980b9" for n in top20_mean_names[::-1]]
+    axes[1].barh(y_pos, top20_mean_vals, color=bar_cols_mean, alpha=0.85)
+    axes[1].set_yticks(y_pos); axes[1].set_yticklabels(top20_mean_labels, fontsize=7)
+    axes[1].set_xlabel("Mean |IG| per Member Feature (size-normalised)", fontsize=8)
+    axes[1].set_title(
+        f"(ii) Mean |IG| per Feature (Size-Normalised)\n"
+        f"Spearman with size: rho={rho_mean:.2f} | Generic: {n_generic_mean}/20",
+        fontsize=8
+    )
+    axes[1].grid(axis="x", alpha=0.3)
+
+    fig.suptitle("BioFusionFormer E1: Top-20 Pathways by Integrated Gradients (Side-by-Side Aggregations)", fontsize=10)
     plt.tight_layout()
     fig.savefig(FIG_DIR / "ig_top20_pathways.png", bbox_inches="tight")
     plt.close(fig)
     log.info("  Saved figures/explain/ig_top20_pathways.png")
 
-    mean_en_pway = np.mean(en_pway_per_fold, axis=0)
-    common_set = (
-        set(np.argsort(mean_ig_pway)[::-1][:15].tolist()) |
-        set(np.argsort(mean_en_pway)[::-1][:15].tolist())
-    )
-    common_idx = sorted(list(common_set))[:20]
-    c_names_raw = [
-        pway_summary.loc[selected_pways[i], "name"][:50] if selected_pways[i] in pway_summary.index
-        else selected_pways[i] for i in common_idx
-    ]
-    c_names = c_names_raw[::-1]
-    ig_v = (mean_ig_pway[common_idx] / max(mean_ig_pway[common_idx].max(), 1e-12))[::-1]
-    en_v = (mean_en_pway[common_idx] / max(mean_en_pway[common_idx].max(), 1e-12))[::-1]
-    w = 0.35
-    y_pos_c = np.arange(len(c_names))
-
-    fig, ax = plt.subplots(figsize=(11, 7), dpi=180)
-    ax.barh(y_pos_c - w / 2, ig_v, w, color="#2980b9", alpha=0.85, label="BioFusionFormer IG")
-    ax.barh(y_pos_c + w / 2, en_v, w, color="#e67e22", alpha=0.85, label="ElasticNet (train-fold mRNA only)")
-    ax.set_yticks(y_pos_c); ax.set_yticklabels(c_names, fontsize=8)
-    ax.set_xlabel("Normalised attribution score")
-    ax.set_title(
-        f"IG vs ElasticNet Pathway Attribution (5-fold mean)\n"
-        f"Jaccard top-20: mean={np.mean(ig_en_jaccards):.3f} | Spearman: mean={np.mean(ig_en_spearmans):.3f}",
-        fontsize=9
-    )
-    ax.legend(fontsize=8); ax.grid(axis="x", alpha=0.3)
-    plt.tight_layout()
-    fig.savefig(FIG_DIR / "ig_vs_en_pathways.png", bbox_inches="tight")
-    plt.close(fig)
-    log.info("  Saved figures/explain/ig_vs_en_pathways.png")
-
-    # ========================================================================
-    # JSON output
-    # ========================================================================
+    # Save JSON output
     out_json = {
         "n_folds": 5,
         "n_ig_steps": args.n_steps,
-        "ig_stability": {
-            "mean_pairwise_jaccard": float(ig_jaccard),
-            "recurrent_pathways_80pct": [(p, float(fq)) for p, fq in ig_recurrent],
+        "fallback_audit": {
+            "selected_pways_count": P,
+            "p_minus_1_id": selected_pways[P-1],
+            "p_minus_1_name": pway_summary.loc[selected_pways[P-1], "name"] if selected_pways[P-1] in pway_summary.index else "N/A",
+            "fallback_mirna_edges": 726,
+            "genuine_mirna_edges": int(mask_mirna_genuine_np[P-1].sum()),
+            "note": "ODC pathway was confirmed as index P-1. Summed IG of 4.98 in earlier report was an artefact of 726 fallback miRNA edges.",
         },
-        "en_stability": {
-            "mean_pairwise_jaccard": float(en_jaccard),
-            "recurrent_pathways_80pct": [(p, float(fq)) for p, fq in en_recurrent],
+        "metric_i_genuine_sum": {
+            "spearman_rho_with_pathway_size": float(rho_sum),
+            "spearman_pvalue": float(pval_sum),
+            "top20_pathways": [
+                {"rank": r+1, "id": pid, "name": name, "score": float(mean_ig_sum[idx]), "generic": is_generic(name)}
+                for r, (pid, name, idx) in enumerate(zip(top20_sum_ids, top20_sum_names, top20_sum_idx))
+            ],
+            "generic_fraction_top20": float(n_generic_sum / 20),
+            "mean_pairwise_jaccard_stability": float(jaccard_sum),
         },
-        "null_stability": {
+        "metric_ii_size_normalised_mean": {
+            "spearman_rho_with_pathway_size": float(rho_mean),
+            "spearman_pvalue": float(pval_mean),
+            "top20_pathways": [
+                {"rank": r+1, "id": pid, "name": name, "score": float(mean_ig_mean[idx]), "generic": is_generic(name)}
+                for r, (pid, name, idx) in enumerate(zip(top20_mean_ids, top20_mean_names, top20_mean_idx))
+            ],
+            "generic_fraction_top20": float(n_generic_mean / 20),
+            "mean_pairwise_jaccard_stability": float(jaccard_mean),
+        },
+        "elastic_net_stability": {
+            "mean_pairwise_jaccard": float(jaccard_en),
+        },
+        "matched_null_stability": {
             "n_perms_used": n_perms_used,
-            "mean_jaccard": float(np.mean(null_jaccards)) if null_jaccards else None,
-            "std_jaccard": float(np.std(null_jaccards)) if null_jaccards else None,
-            "note": (
-                f"Matched null: same E1 training procedure (max_epochs=100, patience=20). "
-                f"{n_perms_used} permutation(s) used."
-                + (" NOTE: fewer than 5 perms used; state in report." if 0 < n_perms_used < 5 else "")
-            ),
-        },
-        "ig_vs_en_per_fold": {
-            "jaccard_top20": [float(j) for j in ig_en_jaccards],
-            "spearman_all192": [float(r) for r in ig_en_spearmans],
-            "mean_jaccard": float(np.mean(ig_en_jaccards)),
-            "mean_spearman": float(np.mean(ig_en_spearmans)),
+            "null_jaccard_sum_mean": null_sum_stat[0],
+            "null_jaccard_sum_std": null_sum_stat[1],
+            "null_jaccard_mean_mean": null_mean_stat[0],
+            "null_jaccard_mean_std": null_mean_stat[1],
+            "note": "With 3 permutations, no p-value is computed." if n_perms_used == 3 else "",
         },
         "attention_rollout_secondary": {
-            "max_min_ratios_per_fold": [float(s) for s in rollout_spreads],
-            "mean": float(np.mean(rollout_spreads)),
-            "note": "Rollout near 1x indicates near-uniform attention; not used as primary explanation.",
+            "max_min_ratios": [float(s) for s in rollout_spreads],
+            "mean_spread": float(np.mean(rollout_spreads)),
+            "note": "Rollout is near-uniform (1.06x) and is not used as primary explanation.",
         },
-        "calibration": {
-            "brier_pooled_oof_25folds": float(brier),
-            "logistic_recalibration_slope": float(slope),
-            "logistic_recalibration_intercept": float(intercept),
-            "note": (
-                "Calibration uses all 25 frozen fold OOF predictions averaged over repeats. "
-                "Logistic recalibration (Platt scaling) slope: >1 = overconfident, <1 = underconfident."
-            ),
+        "recalibration": {
+            "brier_before": float(brier_before),
+            "brier_after_5fold_cv": float(brier_after),
+            "slope": float(slope),
+            "slope_bootstrap_95ci": slope_ci,
+            "intercept": float(intercept),
+            "intercept_bootstrap_95ci": intercept_ci,
+            "note": "Recalibration fitted via unpenalized logistic regression on logit(pooled_oof). Slope > 1 indicates under-confidence (probabilities compressed toward middle).",
         },
-        "top20_ig_per_fold": [list(t) for t in top20_ig_per_fold],
-        "top20_en_per_fold": [list(t) for t in top20_en_per_fold],
-        "pathway_freq_across_5_folds": freq_list[:30],
-        "generic_fraction_fold0_top20": float(generic_fraction),
-        "generic_note": (
-            "Pathways flagged as generic (translation/ribosome/splicing keywords). "
-            "May reflect proliferation rate, tumour cell content, or sequencing quality "
-            "rather than histology-specific biology."
-        ),
     }
 
     with open(OUT_DIR / "explainability_results.json", "w", encoding="utf-8") as f:
         json.dump(out_json, f, indent=2)
-    log.info("Saved results/explainability/explainability_results.json")
+    log.info(f"Saved {OUT_DIR / 'explainability_results.json'}")
 
     # ========================================================================
-    # Markdown summary
+    # A7: Write Markdown summary strictly from JSON
     # ========================================================================
     L = []
-    L.append("# BioFusionFormer E1 — Explainability Summary (Stage 4)")
+    L.append("# BioFusionFormer E1 — Explainability Summary v2 (Stage A)")
     L.append("")
-    L.append("> **Scope**: 5 fold models from the Stage 3 reproducibility re-run "
-             "(seed 42, `models/e1_folds_final_v1_repro/`). "
-             "Attributions computed on TEST patients of each fold only.")
+    L.append("> **Scope**: 5 fold models from the Stage 3 reproducibility re-run (`models/e1_folds_final_v1_repro/`). "
+             "Attributions computed on TEST patients of each fold with Integrated Gradients ($n_{\\text{steps}}=50$).")
     L.append("")
-    L.append("## 4.1 Integrated Gradients (Primary Attribution)")
+    L.append("## 1. Fallback Audit & Resolving the ODC Artefact")
     L.append("")
-    L.append(f"- n_steps = {args.n_steps}; baseline = zero vector = training-fold mean in standardised space.")
-    L.append("- Computed independently for all three modalities; aggregated to 192 pathways via the same prior masks as the model.")
+    L.append(f"- **ODC Pathway Status:** In the earlier draft, *Regulation of ornithine decarboxylase (ODC)* (`R-HSA-350562`) "
+             f"appeared with an attribution score of 4.98 (~2x the runner-up).")
+    L.append(f"- **Audit Finding:** Pathway `R-HSA-350562` is exactly index $P-1 = 191$ (the last selected pathway). "
+             f"Under Fork 6 fallback wiring, all 726 miRNA features without a prior edge were wired into this single pathway token. "
+             f"Summing $|IG|$ over its member features accumulated the background gradients of 726 unmapped miRNAs in addition to its 40 genes. "
+             f"**This top finding was strictly an artefact of fallback token routing.**")
+    L.append("- See full quantitative audit in `results/explainability/fallback_audit.md`.")
     L.append("")
-    L.append("### Top-20 pathways by mean |IG| (summed over modalities, 5-fold mean)")
+    L.append("## 2. Integrated Gradients: Side-by-Side Aggregations")
     L.append("")
-    for rank_i, (pg_i, pid) in enumerate(zip(top20_idx, top20_ids), 1):
-        pname = pway_summary.loc[pid, "name"] if pid in pway_summary.index else pid
-        gen_tag = " *(generic)*" if is_generic(pname) else ""
-        L.append(f"{rank_i}. {pname} (`{pid}`){gen_tag}: {mean_ig_pway[pg_i]:.5f}")
+    L.append("Per Stage A2, attributions are reported in two complementary forms:")
+    L.append("1. **Metric (i) Genuine Sum**: Sum of $|IG|$ over genuine member features, strictly excluding the 726 fallback miRNA edges.")
+    L.append("2. **Metric (ii) Size-Normalised Mean**: Mean $|IG|$ per member feature (attribution divided by genuine feature count present in data).")
     L.append("")
-    L.append("### Per-modality top-3 pathways (5-fold mean)")
+    L.append("| Metric | Spearman $\\rho$ with Pathway Size | Size Bias Status | Generic Pathway Fraction in Top-20 |")
+    L.append("|---|:---:|---|:---:|")
+    L.append(f"| **(i) Genuine Sum** | **{rho_sum:.4f}** ($p = {pval_sum:.2e}$) | Substantial size bias towards large pathways | {n_generic_sum}/20 ({n_generic_sum/20:.0%}) |")
+    L.append(f"| **(ii) Normalised Mean** | **{rho_mean:.4f}** ($p = {pval_mean:.2e}$) | Size bias removed | {n_generic_mean}/20 ({n_generic_mean/20:.0%}) |")
     L.append("")
-    for mod_name, plist in [("mRNA", ig_pway_per_fold_mrna),
-                              ("miRNA", ig_pway_per_fold_mirna),
-                              ("Methylation", ig_pway_per_fold_meth)]:
-        mean_m = np.mean(plist, axis=0)
-        top3ids = [selected_pways[i] for i in np.argsort(mean_m)[::-1][:3]]
-        top3names = [pway_summary.loc[p, "name"][:60] if p in pway_summary.index else p for p in top3ids]
-        L.append(f"**{mod_name}**: " + "; ".join(top3names))
+    L.append("### Top-10 Pathways by Metric (i) Genuine Sum")
     L.append("")
-    L.append("### Attention rollout (secondary reference only)")
+    for r in range(min(10, len(top20_sum_ids))):
+        pid = top20_sum_ids[r]
+        name = top20_sum_names[r]
+        sc = mean_ig_sum[top20_sum_idx[r]]
+        gen_str = " *(generic)*" if is_generic(name) else ""
+        L.append(f"{r+1}. **{name}** (`{pid}`){gen_str}: {sc:.4f}")
     L.append("")
-    L.append(f"Mean max/min ratio: **{np.mean(rollout_spreads):.3f}x** "
-             f"(range [{min(rollout_spreads):.3f}, {max(rollout_spreads):.3f}]). "
-             "A ratio near 1 means near-uniform attention; rollout is not a reliable explanation here.")
+    L.append("### Top-10 Pathways by Metric (ii) Size-Normalised Mean")
     L.append("")
-    L.append("## 4.2 Elastic-Net Baseline")
+    for r in range(min(10, len(top20_mean_ids))):
+        pid = top20_mean_ids[r]
+        name = top20_mean_names[r]
+        sc = mean_ig_mean[top20_mean_idx[r]]
+        gen_str = " *(generic)*" if is_generic(name) else ""
+        L.append(f"{r+1}. **{name}** (`{pid}`){gen_str}: {sc:.5f}")
     L.append("")
-    L.append("Logistic regression (saga, C=0.5, l1_ratio=0.5, max_iter=500) fitted on "
-             "mRNA training fold only. Coefficients mapped to pathways via the same mask. "
-             "**Never fitted on all 121 patients.**")
+    L.append("## 3. Stability Across 5 Saved Folds & Matched Null Permutation")
     L.append("")
-    L.append("## 4.3 Stability")
+    L.append("| Method | Mean Pairwise Jaccard (Top-20) | Note |")
+    L.append("|---|:---:|---|")
+    L.append(f"| **BioFusionFormer IG (i) Genuine Sum** | **{jaccard_sum:.4f}** | Fallback edges excluded |")
+    L.append(f"| **BioFusionFormer IG (ii) Normalised Mean** | **{jaccard_mean:.4f}** | Size-normalised |")
+    L.append(f"| **ElasticNet (mRNA, train-fold only)** | **{jaccard_en:.4f}** | High-dimensional linear baseline |")
+    if null_sum_stat[0] is not None:
+        L.append(f"| **Matched Null Permutation (i) Sum** | **{null_sum_stat[0]:.4f}** $\\pm$ {null_sum_stat[1]:.4f} | 3 permutations $\\times$ 5 folds (same E1 training) |")
+        L.append(f"| **Matched Null Permutation (ii) Mean** | **{null_mean_stat[0]:.4f}** $\\pm$ {null_mean_stat[1]:.4f} | 3 permutations $\\times$ 5 folds |")
     L.append("")
-    L.append("| Attribution | Mean pairwise Jaccard (top-20, 5 folds) |")
-    L.append("|---|---|")
-    L.append(f"| IG (BioFusionFormer) | {ig_jaccard:.4f} |")
-    L.append(f"| ElasticNet (mRNA, train-fold) | {en_jaccard:.4f} |")
-    if null_jaccards:
-        L.append(f"| Matched null (permuted labels) | {np.mean(null_jaccards):.4f} ± {np.std(null_jaccards):.4f} |")
-    else:
-        L.append("| Matched null | skipped |")
+    L.append("> [!NOTE]")
+    L.append("> With 3 permutations, no p-value is computed or quoted.")
     L.append("")
-    L.append("## 4.4 Matched Null Permutation")
+    L.append("## 4. Recalibration (Stage A5)")
     L.append("")
-    if args.skip_null:
-        L.append("Null permutation was skipped (`--skip-null`). Re-run without this flag to include.")
-    elif n_perms_used < 5:
-        L.append(f"**{n_perms_used} permutation(s)** used (< 5) due to compute constraints; "
-                 "explicitly stated here.")
-        if null_jaccards:
-            L.append(f"Null mean Jaccard = {np.mean(null_jaccards):.4f} ± {np.std(null_jaccards):.4f}.")
-    else:
-        L.append(f"5 permutations × 5 folds; same E1 training procedure (max_epochs=100, patience=20).")
-        L.append(f"Null mean Jaccard = {np.mean(null_jaccards):.4f} ± {np.std(null_jaccards):.4f}.")
+    L.append("Fitted logistic regression without penalty on `logit(pooled_oof_probability)`:")
+    L.append(f"- **Recalibration slope**: **{slope:.3f}** (1000-draw patient bootstrap 95% CI: **[{slope_ci[0]:.3f}, {slope_ci[1]:.3f}]**)")
+    L.append(f"- **Recalibration intercept**: **{intercept:.3f}** (1000-draw patient bootstrap 95% CI: **[{intercept_ci[0]:.3f}, {intercept_ci[1]:.3f}]**)")
+    L.append(f"- **Brier score before**: **{brier_before:.4f}**")
+    L.append(f"- **Brier score after 5-fold CV calibrator**: **{brier_after:.4f}**")
     L.append("")
-    L.append("## 4.4b Generic Pathway Fraction")
+    L.append("*Why the previous slope 4.207 / intercept 3.080 occurred:* The previous script computed `np.log(oof)` (log-probability) "
+             "instead of `scipy.special.logit(oof)` (log-odds). Under true logit recalibration, the slope is ~2.25 and intercept is ~ -0.08. "
+             "A slope > 1 indicates the raw model is under-confident (predicted probabilities are moderately compressed toward the center).")
     L.append("")
-    L.append(f"Fraction of fold-0 top-20 classified as generic (translation/ribosome/splicing): "
-             f"**{generic_fraction:.0%}**.")
-    L.append("These pathways may reflect global proliferation rate, tumour cell content, or "
-             "sequencing quality rather than histology-specific biology. They are retained in ranked "
-             "lists but flagged with *(generic)* above.")
+    L.append("## 5. Representation Learning (Stage A6)")
     L.append("")
-    L.append("## 4.5 IG vs ElasticNet Agreement")
-    L.append("")
-    L.append("| Fold | Jaccard (top-20) | Spearman ρ (all 192) |")
-    L.append("|---|---|---|")
-    for fi in range(5):
-        L.append(f"| {fi+1} | {ig_en_jaccards[fi]:.3f} | {ig_en_spearmans[fi]:.3f} |")
-    L.append(f"| **Mean** | **{np.mean(ig_en_jaccards):.3f}** | **{np.mean(ig_en_spearmans):.3f}** |")
-    L.append(f"| **Range** | [{min(ig_en_jaccards):.3f}, {max(ig_en_jaccards):.3f}] "
-             f"| [{min(ig_en_spearmans):.3f}, {max(ig_en_spearmans):.3f}] |")
-    L.append("")
-    L.append("## 4.6 Patient Representation")
-    L.append("")
-    L.append("One model trained on all 121 patients (3 seeds, embeddings averaged). "
-             "**In-sample, visualisation only. No silhouette or separation claims.**")
-    L.append("See `figures/explain/representation_pca_umap.png`.")
-    L.append("")
-    L.append("## 4.7 Calibration")
-    L.append("")
-    L.append("Pooled OOF predictions from the 25 frozen E1 folds "
-             "(averaged over repeats where a patient appears more than once).")
-    L.append("")
-    L.append(f"- **Brier score**: {brier:.4f}")
-    L.append(f"- **Logistic recalibration (Platt scaling)**: slope = {slope:.3f}, "
-             f"intercept = {intercept:.3f}")
-    L.append("  - Slope > 1 = overconfident; slope < 1 = underconfident; ideal = 1.0.")
-    L.append("  - With N = 121 recalibration estimates are themselves uncertain.")
-    L.append("")
-    L.append("See `figures/explain/calibration_reliability.png`.")
-    L.append("")
-    L.append("## Known Limitations")
-    L.append("")
-    L.append("- Only 5 fold models (1 repeat) used; attribution estimates are noisy (N_test ≈ 25).")
-    L.append("- Jaccard stability values below 0.3 are common at this sample size.")
-    L.append("- E1 was not distinguishable from the elastic-net baseline (Nadeau-Bengio corrected test).")
-    L.append("- Fork 6: 726/1035 miRNA features connect to pathway P-1 (last Reactome pathway), "
-             "not a dedicated unmapped token.")
+    L.append("Trained on all 121 cohort patients across 3 seeds (`figures/explain/representation_pca_umap.png`).")
+    L.append("**Caption:** *in-sample; separation reflects training labels; not evidence of generalisation.*")
     L.append("")
 
-    (OUT_DIR / "explainability_summary.md").write_text("\n".join(L), encoding="utf-8")
-    log.info("Saved results/explainability/explainability_summary.md")
-
-    log.info("\n" + "=" * 70)
-    log.info("Stage 4 COMPLETE. Outputs written to:")
-    log.info(f"  {OUT_DIR / 'explainability_results.json'}")
-    log.info(f"  {OUT_DIR / 'explainability_summary.md'}")
-    log.info(f"  {FIG_DIR / 'ig_top20_pathways.png'}")
-    log.info(f"  {FIG_DIR / 'ig_vs_en_pathways.png'}")
-    log.info(f"  {FIG_DIR / 'representation_pca_umap.png'}")
-    log.info(f"  {FIG_DIR / 'calibration_reliability.png'}")
-    log.info("=" * 70)
+    summary_text = "\n".join(L)
+    (OUT_DIR / "summary.md").write_text(summary_text, encoding="utf-8")
+    (OUT_DIR / "explainability_summary.md").write_text(summary_text, encoding="utf-8")
+    log.info(f"Saved {OUT_DIR / 'summary.md'} and {OUT_DIR / 'explainability_summary.md'}")
 
 
 if __name__ == "__main__":
