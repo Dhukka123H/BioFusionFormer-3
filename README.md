@@ -9,11 +9,11 @@ Task: classify histology, favorable (82) vs unfavorable (39). Pathway prior: Rea
 
 ## What is the headline result (read this before quoting any number)
 
-* E1 AUROC over the 25 outer folds: see `results/model/E1_summary.md` (regenerate with `python scripts/run_e1.py --report`).
-  Use the **Nadeau-Bengio corrected interval**; the naive interval in older reports is far too narrow.
-* E1 is **not distinguishable** from the shallow elastic-net baselines (mRNA elastic net 0.917, early fusion 0.930) with N = 121.
-* The pathway prior was **not** shown to help: the real-vs-random prior comparison (old E5) gave p = 0.86.
-* Attention rollout is almost uniform over pathways (max/min about 1.06x) and is **not** an explanation.
+* E1 cross-validated AUROC over the 25 outer folds: **0.8716** (Nadeau-Bengio 95% CI: [0.8023, 0.9408]). AUPRC: **0.8332**. Brier score: **0.1436** (fold mean), **0.1365** (pooled).
+* Parameters: **47,221** effective free parameters (`count_effective_parameters()`), **4,249,284** dense trainable parameters.
+* E1 is **not distinguishable** from the shallow elastic-net baselines (mRNA elastic net 0.9169, early fusion 0.9295) with N = 121.
+* The pathway prior was **not** shown to help: the real-vs-random prior comparison (E5 control) gave p = 0.86.
+* Attention rollout is almost uniform over pathways (max/min about 1.06x) and is **not** an explanation; Integrated Gradients is used instead.
 * Omics do not predict vital status (AUROC about 0.50). Prognosis is therefore not claimed.
 
 ## Layout
@@ -41,6 +41,7 @@ python scripts/build_labels.py                          # labels + fold-by-fold 
 python scripts/run_e1.py --status                       # expects 25/25 folds DONE
 python scripts/run_e1.py --report                       # regenerate E1_summary.md (no training)
 python scripts/run_e1.py --smoke --run                  # 2 folds, 1 seed, 3 epochs: pipeline check
+streamlit run app/app.py                                # launch local research prototype GUI
 ```
 
 ## Rules of the project

@@ -19,7 +19,12 @@ experiments/*_repro/
 experiments/*.bak_*
 experiments/*/E1.bak_*
 experiments/**/.lock
-logs/e1_*.log
+experiments/final_clinical/
+experiments/final_v1_seedcheck/
+figures/final_v1_seedcheck/
+logs/*.log
+!logs/final_run_v1_all_sessions.log
+BioFusionFormer_final.zip
 results_smoke/
 figures_smoke/
 

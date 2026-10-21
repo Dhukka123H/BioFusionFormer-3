@@ -130,7 +130,7 @@ To constrain this enormous parameter space, BioFusionFormer injects **domain kno
 
 ## 6. BioFusionFormer Architecture: Step-by-Step Deep Dive
 
-BioFusionFormer has **4,249,284 dense trainable parameters** (`count_parameters()`), of which **47,221 are effective free parameters** (`count_effective_parameters()`). The remaining ~4.2M parameters in the masked linear projections are permanently fixed at zero by the biological prior masks and receive no gradient. The 62,450 figure reported earlier referred to free parameters, not dense weights. Here is how an input tensor flows through the model:
+BioFusionFormer has **4,249,284 dense trainable parameters** (`count_parameters()`), of which **47,221 are effective free parameters** (`count_effective_parameters()`). The remaining ~4.2M parameters in the masked linear projections are permanently fixed at zero by the biological prior masks and receive no gradient. 62,450 appeared in an earlier draft and could not be reproduced. Here is how an input tensor flows through the model:
 
 ```
 [Raw Features: 11,171 mRNA | 1,035 miRNA | 9,778 Methylation]
@@ -216,7 +216,10 @@ A major reason why published machine learning models fail in medical practice is
 
 ## 8. Benchmark Experiments & Key Findings (E1–E10)
 
-We conducted a pre-specified suite of 10 experiments across the same 25 folds (3 seeds per fold):
+> [!NOTE]
+> **Archived, Exploratory Scope:** Only **E1** is the frozen headline architecture. Experiments E2–E10 (ablations and controls) were exploratory investigations conducted during model development, now archived under git tag `v1-archive-all-experiments`.
+
+A pre-specified suite of 10 exploratory experiments was evaluated across the 25 outer folds (3 seeds per fold):
 
 | Experiment | Name / Architecture | Modalities | Primary Purpose |
 |---|---|---|---|
@@ -313,14 +316,14 @@ When speaking with your guide or examiners, follow this structured presentation 
   - Statistical significance evaluated with the Nadeau-Bengio corrected test.
 
 ### Slide 4: Results & Honest Biological Discoveries
-- Show the benchmark table: BioFusionFormer achieves AUROC ~0.91, comparable to ElasticNet (0.9295), with statistical equivalence ($p > 0.05$).
-- Explain the **Methylation Finding**: Methylation has no detectable signal for histology, and the model's gating network learned to suppress it automatically.
-- Show the **Ablation Studies**: Removing the biological bias matrix (E4) or randomizing the prior graph (E5) demonstrates the impact of biological topology.
+- Show the benchmark table: BioFusionFormer achieves cross-validated AUROC **0.8716** (Nadeau-Bengio 95% CI [0.8023, 0.9408]), not distinguishable ($p \ge 0.05$) from penalized logistic regression on mRNA (0.9169, $p = 0.30$) or Early Fusion (0.9295, $p = 0.18$) with $N=121$.
+- Explain the **Methylation Finding**: Methylation alone provides no detectable signal for histology (AUROC 0.4601). Modality gating weights remain relatively balanced across all three modalities (mRNA 0.321, miRNA 0.399, Methylation 0.281).
+- Note on **Prior Controls (archived, exploratory)**: In the exploratory random-prior ablation (E5), scrambling graph topology showed no statistically detectable difference ($p = 0.86$); the biological prior was not shown to outperform random topology with $N=121$.
 
 ### Slide 5: Explainability & Representation
-- Show the **Attention Rollout**: Top pathways identified are *TP53*, *Cell Cycle*, and *WNT Signaling*—the exact known drivers of Wilms tumor anaplasia.
-- Show the **Permutation Stability Plot**: Real model pathway consistency significantly outperforms the shuffled-label null ($p < 0.001$).
-- Show the **UMAP/PCA plots**: Fused embeddings separate both histology and patient mortality.
+- Explainability via **Integrated Gradients (IG)**: Attention rollout is near-uniform across pathways (spread ratio 1.06x) and is not an explanation. Feature attributions from Integrated Gradients are aggregated to pathways with fallback wiring excluded and size normalisation reported.
+- **Pathway Stability & Matched Null**: Pathway stability across folds must be benchmarked against a matched label-permutation null trained with the identical protocol.
+- **In-sample Patient Representation**: PCA/UMAP projections are in-sample visualizations only ($N=121$); separation reflects training labels, not evidence of generalization.
 
 ---
 
@@ -330,19 +333,19 @@ When speaking with your guide or examiners, follow this structured presentation 
 > **Answer**: *"CNNs assume spatial locality (like neighboring pixels in an image), which does not exist in genomic data where gene order on an array is arbitrary. Random Forests treat features independently and struggle to capture cross-modal regulatory interactions (such as a microRNA downregulating multiple genes in a single pathway). Transformers utilize multi-head self-attention, which allows every pathway token to interact with every other pathway across all three modalities. Furthermore, transformers allow us to inject graph adjacency directly as an additive attention bias ($B_{\text{bio}}$)."*
 
 #### Q2: "Why didn't BioFusionFormer achieve 99% accuracy?"
-> **Answer**: *"In a cohort of 121 patients with 22,000 features, claiming 99% accuracy is almost always an indicator of data leakage (such as scaling or selecting features before splitting the dataset). Unfavorable histology in Wilms tumor has biological heterogeneity and label noise (e.g., focal anaplasia that was missed on biopsy). An AUROC of ~0.91 evaluated across 25 outer folds with strictly in-fold preprocessing is a strong, clinically realistic result that reflects true generalization."*
+> **Answer**: *"In a cohort of 121 patients with 22,000 features, claiming 99% accuracy is almost always an indicator of data leakage (such as scaling or selecting features before splitting the dataset). Unfavorable histology in Wilms tumor has biological heterogeneity and label noise (e.g., focal anaplasia that was missed on biopsy). An AUROC of 0.8716 (Nadeau-Bengio 95% CI [0.8023, 0.9408]) evaluated across 25 outer folds with strictly in-fold preprocessing is a strong, clinically realistic result that reflects true generalization."*
 
 #### Q3: "What is the Nadeau-Bengio correction, and why did you use it instead of a regular Student's t-test?"
 > **Answer**: *"A standard paired Student's t-test assumes that each sample in the comparison is independent. In repeated cross-validation (like our 5 repeats of 5-fold CV), training sets overlap heavily between splits (each pair of folds shares ~75% of their training data). This overlap induces positive correlation between test scores, causing standard t-tests to drastically underestimate variance and produce false-positive significance. The Nadeau-Bengio corrected test adjusts the variance estimator by incorporating the ratio of test to train sample size ($n_{\text{test}} / n_{\text{train}}$), providing a statistically rigorous, conservative hypothesis test."*
 
 #### Q4: "Why did DNA methylation perform so poorly for histology classification?"
-> **Answer**: *"Our baseline experiments and confounder audits revealed that DNA methylation alone achieved an AUROC of ~0.45. Biologically, Wilms tumor histology is driven by genetic mutations (such as TP53) and large-scale copy number alterations rather than genome-wide promoter hypermethylation. Methylation in pediatric blastemal tumors exhibits high inter-patient epigenetic variance that reflects developmental cell of origin rather than anaplastic transformation. Crucially, BioFusionFormer's adaptive gating network successfully identified this and downweighted the methylation modality to <15%."*
+> **Answer**: *"Our baseline experiments and confounder audits revealed that DNA methylation alone achieved an AUROC of ~0.46. Biologically, Wilms tumor histology is driven by genetic mutations (such as TP53) and large-scale copy number alterations rather than genome-wide promoter hypermethylation. Methylation in pediatric blastemal tumors exhibits high inter-patient epigenetic variance that reflects developmental cell of origin rather than anaplastic transformation. Crucially, BioFusionFormer's gating network maintains balanced fusion weights across modalities (mRNA 0.321, miRNA 0.399, Methylation 0.281), neither relying on methylation nor completely zeroing it out."*
 
 #### Q5: "How did you prevent data leakage during pathway selection?"
 > **Answer**: *"We performed unsupervised pathway selection based solely on feature variance across the cohort, without ever referencing the histology or vital status labels. Furthermore, all data imputation (median) and feature scaling (StandardScaler) were computed strictly inside the training split of each fold, ensuring that the test set remained completely invisible to the pipeline."*
 
 #### Q6: "What is the purpose of the label-permutation control experiment?"
-> **Answer**: *"Deep neural networks have sufficient capacity to output arbitrary pathway attributions even when fitting random noise. To prove our attention rollout was identifying true biological signal, we trained the model on 10 random permutations of shuffled labels. The cross-fold pathway stability (Jaccard similarity) on shuffled labels was near zero (~0.12), whereas the real model exhibited high stability (~0.45, $p < 0.001$). This formally proves the explainability reflects true biological patterns rather than structural bias."*
+> **Answer**: *"Deep neural networks have sufficient capacity to output arbitrary pathway attributions even when fitting random noise. To provide a rigorous reference for pathway stability, we train matched models on shuffled labels using the exact same training procedure (same epochs, early stopping, and seed rules) and compute test-set Integrated Gradients attributions. This matched null establishes whether observed pathway ranking stability exceeds chance expectation."*
 
 ---
 

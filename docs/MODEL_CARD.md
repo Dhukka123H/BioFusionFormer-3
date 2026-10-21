@@ -62,6 +62,7 @@ Confidence intervals use the **Nadeau-Bengio corrected resampled $t$-interval** 
 | **Brier Score (pooled OOF)** | **0.1365** | — |
 
 *Per-repeat mean AUROCs:* 0.876, 0.861, 0.867, 0.898, 0.856 (run-to-run SD: 0.017).
+*Seed Sensitivity (Initialization Variance on Identical Splits):* A 5-fold rerun on repeat 0 with alternative random seeds `[7, 8, 9]` yielded mean AUROC **0.8653** (mean per-fold $\Delta \text{AUROC} = -0.0108$, $\text{SD of differences} = \mathbf{0.1210}$, range $[-0.1953, +0.0938]$). Because $\text{SD} > 0.03$, individual fold models exhibit substantial initialization variance on small $N=121$; 3-seed ensembling per fold is essential to stabilize performance.
 
 ### Benchmark Comparison (Paired Nadeau-Bengio Corrected Test)
 
