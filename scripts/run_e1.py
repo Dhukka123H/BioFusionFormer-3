@@ -79,6 +79,8 @@ def parse_args():
     ap.add_argument("--n-repeats", type=int, default=5, choices=[1, 2, 3, 4, 5],
                     help="Use the first n-repeats x 5 outer folds of splits_5x5.json (default 5 = all 25). "
                          "Decide this BEFORE looking at any result.")
+    ap.add_argument("--seeds", type=str, default="42,123,999",
+                    help="Comma-separated random seeds (default 42,123,999)")
     args = ap.parse_args()
     if not (args.run or args.report or args.status):
         ap.print_help()
@@ -117,7 +119,7 @@ def setup_logging():
     fmt = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
     handlers = [
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler(LOG_DIR / f"e1_session_{stamp}.log", mode="x", encoding="utf-8"),
+        logging.FileHandler(LOG_DIR / f"e1_session_{stamp}.log", mode="a", encoding="utf-8"),
         logging.FileHandler(LOG_DIR / "e1_all_sessions.log", mode="a", encoding="utf-8"),
     ]
     root = logging.getLogger()
@@ -372,7 +374,7 @@ def main():
     with open(DATA_DIR / "splits" / "splits_5x5.json") as f:
         all_splits = json.load(f)["folds"]
     splits = all_splits[: 5 * ARGS.n_repeats]
-    seeds = list(SEEDS)
+    seeds = [int(s.strip()) for s in ARGS.seeds.split(",") if s.strip()]
     hp = dict(HP)
     if ARGS.smoke:
         splits = all_splits[:2]
