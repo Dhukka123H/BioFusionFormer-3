@@ -83,19 +83,17 @@ def validate_omics_inputs(
                 f"(found e.g. {sample_ver}). Please strip '.XX' version extensions (e.g. 'ENSG00000141510.15' -> 'ENSG00000141510')."
             )
 
-    # 3. Check value ranges
-    # mRNA: log2(count + 1) -> >= 0
-    mrna_min = dfs["mrna"].values.min()
+    # 3. Check value ranges (ignoring NaNs that will be imputed)
+    mrna_min = float(np.nanmin(dfs["mrna"].values))
     if mrna_min < -0.1:
         raise ValueError(f"mRNA contains negative values (min = {mrna_min:.3f}). Expected log2(STAR_count + 1) >= 0.")
 
-    # miRNA: log2(RPM + 1) -> >= 0
-    mirna_min = dfs["mirna"].values.min()
+    mirna_min = float(np.nanmin(dfs["mirna"].values))
     if mirna_min < -0.1:
         raise ValueError(f"miRNA contains negative values (min = {mirna_min:.3f}). Expected log2(RPM + 1) >= 0.")
 
-    # Methylation: beta values in [0, 1]
-    meth_min, meth_max = dfs["meth"].values.min(), dfs["meth"].values.max()
+    meth_min = float(np.nanmin(dfs["meth"].values))
+    meth_max = float(np.nanmax(dfs["meth"].values))
     if meth_min < -0.05 or meth_max > 1.05:
         raise ValueError(
             f"Methylation beta values out of range: min={meth_min:.3f}, max={meth_max:.3f}. "
@@ -224,7 +222,7 @@ def predict(
         if weights_path is not None and Path(weights_path).exists():
             state = torch.load(weights_path, map_location="cpu")
             model.load_state_dict(state, strict=False)
-            # Check for final model or existing fold_00 model
+        else:
             final_pt = ROOT / "models" / "final" / "model_seed42.pt"
             fold_pt = ROOT / "models" / "e1_folds_final_v1_repro" / "fold_00_seed42.pt"
             chosen_pt = final_pt if final_pt.exists() else (fold_pt if fold_pt.exists() else None)
