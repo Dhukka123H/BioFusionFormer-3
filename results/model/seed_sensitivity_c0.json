@@ -1,0 +1,104 @@
+{
+  "n_patients": 121,
+  "seeds_evaluated": [
+    42,
+    123,
+    999
+  ],
+  "in_sample_metrics": {
+    "seeds": {
+      "42": {
+        "auroc": 1.0,
+        "brier": 0.001116634695790708
+      },
+      "123": {
+        "auroc": 1.0,
+        "brier": 0.0007266892353072762
+      },
+      "999": {
+        "auroc": 1.0,
+        "brier": 0.0009501232416369021
+      }
+    },
+    "ensemble_3seed": {
+      "auroc": 1.0,
+      "brier": 0.0009237503400072455
+    },
+    "note": "In-sample cohort evaluation; cross-validated performance is reported in E1_metrics.json."
+  },
+  "pairwise_seed_differences": [
+    {
+      "pair": "Seed 42 vs Seed 123",
+      "seed_a": 42,
+      "seed_b": 123,
+      "max_abs_diff": 0.010020934045314789,
+      "mean_abs_diff": 0.005508315283805132,
+      "p95_abs_diff": 0.008774403482675552,
+      "pearson_r": 0.9999991059303284,
+      "spearman_rho": 0.7731879149166777,
+      "binary_concordance": 1.0
+    },
+    {
+      "pair": "Seed 42 vs Seed 999",
+      "seed_a": 42,
+      "seed_b": 999,
+      "max_abs_diff": 0.005171880125999451,
+      "mean_abs_diff": 0.0022468315437436104,
+      "p95_abs_diff": 0.0042601078748703,
+      "pearson_r": 0.9999985694885254,
+      "spearman_rho": 0.6109582220544969,
+      "binary_concordance": 1.0
+    },
+    {
+      "pair": "Seed 123 vs Seed 999",
+      "seed_a": 123,
+      "seed_b": 999,
+      "max_abs_diff": 0.007643364369869232,
+      "mean_abs_diff": 0.0034750273916870356,
+      "p95_abs_diff": 0.00592586025595665,
+      "pearson_r": 0.9999982714653015,
+      "spearman_rho": 0.678317095105117,
+      "binary_concordance": 1.0
+    }
+  ],
+  "modality_gate_means": {
+    "42": {
+      "mrna": 0.3196328580379486,
+      "mirna": 0.35354602336883545,
+      "meth": 0.32682108879089355
+    },
+    "123": {
+      "mrna": 0.4360066056251526,
+      "mirna": 0.3317168354988098,
+      "meth": 0.23227661848068237
+    },
+    "999": {
+      "mrna": 0.4026316702365875,
+      "mirna": 0.2856968641281128,
+      "meth": 0.31167152523994446
+    }
+  },
+  "individual_vs_ensemble": {
+    "42": {
+      "max_diff_from_ens": 0.004566490650177002,
+      "mean_diff_from_ens": 0.002540930174291134,
+      "pearson_r_with_ens": 0.9999997615814209
+    },
+    "123": {
+      "max_diff_from_ens": 0.005542322993278503,
+      "mean_diff_from_ens": 0.0029888146091252565,
+      "pearson_r_with_ens": 0.9999996423721313
+    },
+    "999": {
+      "max_diff_from_ens": 0.0024208351969718933,
+      "mean_diff_from_ens": 0.0005551788490265608,
+      "pearson_r_with_ens": 0.999999463558197
+    }
+  },
+  "key_takeaways": {
+    "mean_pairwise_r": 0.9999986489613851,
+    "mean_pairwise_prob_diff": 0.003743391406411926,
+    "max_pairwise_prob_diff": 0.010020934045314789,
+    "mean_concordance": 1.0
+  }
+}

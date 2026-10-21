@@ -214,7 +214,7 @@ A major reason why published machine learning models fail in medical practice is
 
 ---
 
-## 8. Benchmark Experiments & Key Findings (E1–E10)
+## 8. Benchmark Experiments & Key Findings (E1–E10) *(E2–E10 archived, exploratory)*
 
 > [!NOTE]
 > **Archived, Exploratory Scope:** Only **E1** is the frozen headline architecture. Experiments E2–E10 (ablations and controls) were exploratory investigations conducted during model development, now archived under git tag `v1-archive-all-experiments`.
