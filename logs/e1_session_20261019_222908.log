@@ -1,0 +1,12 @@
+2026-10-19 22:29:08,675 [INFO] ======================================================================
+2026-10-19 22:29:08,676 [INFO] BioFusionFormer E1 (frozen v1 config) - resumable CLI runner
+2026-10-19 22:29:08,676 [INFO] ======================================================================
+2026-10-19 22:29:08,676 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': False, 'tag': 'final_v1_seedcheck', 'n_repeats': 1, 'seeds': '7,8,9'}
+2026-10-19 22:29:08,705 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-19 22:29:10,414 [INFO] mRNA (121, 11171) | miRNA(unique) (121, 1035) | methylation (121, 9778)
+2026-10-19 22:29:10,797 [INFO] Selected 192 unsupervised Reactome pathways
+2026-10-19 22:29:10,829 [INFO] miRNA fallback active: 726 features mapped to the fallback token
+2026-10-19 22:29:10,854 [INFO] E1 config signature: c33ad9b8ad20
+2026-10-19 22:47:02,664 [INFO]   fold 01/5 saved | 17.9 min | AUROC=0.8750 | Brier=0.1635 | ETA ~71 min
+2026-10-19 23:10:22,618 [INFO]   fold 02/5 saved | 23.3 min | AUROC=0.9375 | Brier=0.2003 | ETA ~62 min
+2026-10-19 23:36:05,202 [INFO]   fold 03/5 saved | 25.7 min | AUROC=0.9580 | Brier=0.1107 | ETA ~45 min

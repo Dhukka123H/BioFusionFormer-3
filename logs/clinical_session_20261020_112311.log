@@ -1,0 +1,11 @@
+2026-10-20 11:23:11,129 [INFO] ======================================================================
+2026-10-20 11:23:11,130 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:23:11,130 [INFO] ======================================================================
+2026-10-20 11:23:11,131 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': True, 'status': False, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR4'], 'n_repeats': 3}
+2026-10-20 11:23:11,156 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:23:11,185 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:23:18,989 [INFO] Generating Clinical Report...
+2026-10-20 11:23:19,579 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_summary.md
+2026-10-20 11:23:19,582 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\summary.md
+2026-10-20 11:23:19,585 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_metrics.json
+2026-10-20 11:23:19,588 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\clinical_metrics.json

@@ -1,0 +1,6 @@
+2026-10-20 11:50:26,615 [INFO] ======================================================================
+2026-10-20 11:50:26,615 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:50:26,616 [INFO] ======================================================================
+2026-10-20 11:50:26,616 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 11:50:26,623 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:50:26,628 [INFO] Clinical candidates loaded: (121, 9)

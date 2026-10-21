@@ -1,0 +1,39 @@
+2026-10-19 20:35:05,762 [INFO] ============================================================
+2026-10-19 20:35:05,763 [INFO] Reactome download started
+2026-10-19 20:35:05,763 [INFO] Destination: C:\Users\dhukk\Downloads\BioFusionFormer-3\data\raw\reactome
+2026-10-19 20:35:05,763 [INFO] ============================================================
+2026-10-19 20:35:05,763 [INFO] [GET] https://reactome.org/download/current/Ensembl2Reactome.txt
+2026-10-19 20:35:10,506 [INFO]   Downloaded: Ensembl2Reactome.txt  (178981.8 KB)
+2026-10-19 20:35:11,009 [INFO]   SHA-256: 34852dc2ac258a851bad914708c0045a636161dbbeca604f04343174cca8d7fb
+2026-10-19 20:35:11,010 [INFO] [GET] https://reactome.org/download/current/Ensembl2Reactome_All_Levels.txt
+2026-10-19 20:35:18,075 [INFO]   Downloaded: Ensembl2Reactome_All_Levels.txt  (492221.9 KB)
+2026-10-19 20:35:19,756 [INFO]   SHA-256: 5af5bdcccc3a58cf8742a5013057cc87dea7ea20eefdc675d82f94b3016e11b3
+2026-10-19 20:35:19,757 [INFO] [GET] https://reactome.org/download/current/miRBase2Reactome.txt
+2026-10-19 20:35:20,031 [INFO]   Downloaded: miRBase2Reactome.txt  (15.0 KB)
+2026-10-19 20:35:20,154 [INFO]   SHA-256: 647b24a041fc56e9393dc04463d41de63ab73f72fdcb1869378dfdc193cd69ce
+2026-10-19 20:35:20,155 [INFO] [GET] https://reactome.org/download/current/miRBase2Reactome_All_Levels.txt
+2026-10-19 20:35:20,406 [INFO]   Downloaded: miRBase2Reactome_All_Levels.txt  (60.6 KB)
+2026-10-19 20:35:20,476 [INFO]   SHA-256: a4e2865fb9f3ae6b7e9da5c3c14367430c825ca4969997b49caced0cccb34a12
+2026-10-19 20:35:20,478 [INFO] [GET] https://reactome.org/download/current/ReactomePathways.txt
+2026-10-19 20:35:20,791 [INFO]   Downloaded: ReactomePathways.txt  (1555.1 KB)
+2026-10-19 20:35:20,873 [INFO]   SHA-256: f6d7a2bf89b5bcfe0250a0bc7f51bff94641447911712b8ff129f5b55e52df3a
+2026-10-19 20:35:20,884 [INFO] [GET] https://reactome.org/download/current/ReactomePathwaysRelation.txt
+2026-10-19 20:35:22,248 [INFO]   Downloaded: ReactomePathwaysRelation.txt  (619.4 KB)
+2026-10-19 20:35:22,302 [INFO]   SHA-256: fd49a624d80c14eb37ae57a02e141d574d5ede3f60022bb99edbd909448a3f1e
+2026-10-19 20:35:22,304 [INFO] [GET] https://reactome.org/download/current/humanPathwaysWithDiagrams.txt
+2026-10-19 20:35:22,571 [INFO]   Downloaded: humanPathwaysWithDiagrams.txt  (66.0 KB)
+2026-10-19 20:35:22,613 [INFO]   SHA-256: e70d7dcc4adcf9ae8e9800d89cd0a22d9d65051ddf733dcef94dd7502ea0c8c8
+2026-10-19 20:35:22,614 [INFO] [GET] https://reactome.org/download/current/ReactomePathways.gmt.zip
+2026-10-19 20:35:24,026 [INFO]   Downloaded: ReactomePathways.gmt.zip  (291.5 KB)
+2026-10-19 20:35:24,070 [INFO]   SHA-256: 8c1dbc8578431da5d2d5118262718c60b553a9be3398e93658daa069e4a9afd4
+2026-10-19 20:35:24,071 [INFO] [GET] https://reactome.org/download/current/gene_association.reactome.gz
+2026-10-19 20:35:25,870 [INFO]   Downloaded: gene_association.reactome.gz  (821.2 KB)
+2026-10-19 20:35:25,916 [INFO]   SHA-256: 08361f626c5ce9ab12c65efba8fd4c9244ab5a95615b4fb0d2851425bfcb35e9
+2026-10-19 20:35:25,921 [INFO] 
+2026-10-19 20:35:25,922 [INFO] ============================================================
+2026-10-19 20:35:25,923 [INFO] DOWNLOAD SUMMARY
+2026-10-19 20:35:25,924 [INFO]   Downloaded : 9
+2026-10-19 20:35:25,928 [INFO]   Skipped    : 0 (already present)
+2026-10-19 20:35:25,929 [INFO]   Failed     : 0
+2026-10-19 20:35:25,939 [INFO] Checksums saved to: C:\Users\dhukk\Downloads\BioFusionFormer-3\data\raw\CHECKSUMS.txt
+2026-10-19 20:35:25,949 [INFO] ============================================================

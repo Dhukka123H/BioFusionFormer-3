@@ -1,0 +1,198 @@
+2026-10-19 21:06:52,868 [INFO] ======================================================================
+2026-10-19 21:06:52,870 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-19 21:06:52,870 [INFO] ======================================================================
+2026-10-19 21:06:52,871 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-19 21:06:52,891 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-19 21:06:52,902 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-19 21:07:55,363 [INFO] ======================================================================
+2026-10-19 21:07:55,363 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-19 21:07:55,364 [INFO] ======================================================================
+2026-10-19 21:07:55,365 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-19 21:07:55,385 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-19 21:07:55,400 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:11:08,064 [INFO] ======================================================================
+2026-10-20 11:11:08,073 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:11:08,074 [INFO] ======================================================================
+2026-10-20 11:11:08,074 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 11:11:08,091 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:11:08,117 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:12:11,859 [INFO] ======================================================================
+2026-10-20 11:12:11,860 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:12:11,860 [INFO] ======================================================================
+2026-10-20 11:12:11,860 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': True, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 11:12:11,870 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:12:11,874 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:12:14,854 [INFO] --- Running Variant: EHR2 (BioFusionFormer EHR2 (3 omics + primary clinical [age, sex, stage])) [2 folds] ---
+2026-10-20 11:12:14,858 [INFO] Variant signature: 2db5a59eedc4
+2026-10-20 11:13:24,517 [INFO] ======================================================================
+2026-10-20 11:13:24,518 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:13:24,518 [INFO] ======================================================================
+2026-10-20 11:13:24,518 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': True, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 11:13:24,528 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:13:24,533 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:13:27,137 [INFO] --- Running Variant: EHR2 (BioFusionFormer EHR2 (3 omics + primary clinical [age, sex, stage])) [2 folds] ---
+2026-10-20 11:13:27,138 [INFO] Variant signature: 2db5a59eedc4
+2026-10-20 11:14:33,071 [INFO] ======================================================================
+2026-10-20 11:14:33,072 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:14:33,072 [INFO] ======================================================================
+2026-10-20 11:14:33,072 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': True, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 11:14:33,083 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:14:33,087 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:14:35,848 [INFO] --- Running Variant: EHR2 (BioFusionFormer EHR2 (3 omics + primary clinical [age, sex, stage])) [2 folds] ---
+2026-10-20 11:14:35,849 [INFO] Variant signature: 2db5a59eedc4
+2026-10-20 11:15:21,475 [INFO]   [EHR2] fold 01/2 saved | 0.8 min | AUROC=0.3611 (EN=0.5486) | Brier=0.2416
+2026-10-20 11:16:08,420 [INFO]   [EHR2] fold 02/2 saved | 0.8 min | AUROC=0.6484 (EN=0.5000) | Brier=0.2467
+2026-10-20 11:16:08,431 [INFO] --- Running Variant: EHR4 (BioFusionFormer EHR4 (clinical-only through same architecture)) [2 folds] ---
+2026-10-20 11:16:08,439 [INFO] Variant signature: 8fc27be07c95
+2026-10-20 11:16:09,306 [INFO]   [EHR4] fold 01/2 saved | 0.0 min | AUROC=0.5208 (EN=0.5486) | Brier=0.2488
+2026-10-20 11:16:10,067 [INFO]   [EHR4] fold 02/2 saved | 0.0 min | AUROC=0.8281 (EN=0.5000) | Brier=0.2287
+2026-10-20 11:16:10,068 [INFO] --- Running Variant: EHR2b (BioFusionFormer EHR2b (3 omics + primary + sensitivity clinical)) [2 folds] ---
+2026-10-20 11:16:10,084 [INFO] Variant signature: d4bbc3b79f1d
+2026-10-20 11:16:57,466 [INFO]   [EHR2b] fold 01/2 saved | 0.8 min | AUROC=0.4236 (EN=0.4861) | Brier=0.2450
+2026-10-20 11:18:21,888 [INFO]   [EHR2b] fold 02/2 saved | 1.4 min | AUROC=0.8047 (EN=0.8516) | Brier=0.2416
+2026-10-20 11:18:21,895 [INFO] Generating Clinical Report...
+2026-10-20 11:19:04,765 [INFO] ======================================================================
+2026-10-20 11:19:04,765 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:19:04,765 [INFO] ======================================================================
+2026-10-20 11:19:04,766 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': True, 'status': False, 'force': False, 'smoke': True, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 11:19:04,782 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:19:04,787 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:19:08,232 [INFO] Generating Clinical Report...
+2026-10-20 11:19:08,405 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_summary.md
+2026-10-20 11:19:08,407 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\summary.md
+2026-10-20 11:19:08,410 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_metrics.json
+2026-10-20 11:19:08,412 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\clinical_metrics.json
+2026-10-20 11:19:22,124 [INFO] ======================================================================
+2026-10-20 11:19:22,124 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:19:22,124 [INFO] ======================================================================
+2026-10-20 11:19:22,125 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR4'], 'n_repeats': 3}
+2026-10-20 11:19:22,134 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:19:22,156 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:19:24,682 [INFO] --- Running Variant: EHR4 (BioFusionFormer EHR4 (clinical-only through same architecture)) [15 folds] ---
+2026-10-20 11:19:24,703 [INFO] Variant signature: 217b9801f01d
+2026-10-20 11:19:36,924 [INFO]   [EHR4] fold 01/15 saved | 0.2 min | AUROC=0.5417 (EN=0.5486) | Brier=0.2847
+2026-10-20 11:19:44,893 [INFO]   [EHR4] fold 02/15 saved | 0.1 min | AUROC=0.8047 (EN=0.5000) | Brier=0.2265
+2026-10-20 11:19:51,207 [INFO]   [EHR4] fold 03/15 saved | 0.1 min | AUROC=0.7731 (EN=0.7563) | Brier=0.2269
+2026-10-20 11:20:01,738 [INFO]   [EHR4] fold 04/15 saved | 0.2 min | AUROC=0.3697 (EN=0.3277) | Brier=0.2778
+2026-10-20 11:20:15,688 [INFO]   [EHR4] fold 05/15 saved | 0.2 min | AUROC=0.6094 (EN=0.5625) | Brier=0.2474
+2026-10-20 11:20:32,690 [INFO]   [EHR4] fold 06/15 saved | 0.3 min | AUROC=0.5347 (EN=0.4861) | Brier=0.2588
+2026-10-20 11:20:48,523 [INFO]   [EHR4] fold 07/15 saved | 0.3 min | AUROC=0.5703 (EN=0.7109) | Brier=0.2991
+2026-10-20 11:21:00,624 [INFO]   [EHR4] fold 08/15 saved | 0.2 min | AUROC=0.6134 (EN=0.6303) | Brier=0.2411
+2026-10-20 11:21:11,708 [INFO]   [EHR4] fold 09/15 saved | 0.2 min | AUROC=0.6134 (EN=0.5882) | Brier=0.2213
+2026-10-20 11:21:21,096 [INFO]   [EHR4] fold 10/15 saved | 0.2 min | AUROC=0.7578 (EN=0.7734) | Brier=0.1987
+2026-10-20 11:21:34,897 [INFO]   [EHR4] fold 11/15 saved | 0.2 min | AUROC=0.5069 (EN=0.5139) | Brier=0.2619
+2026-10-20 11:21:47,287 [INFO]   [EHR4] fold 12/15 saved | 0.2 min | AUROC=0.6719 (EN=0.7500) | Brier=0.2239
+2026-10-20 11:22:00,488 [INFO]   [EHR4] fold 13/15 saved | 0.2 min | AUROC=0.4706 (EN=0.4958) | Brier=0.2987
+2026-10-20 11:22:13,401 [INFO]   [EHR4] fold 14/15 saved | 0.2 min | AUROC=0.6471 (EN=0.6303) | Brier=0.2482
+2026-10-20 11:22:24,458 [INFO]   [EHR4] fold 15/15 saved | 0.2 min | AUROC=0.8359 (EN=0.8359) | Brier=0.2143
+2026-10-20 11:22:24,458 [INFO] Generating Clinical Report...
+2026-10-20 11:22:24,797 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_summary.md
+2026-10-20 11:22:24,798 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\summary.md
+2026-10-20 11:22:24,800 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_metrics.json
+2026-10-20 11:22:24,801 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\clinical_metrics.json
+2026-10-20 11:23:11,129 [INFO] ======================================================================
+2026-10-20 11:23:11,130 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:23:11,130 [INFO] ======================================================================
+2026-10-20 11:23:11,131 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': True, 'status': False, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR4'], 'n_repeats': 3}
+2026-10-20 11:23:11,156 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:23:11,185 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:23:18,989 [INFO] Generating Clinical Report...
+2026-10-20 11:23:19,579 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_summary.md
+2026-10-20 11:23:19,582 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\summary.md
+2026-10-20 11:23:19,585 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_metrics.json
+2026-10-20 11:23:19,588 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\clinical_metrics.json
+2026-10-20 11:23:45,225 [INFO] ======================================================================
+2026-10-20 11:23:45,227 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:23:45,227 [INFO] ======================================================================
+2026-10-20 11:23:45,228 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2'], 'n_repeats': 3}
+2026-10-20 11:23:45,252 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:23:45,279 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:23:52,954 [INFO] --- Running Variant: EHR2 (BioFusionFormer EHR2 (3 omics + primary clinical [age, sex, stage])) [15 folds] ---
+2026-10-20 11:23:52,956 [INFO] Variant signature: a27108209cc7
+2026-10-20 11:40:45,892 [INFO] ======================================================================
+2026-10-20 11:40:45,893 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:40:45,893 [INFO] ======================================================================
+2026-10-20 11:40:45,894 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 11:40:45,905 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:40:45,910 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:50:26,615 [INFO] ======================================================================
+2026-10-20 11:50:26,615 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:50:26,616 [INFO] ======================================================================
+2026-10-20 11:50:26,616 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 11:50:26,623 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:50:26,628 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 12:12:20,551 [INFO] ======================================================================
+2026-10-20 12:12:20,552 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 12:12:20,552 [INFO] ======================================================================
+2026-10-20 12:12:20,552 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 12:12:20,559 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 12:12:20,582 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 12:14:58,487 [INFO] ======================================================================
+2026-10-20 12:14:58,489 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 12:14:58,490 [INFO] ======================================================================
+2026-10-20 12:14:58,490 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2'], 'n_repeats': 3}
+2026-10-20 12:14:58,521 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 12:14:58,526 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 12:15:02,971 [INFO] --- Running Variant: EHR2 (BioFusionFormer EHR2 (3 omics + primary clinical [age, sex, stage])) [15 folds] ---
+2026-10-20 12:15:02,992 [INFO] Variant signature: a27108209cc7
+2026-10-20 12:16:53,883 [INFO]   [EHR2] fold 01/15 saved | 53.0 min | AUROC=0.8403 (EN=0.5486) | Brier=0.1505
+2026-10-20 12:17:45,842 [INFO] ======================================================================
+2026-10-20 12:17:45,843 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 12:17:45,843 [INFO] ======================================================================
+2026-10-20 12:17:45,844 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 12:17:45,879 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 12:17:45,887 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 13:07:31,252 [INFO]   [EHR2] fold 02/15 saved | 50.6 min | AUROC=0.9062 (EN=0.5000) | Brier=0.1224
+2026-10-20 13:50:44,350 [INFO]   [EHR2] fold 03/15 saved | 43.2 min | AUROC=0.9412 (EN=0.7563) | Brier=0.0922
+2026-10-20 14:01:50,739 [INFO] ======================================================================
+2026-10-20 14:01:50,740 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 14:01:50,743 [INFO] ======================================================================
+2026-10-20 14:01:50,743 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 14:01:50,755 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 14:01:50,761 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 14:26:26,065 [INFO]   [EHR2] fold 04/15 saved | 35.7 min | AUROC=0.7143 (EN=0.3277) | Brier=0.2083
+2026-10-20 14:32:09,597 [INFO] ======================================================================
+2026-10-20 14:32:09,601 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 14:32:09,615 [INFO] ======================================================================
+2026-10-20 14:32:09,634 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 14:32:09,659 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 14:32:09,684 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 15:22:01,074 [INFO]   [EHR2] fold 05/15 saved | 55.6 min | AUROC=0.8203 (EN=0.5625) | Brier=0.1598
+2026-10-20 16:09:13,019 [INFO]   [EHR2] fold 06/15 saved | 47.2 min | AUROC=0.8681 (EN=0.4861) | Brier=0.1604
+2026-10-20 16:43:25,566 [INFO]   [EHR2] fold 07/15 saved | 34.2 min | AUROC=0.9297 (EN=0.7109) | Brier=0.1713
+2026-10-20 17:36:00,254 [INFO]   [EHR2] fold 08/15 saved | 52.6 min | AUROC=0.8151 (EN=0.6303) | Brier=0.1394
+2026-10-20 18:14:18,060 [INFO] ======================================================================
+2026-10-20 18:14:18,061 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 18:14:18,062 [INFO] ======================================================================
+2026-10-20 18:14:18,063 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 18:14:18,088 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 18:14:18,094 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 18:21:21,735 [INFO]   [EHR2] fold 09/15 saved | 45.4 min | AUROC=0.8319 (EN=0.5882) | Brier=0.1781
+2026-10-20 18:52:17,361 [INFO]   [EHR2] fold 10/15 saved | 30.9 min | AUROC=0.8359 (EN=0.7734) | Brier=0.1774
+2026-10-20 19:31:44,145 [INFO]   [EHR2] fold 11/15 saved | 39.4 min | AUROC=0.8611 (EN=0.5139) | Brier=0.1495
+2026-10-20 20:36:46,890 [INFO]   [EHR2] fold 12/15 saved | 65.0 min | AUROC=0.9141 (EN=0.7500) | Brier=0.0984
+2026-10-20 21:48:57,230 [INFO]   [EHR2] fold 13/15 saved | 72.2 min | AUROC=0.6303 (EN=0.4958) | Brier=0.1983
+2026-10-20 22:30:57,712 [INFO]   [EHR2] fold 14/15 saved | 42.0 min | AUROC=0.8739 (EN=0.6303) | Brier=0.1645
+2026-10-20 23:09:11,834 [INFO]   [EHR2] fold 15/15 saved | 38.2 min | AUROC=0.9766 (EN=0.8359) | Brier=0.1217
+2026-10-20 23:09:11,854 [INFO] Generating Clinical Report...
+2026-10-20 23:09:12,482 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_summary.md
+2026-10-20 23:09:12,486 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\summary.md
+2026-10-20 23:09:12,488 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_metrics.json
+2026-10-20 23:09:12,491 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\clinical_metrics.json
+2026-10-20 23:09:51,346 [INFO] ======================================================================
+2026-10-20 23:09:51,347 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 23:09:51,347 [INFO] ======================================================================
+2026-10-20 23:09:51,347 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': True, 'status': False, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4'], 'n_repeats': 3}
+2026-10-20 23:09:51,386 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 23:09:51,401 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 23:09:54,937 [INFO] Generating Clinical Report...
+2026-10-20 23:09:55,286 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_summary.md
+2026-10-20 23:09:55,288 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\summary.md
+2026-10-20 23:09:55,290 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_metrics.json
+2026-10-20 23:09:55,291 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\clinical_metrics.json
+2026-10-20 23:25:06,293 [INFO] ======================================================================
+2026-10-20 23:25:06,294 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 23:25:06,295 [INFO] ======================================================================
+2026-10-20 23:25:06,297 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': False, 'report': False, 'status': True, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR2', 'EHR4', 'EHR2b'], 'n_repeats': 3}
+2026-10-20 23:25:06,350 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 23:25:06,382 [INFO] Clinical candidates loaded: (121, 9)

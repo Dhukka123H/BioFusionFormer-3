@@ -1,0 +1,28 @@
+2026-10-20 11:19:22,124 [INFO] ======================================================================
+2026-10-20 11:19:22,124 [INFO] BioFusionFormer Clinical Multimodal Runner (Stage 5.3)
+2026-10-20 11:19:22,124 [INFO] ======================================================================
+2026-10-20 11:19:22,125 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': False, 'tag': 'final_clinical', 'variants': ['EHR4'], 'n_repeats': 3}
+2026-10-20 11:19:22,134 [INFO] Cohort N=121 | Favorable=82 Unfavorable=39
+2026-10-20 11:19:22,156 [INFO] Clinical candidates loaded: (121, 9)
+2026-10-20 11:19:24,682 [INFO] --- Running Variant: EHR4 (BioFusionFormer EHR4 (clinical-only through same architecture)) [15 folds] ---
+2026-10-20 11:19:24,703 [INFO] Variant signature: 217b9801f01d
+2026-10-20 11:19:36,924 [INFO]   [EHR4] fold 01/15 saved | 0.2 min | AUROC=0.5417 (EN=0.5486) | Brier=0.2847
+2026-10-20 11:19:44,893 [INFO]   [EHR4] fold 02/15 saved | 0.1 min | AUROC=0.8047 (EN=0.5000) | Brier=0.2265
+2026-10-20 11:19:51,207 [INFO]   [EHR4] fold 03/15 saved | 0.1 min | AUROC=0.7731 (EN=0.7563) | Brier=0.2269
+2026-10-20 11:20:01,738 [INFO]   [EHR4] fold 04/15 saved | 0.2 min | AUROC=0.3697 (EN=0.3277) | Brier=0.2778
+2026-10-20 11:20:15,688 [INFO]   [EHR4] fold 05/15 saved | 0.2 min | AUROC=0.6094 (EN=0.5625) | Brier=0.2474
+2026-10-20 11:20:32,690 [INFO]   [EHR4] fold 06/15 saved | 0.3 min | AUROC=0.5347 (EN=0.4861) | Brier=0.2588
+2026-10-20 11:20:48,523 [INFO]   [EHR4] fold 07/15 saved | 0.3 min | AUROC=0.5703 (EN=0.7109) | Brier=0.2991
+2026-10-20 11:21:00,624 [INFO]   [EHR4] fold 08/15 saved | 0.2 min | AUROC=0.6134 (EN=0.6303) | Brier=0.2411
+2026-10-20 11:21:11,708 [INFO]   [EHR4] fold 09/15 saved | 0.2 min | AUROC=0.6134 (EN=0.5882) | Brier=0.2213
+2026-10-20 11:21:21,096 [INFO]   [EHR4] fold 10/15 saved | 0.2 min | AUROC=0.7578 (EN=0.7734) | Brier=0.1987
+2026-10-20 11:21:34,897 [INFO]   [EHR4] fold 11/15 saved | 0.2 min | AUROC=0.5069 (EN=0.5139) | Brier=0.2619
+2026-10-20 11:21:47,287 [INFO]   [EHR4] fold 12/15 saved | 0.2 min | AUROC=0.6719 (EN=0.7500) | Brier=0.2239
+2026-10-20 11:22:00,488 [INFO]   [EHR4] fold 13/15 saved | 0.2 min | AUROC=0.4706 (EN=0.4958) | Brier=0.2987
+2026-10-20 11:22:13,401 [INFO]   [EHR4] fold 14/15 saved | 0.2 min | AUROC=0.6471 (EN=0.6303) | Brier=0.2482
+2026-10-20 11:22:24,458 [INFO]   [EHR4] fold 15/15 saved | 0.2 min | AUROC=0.8359 (EN=0.8359) | Brier=0.2143
+2026-10-20 11:22:24,458 [INFO] Generating Clinical Report...
+2026-10-20 11:22:24,797 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_summary.md
+2026-10-20 11:22:24,798 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\summary.md
+2026-10-20 11:22:24,800 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\model\clinical_metrics.json
+2026-10-20 11:22:24,801 [INFO] Wrote C:\Users\dhukk\Downloads\BioFusionFormer-3\results\clinical\clinical_metrics.json

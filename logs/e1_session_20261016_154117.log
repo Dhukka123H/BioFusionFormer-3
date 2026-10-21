@@ -1,0 +1,5 @@
+2026-10-16 15:41:17,194 [INFO] ======================================================================
+2026-10-16 15:41:17,196 [INFO] BioFusionFormer E1 (frozen v1 config) - resumable CLI runner
+2026-10-16 15:41:17,196 [INFO] ======================================================================
+2026-10-16 15:41:17,196 [INFO] Python 3.14.7 | torch 2.14.0+cpu | args: {'run': True, 'report': False, 'status': False, 'force': False, 'smoke': True, 'tag': 'final_v1', 'n_repeats': 5}
+2026-10-16 15:41:17,225 [ERROR] C:\Users\dhukk\Downloads\BioFusionFormer-3\data\processed\labels.csv not found. Run: python scripts/download_clinical.py && python scripts/build_labels.py
