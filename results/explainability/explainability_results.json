@@ -102,8 +102,18 @@
     "cluster_level_top5_stability": {
       "genuine_sum": 0.4619047619047619,
       "size_norm": 0.43690476190476185,
-      "null_cluster_sum_mean": null,
-      "null_cluster_norm_mean": null
+      "null_cluster_sum_values": [
+        0.4267857142857143,
+        0.25952380952380955,
+        0.30642857142857144
+      ],
+      "null_cluster_sum_mean": 0.3309126984126984,
+      "null_cluster_norm_values": [
+        0.3619047619047619,
+        0.18869047619047618,
+        0.23452380952380952
+      ],
+      "null_cluster_norm_mean": 0.2617063492063492
     }
   },
   "stability_jaccard_top20": {
