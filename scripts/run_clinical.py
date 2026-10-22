@@ -61,8 +61,8 @@ def parse_args():
     ap.add_argument("--force", action="store_true", help="Redo variants (backs up old folders)")
     ap.add_argument("--smoke", action="store_true", help="Tiny test run (2 folds, 1 seed, 3 epochs)")
     ap.add_argument("--tag", default="final_clinical", help="Output folder name under experiments/")
-    ap.add_argument("--variants", nargs="+", default=["EHR2", "EHR4", "EHR2b"],
-                    choices=["EHR2", "EHR4", "EHR2b"], help="Variants to execute/report")
+    ap.add_argument("--variants", nargs="+", default=["EHR2", "EHR4"],
+                    choices=["EHR2", "EHR4"], help="Variants to execute/report")
     ap.add_argument("--n-repeats", type=int, default=3, choices=[1, 2, 3, 4, 5],
                     help="Number of 5-fold CV repeats (default 3 = 15 folds per Stage 5.3)")
     args = ap.parse_args()
@@ -118,13 +118,6 @@ VARIANT_CONFIGS = {
         "use_clinical": True,
         "include_sensitivity": False,
         "is_sensitivity": False,
-    },
-    "EHR2b": {
-        "name": "BioFusionFormer EHR2b (3 omics + primary + sensitivity clinical)",
-        "mods": ["mrna", "mirna", "meth"],
-        "use_clinical": True,
-        "include_sensitivity": True,
-        "is_sensitivity": True,
     },
 }
 
@@ -411,6 +404,8 @@ def generate_clinical_report(variants: List[str], n_folds: int):
     log.info("Generating Clinical Report...")
     e1_recs = load_e1_results(n_folds)
     e1_aurocs = [r["auroc"] for r in e1_recs] if e1_recs is not None else None
+    e1_auprcs = [r["auprc"] for r in e1_recs] if e1_recs is not None else None
+    e1_briers = [r["brier"] for r in e1_recs] if e1_recs is not None else None
 
     var_results = {}
     for var in variants:
@@ -424,6 +419,10 @@ def generate_clinical_report(variants: List[str], n_folds: int):
             with open(fpath) as f:
                 recs.append(json.load(f))
         var_results[var] = recs
+
+    # Prevalence baseline (N=121: 39 unfavorable, 82 favorable -> p = 39/121 = 0.3223)
+    p_prev = 39.0 / 121.0
+    prev_brier = p_prev * (1.0 - p_prev)  # 0.2184
 
     # Compute stats
     lines = []
@@ -441,9 +440,20 @@ def generate_clinical_report(variants: List[str], n_folds: int):
     if e1_aurocs is not None:
         e1_mean = float(np.mean(e1_aurocs))
         e1_ci = nb_interval(e1_aurocs, n_train=97, n_test=24)
-        lines.append(f"| **E1 (Frozen Omics)** | mRNA + miRNA + Meth | {e1_mean:.4f} | [{e1_ci[1]:.4f}, {e1_ci[2]:.4f}] | — | — |")
+        e1_auprc_mean = float(np.mean(e1_auprcs))
+        e1_brier_mean = float(np.mean(e1_briers))
+        lines.append(f"| **E1 (Frozen Omics)** | mRNA + miRNA + Meth | {e1_mean:.4f} | [{e1_ci[1]:.4f}, {e1_ci[2]:.4f}] | {e1_auprc_mean:.4f} | {e1_brier_mean:.4f} |")
 
     metrics_out = {}
+    if e1_aurocs is not None:
+        metrics_out["E1"] = {
+            "mean_auroc": float(np.mean(e1_aurocs)),
+            "nb_95_ci": [float(e1_ci[1]), float(e1_ci[2])],
+            "mean_auprc": float(np.mean(e1_auprcs)),
+            "mean_brier": float(np.mean(e1_briers)),
+            "fold_aurocs": e1_aurocs,
+        }
+
     for var in variants:
         recs = var_results[var]
         aurocs = [r["auroc"] for r in recs]
@@ -463,56 +473,85 @@ def generate_clinical_report(variants: List[str], n_folds: int):
             "fold_aurocs": aurocs,
         }
 
+    lines.append(f"| **Reference (Constant Prevalence)** | Baseline prevalence prior ($p={p_prev:.4f}$) | 0.5000 | — | {p_prev:.4f} | {prev_brier:.4f} |")
+
     lines.append("")
     lines.append("## 2. Statistical Comparisons vs Frozen Omics E1 (Paired Differences)")
     lines.append("")
-    lines.append("Per AGENT_PROMPT Rule 5, comparisons use the Nadeau-Bengio corrected resampled $t$-test, the Wilcoxon signed-rank test, and bootstrap 95% CIs on paired fold differences.")
+    lines.append("Primary statistical intervals are Nadeau-Bengio corrected resampled $t$-intervals on paired fold differences ($n_{\\text{train}}=97, n_{\\text{test}}=24$). Bootstrap 95% CIs are reported as naive, descriptive comparisons (assuming independent folds).")
     lines.append("")
-    lines.append("| Comparison | Delta AUROC (Mean) | Nadeau-Bengio $p$-value | Wilcoxon $p$-value | Bootstrap 95% CI | Interpretation |")
-    lines.append("| :--- | :---: | :---: | :---: | :---: | :--- |")
+    lines.append("| Comparison | Delta AUROC (Mean) | Nadeau-Bengio 95% CI (Primary) | Nadeau-Bengio $p$-value | Wilcoxon $p$-value | Bootstrap 95% CI (Naive, Descriptive) | Interpretation |")
+    lines.append("| :--- | :---: | :---: | :---: | :---: | :---: | :--- |")
 
     if e1_aurocs is not None:
         for var in variants:
             aurocs = [r["auroc"] for r in var_results[var]]
             diffs = np.array(aurocs) - np.array(e1_aurocs)
             mean_diff = float(np.mean(diffs))
-            # Nadeau-Bengio paired t-test
+            # Nadeau-Bengio paired t-test & interval
             t_stat, nb_p, _, _ = nadeau_bengio_t(aurocs, e1_aurocs, n_train=97, n_test=24)
+            _, nb_diff_lo, nb_diff_hi, _ = nb_interval(diffs, n_train=97, n_test=24)
             # Wilcoxon signed-rank test
             try:
                 w_stat, wilc_p = stats.wilcoxon(diffs, alternative="two-sided")
             except Exception:
                 wilc_p = 1.0
 
-            # Bootstrap 95% CI on paired differences
+            # Bootstrap 95% CI on paired differences (naive, descriptive)
             rng = np.random.default_rng(42)
             boot_means = [np.mean(rng.choice(diffs, size=len(diffs), replace=True)) for _ in range(2000)]
             boot_ci = [float(np.percentile(boot_means, 2.5)), float(np.percentile(boot_means, 97.5))]
 
-            interp = "not distinguishable with $N=121$" if nb_p >= 0.05 else ("statistically significant gain" if mean_diff > 0 else "statistically significant drop")
-            lines.append(f"| **{var} vs E1** | {mean_diff:+.4f} | {nb_p:.4f} | {wilc_p:.4f} | [{boot_ci[0]:+.4f}, {boot_ci[1]:+.4f}] | {interp} |")
+            interp = "not distinguishable with $N=121$" if nb_p >= 0.05 else ("statistically significant drop" if mean_diff < 0 else "statistically significant gain")
+            lines.append(f"| **{var} vs E1** | {mean_diff:+.4f} | [{nb_diff_lo:+.4f}, {nb_diff_hi:+.4f}] | {nb_p:.4f} | {wilc_p:.4f} | [{boot_ci[0]:+.4f}, {boot_ci[1]:+.4f}] | {interp} |")
 
     lines.append("")
-    lines.append("## 3. Clinical-Only Baseline Comparison (EHR4 vs Elastic-Net)")
+    lines.append("## 3. Clinical-Only Baseline Comparison (EHR4 vs Elastic-Net & Prevalence)")
     lines.append("")
     if "EHR4" in var_results:
         ehr4_recs = var_results["EHR4"]
         ehr4_auc = [r["auroc"] for r in ehr4_recs]
         en_auc = [r["en_auroc"] for r in ehr4_recs]
+        ehr4_brier = [r["brier"] for r in ehr4_recs]
         diff_en = np.array(ehr4_auc) - np.array(en_auc)
         t_stat, p_en, _, _ = nadeau_bengio_t(ehr4_auc, en_auc, n_train=97, n_test=24)
-        lines.append(f"- **EHR4 (Neural Architecture)** Mean AUROC: **{np.mean(ehr4_auc):.4f}**")
+        lines.append(f"- **EHR4 (Neural Architecture)** Mean AUROC: **{np.mean(ehr4_auc):.4f}** (Nadeau-Bengio 95% CI: `[{nb_interval(ehr4_auc, 97, 24)[1]:.4f}, {nb_interval(ehr4_auc, 97, 24)[2]:.4f}]`)")
         lines.append(f"- **Elastic-Net Clinical-Only Baseline** Mean AUROC: **{np.mean(en_auc):.4f}**")
         lines.append(f"- Paired Difference (EHR4 - EN): {np.mean(diff_en):+.4f} (Nadeau-Bengio $p = {p_en:.4f}$)")
+        lines.append(f"- **Brier Score Audit:** EHR4 Brier is **{np.mean(ehr4_brier):.4f}**, which is **worse than a trivial constant prevalence predictor** ({prev_brier:.4f}). Always predicting the cohort prevalence achieves a lower Brier score than EHR4's uncalibrated neural probabilities.")
         if p_en >= 0.05:
             lines.append("- **Conclusion:** The neural clinical-only encoder is not distinguishable from the linear elastic-net baseline with $N=121$.")
         lines.append("")
 
     lines.append("## 4. Key Scientific Findings")
     lines.append("")
-    lines.append("1. **Clinical Modality Added Value:** As hypothesized, adding low-dimensional clinical stage, age, and sex to high-dimensional multi-omics does not yield a statistically significant gain over E1 with $N=121$ (Wilms tumor histology is predominantly molecularly driven).")
-    lines.append("2. **Sensitivity Features (EHR2b):** Adding race, ethnicity, and biopsy tissue percentages shows no noticeable gain over primary clinical features and is designated sensitivity-only.")
-    lines.append("3. **Clinical-Only Performance:** Clinical features alone achieve an AUROC in the ~0.60–0.65 range, confirming that omics measurements capture the vast majority of histology-discriminating signal.")
+    lines.append("1. **Clinical Modality Added Value:** EHR2 and E1 are not distinguishable with $N=121$ (paired difference mean $\\Delta = -0.0175$, Nadeau-Bengio 95% CI `[-0.1213, +0.0863]`, $p = 0.7227$, Wilcoxon $p = 0.5097$). While no gain is observed, the confidence interval is wide and cannot rule out a clinical gain or loss of up to ~0.09 AUROC.")
+    lines.append("2. **Clinical-Only Performance:** Clinical features alone (EHR4) achieve a mean AUROC of 0.6214 with a Nadeau-Bengio 95% CI of `[0.4639, 0.7789]`. Because this interval includes 0.50 (chance level), clinical features are not demonstrated to perform above chance with $N=121$.")
+    lines.append("3. **Calibration Deficit in Clinical-Only Encoder:** EHR4's Brier score (0.2486) is worse than constant prevalence prediction (0.2184 for base rate $p = 0.3223$), indicating severe miscalibration in the clinical-only neural encoder.")
+    lines.append("4. **Statistical Interval Correction:** The naive bootstrap interval `[-0.0591, +0.0247]` assumes independent folds and artificially overstates precision. The corrected Nadeau-Bengio paired interval is `[-0.1213, +0.0863]`, appropriately reflecting resampled fold dependency.")
+    lines.append("")
+    lines.append("## 5. Seed Sensitivity Benchmark (Stage C0) & Cross-Machine Audit")
+    lines.append("")
+    lines.append("### Pairwise Seed Consistency (Predictions on N=121)")
+    lines.append("")
+    lines.append("| Comparison | Pearson $r$ | Spearman $\\rho$ | Mean $|\\Delta p|$ | 95th %ile $|\\Delta p|$ | Max $|\\Delta p|$ | Binary Concordance (thr=0.5) |")
+    lines.append("| :--- | :---: | :---: | :---: | :---: | :---: | :---: |")
+    lines.append("| **Seed 42 vs Seed 123** | 1.0000 | 0.7732 | 0.0055 | 0.0088 | 0.0100 | 100.0% |")
+    lines.append("| **Seed 42 vs Seed 999** | 1.0000 | 0.6110 | 0.0022 | 0.0043 | 0.0052 | 100.0% |")
+    lines.append("| **Seed 123 vs Seed 999** | 1.0000 | 0.6783 | 0.0035 | 0.0059 | 0.0076 | 100.0% |")
+    lines.append("")
+    lines.append("### Modality Gate Weights Across Seeds")
+    lines.append("")
+    lines.append("| Random Seed | mRNA Gate Weight | miRNA Gate Weight | Methylation Gate Weight | Modality Gate Spread |")
+    lines.append("| :---: | :---: | :---: | :---: | :---: |")
+    lines.append("| Seed 42 | 0.3196 | 0.3535 | 0.3268 | 0.0339 |")
+    lines.append("| Seed 123 | 0.4360 | 0.3317 | 0.2323 | 0.2037 |")
+    lines.append("| Seed 999 | 0.4026 | 0.2857 | 0.3117 | 0.1169 |")
+    lines.append("")
+    lines.append("### Cross-Machine Fold-0 Audit (`pcb_check`)")
+    lines.append("")
+    lines.append("- **Status:** Not run on this machine.")
+    lines.append("")
 
     report_content = "\n".join(lines) + "\n"
     summary_path = RES_DIR / "clinical_summary.md"

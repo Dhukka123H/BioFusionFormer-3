@@ -179,9 +179,11 @@ def make_final_status(e1, explain):
     lines.append("| :--- | :---: | :---: | :---: | :---: | :--- |")
     lines.append("| **E1 (Omics Only)** | **0.8716** | [0.7816, 0.9616] | 0.8332 | 0.1436 | Reference frozen architecture |")
     lines.append("| **EHR2 (3 Omics + Age, Sex, Stage)** | **0.8506** | [0.7448, 0.9564] | 0.7962 | 0.1528 | $\\Delta = -0.0175$ vs E1 (NB $p = 0.7227$, Wilcoxon $p = 0.5097$). **Not distinguishable** with $N=121$. |")
-    lines.append("| **EHR4 (Clinical-Only Transformer)** | **0.6214** | [0.4639, 0.7789] | 0.4851 | 0.2486 | $\\Delta = +0.0140$ vs Clinical ElasticNet (0.6073, NB $p = 0.7943$). **Not distinguishable**. |")
+    lines.append("| **EHR4 (Clinical-Only Transformer)** | **0.6214** | [0.4639, 0.7789] | 0.4851 | 0.2486 | $\\Delta = +0.0140$ vs Clinical ElasticNet (0.6073, NB $p = 0.7943$). Brier is worse than prevalence baseline. |")
+    lines.append("| **Reference (Constant Prevalence)** | 0.5000 | — | 0.3223 | 0.2184 | Baseline prevalence prior ($p=0.3223$). EHR4 Brier (0.2486) is worse than constant guessing. |")
     lines.append("")
-    lines.append("- **Paired EHR4 vs E1:** Mean difference $-0.2467$ (NB $p = 0.0113$, Wilcoxon $p = 0.0007$, Bootstrap 95% CI: [-0.3192, -0.1726]). Omics significantly outperform clinical features alone.")
+    lines.append("- **Paired EHR4 vs E1:** Mean difference $-0.2467$ (NB 95% CI: `[-0.4284, -0.0651]`, NB $p = 0.0113$, Wilcoxon $p = 0.0007$, naive Bootstrap 95% CI: `[-0.3192, -0.1726]`). Omics significantly outperform clinical features alone.")
+    lines.append("- **Clinical Modality Added Value:** EHR2 − E1 paired difference has Nadeau-Bengio 95% CI `[-0.1213, +0.0863]`. A clinical gain or loss of up to ~0.09 AUROC cannot be excluded at $N=121$.")
     lines.append("")
     lines.append("---")
     lines.append("")
@@ -189,11 +191,17 @@ def make_final_status(e1, explain):
     lines.append("")
     lines.append("Attributions evaluated across the 5 saved fold checkpoints with Captum's Integrated Gradients ($n_{\\text{steps}}=50$):")
     lines.append("1. **ODC Fallback Artefact:** Regulation of ornithine decarboxylase (ODC) (`R-HSA-350562`) was index $P-1$ where 726 unmapped miRNAs were routed. Its earlier high score was strictly an artefact of fallback token routing.")
-    lines.append("2. **Dual Aggregations:** Attributions are reported side-by-side as Metric (i) Genuine Sum (fallback excluded, $\\rho = 0.8473$ with pathway size, Jaccard 0.3987) and Metric (ii) Size-Normalised Mean ($\\rho = 0.2935$ with size, 0/20 generic, Jaccard 0.2808).")
-    lines.append("3. **Permutation Null Stability:** Matched null permutation architecture implemented with atomic caching (`results/explainability/perm_cache/`).")
+    if explain and "size_bias" in explain and "stability_jaccard_top20" in explain:
+        sb = explain["size_bias"]
+        stab = explain["stability_jaccard_top20"]
+        lines.append(f"2. **Dual Aggregations & Size Dominance:** Attributions are dominated by pathway size (Spearman $\\rho = {sb['spearman_genuine_sum']:.4f}$) and by translation/ribosome/splicing genes; after size normalisation stability is not above the matched null.")
+        lines.append(f"3. **Permutation Null Stability:** Matched null permutation stability is {stab['null_matched_sum_mean']:.4f} (sum) and {stab['null_matched_norm_mean']:.4f} (norm). IG genuine sum stability is {stab['ig_genuine_sum']:.4f}, size-normalised stability is {stab['ig_size_norm']:.4f}.")
+    else:
+        lines.append("2. **Dual Aggregations:** Attributions are reported side-by-side as Metric (i) Genuine Sum and Metric (ii) Size-Normalised Mean.")
+        lines.append("3. **Permutation Null Stability:** Matched null permutation architecture evaluated.")
     if explain and "recalibration" in explain:
-        cal = explain["recalibration"]
-        lines.append(f"4. **Recalibration (Platt Scaling):** Unpenalized logistic regression on logit(pooled_oof) yields slope = **{cal['slope']:.3f}** (95% CI [{cal['slope_bootstrap_95ci'][0]:.2f}, {cal['slope_bootstrap_95ci'][1]:.2f}]) and intercept = **{cal['intercept']:.3f}** (95% CI [{cal['intercept_bootstrap_95ci'][0]:.2f}, {cal['intercept_bootstrap_95ci'][1]:.2f}]). Brier drops from {cal['brier_before']:.4f} to {cal['brier_after_5fold_cv']:.4f} under 5-fold CV.")
+        cal = explain["recalibration"].get("ensemble_repeat_averaged", explain["recalibration"])
+        lines.append(f"4. **Recalibration (Platt Scaling):** Unpenalized logistic regression on logit(pooled_oof) yields slope = **{cal['slope']:.3f}** (95% CI [{cal['slope_ci_95'][0]:.2f}, {cal['slope_ci_95'][1]:.2f}]) and intercept = **{cal['intercept']:.3f}** (95% CI [{cal['intercept_ci_95'][0]:.2f}, {cal['intercept_ci_95'][1]:.2f}]). Brier drops from {cal['brier_before']:.4f} to {cal['brier_after_5fold_cv']:.4f} under 5-fold CV.")
     lines.append("")
     lines.append("---")
     lines.append("")
@@ -227,7 +235,7 @@ def make_final_status(e1, explain):
     lines.append("1. BioFusionFormer E1 achieves cross-validated AUROC of **0.8716** (Nadeau-Bengio 95% CI: [0.7816, 0.9616]) on the $N=121$ TARGET-WT histology task.")
     lines.append("2. Omics-based models significantly outperform clinical features alone (AUROC 0.8716 vs 0.6214, paired diff $-0.2467$, $p=0.0113$).")
     lines.append("3. The architecture demonstrates deterministic reproducibility with same-seed variation bounded by $< 1.8 \\times 10^{-5}$ in probabilities.")
-    lines.append("4. Integrated Gradients provides pathway-level attribution that highlights genuine biological associations when normalized for pathway size.")
+    lines.append("4. Integrated Gradients identifies pathways dominated by size and translation/ribosome genes; size normalisation substantially reduces size bias, though stability remains near the matched null.")
     lines.append("5. Platt recalibration on out-of-fold logits reduces Brier score from 0.1365 to 0.1213 under 5-fold cross-validation.")
     lines.append("")
     lines.append("### Claims FORBIDDEN by Empirical Evidence:")

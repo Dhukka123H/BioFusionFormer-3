@@ -94,9 +94,11 @@ Evaluated across 15 folds ($3 \times 5$-fold CV, seeds `[42, 123, 999]`):
 | :--- | :---: | :---: | :---: | :---: | :--- |
 | **E1 (Omics Only)** | **0.8716** | [0.7816, 0.9616] | 0.8332 | 0.1436 | Reference frozen architecture |
 | **EHR2 (3 Omics + Age, Sex, Stage)** | **0.8506** | [0.7448, 0.9564] | 0.7962 | 0.1528 | $\Delta = -0.0175$ vs E1 (NB $p = 0.7227$, Wilcoxon $p = 0.5097$). **Not distinguishable** with $N=121$. |
-| **EHR4 (Clinical-Only Transformer)** | **0.6214** | [0.4639, 0.7789] | 0.4851 | 0.2486 | $\Delta = +0.0140$ vs Clinical ElasticNet (0.6073, NB $p = 0.7943$). **Not distinguishable**. |
+| **EHR4 (Clinical-Only Transformer)** | **0.6214** | [0.4639, 0.7789] | 0.4851 | 0.2486 | $\Delta = +0.0140$ vs Clinical ElasticNet (0.6073, NB $p = 0.7943$). Brier is worse than prevalence baseline. |
+| **Reference (Constant Prevalence)** | 0.5000 | — | 0.3223 | 0.2184 | Baseline prevalence prior ($p=0.3223$). EHR4 Brier (0.2486) is worse than constant guessing. |
 
-- **Paired EHR4 vs E1:** Mean difference $-0.2467$ (NB $p = 0.0113$, Wilcoxon $p = 0.0007$, Bootstrap 95% CI: [-0.3192, -0.1726]). Omics significantly outperform clinical features alone.
+- **Paired EHR4 vs E1:** Mean difference $-0.2467$ (NB 95% CI: `[-0.4284, -0.0651]`, NB $p = 0.0113$, Wilcoxon $p = 0.0007$, naive Bootstrap 95% CI: `[-0.3192, -0.1726]`). Omics significantly outperform clinical features alone.
+- **Clinical Modality Added Value:** EHR2 − E1 paired difference has Nadeau-Bengio 95% CI `[-0.1213, +0.0863]`. A clinical gain or loss of up to ~0.09 AUROC cannot be excluded at $N=121$.
 
 ---
 
@@ -104,8 +106,8 @@ Evaluated across 15 folds ($3 \times 5$-fold CV, seeds `[42, 123, 999]`):
 
 Attributions evaluated across the 5 saved fold checkpoints with Captum's Integrated Gradients ($n_{\text{steps}}=50$):
 1. **ODC Fallback Artefact:** Regulation of ornithine decarboxylase (ODC) (`R-HSA-350562`) was index $P-1$ where 726 unmapped miRNAs were routed. Its earlier high score was strictly an artefact of fallback token routing.
-2. **Dual Aggregations:** Attributions are reported side-by-side as Metric (i) Genuine Sum (fallback excluded, $\rho = 0.8473$ with pathway size, Jaccard 0.3987) and Metric (ii) Size-Normalised Mean ($\rho = 0.2935$ with size, 0/20 generic, Jaccard 0.2808).
-3. **Permutation Null Stability:** Matched null permutation architecture implemented with atomic caching (`results/explainability/perm_cache/`).
+2. **Dual Aggregations & Size Dominance:** Attributions are dominated by pathway size (Spearman $\rho = 0.9099$) and by translation/ribosome/splicing genes; after size normalisation stability is not above the matched null.
+3. **Permutation Null Stability:** Matched null permutation stability is 0.3920 (sum) and 0.2870 (norm). IG genuine sum stability is 0.6170, size-normalised stability is 0.2765.
 4. **Recalibration (Platt Scaling):** Unpenalized logistic regression on logit(pooled_oof) yields slope = **2.254** (95% CI [1.77, 3.15]) and intercept = **-0.076** (95% CI [-0.60, 0.52]). Brier drops from 0.1365 to 0.1213 under 5-fold CV.
 
 ---
@@ -140,7 +142,7 @@ Attributions evaluated across the 5 saved fold checkpoints with Captum's Integra
 1. BioFusionFormer E1 achieves cross-validated AUROC of **0.8716** (Nadeau-Bengio 95% CI: [0.7816, 0.9616]) on the $N=121$ TARGET-WT histology task.
 2. Omics-based models significantly outperform clinical features alone (AUROC 0.8716 vs 0.6214, paired diff $-0.2467$, $p=0.0113$).
 3. The architecture demonstrates deterministic reproducibility with same-seed variation bounded by $< 1.8 \times 10^{-5}$ in probabilities.
-4. Integrated Gradients provides pathway-level attribution that highlights genuine biological associations when normalized for pathway size.
+4. Integrated Gradients identifies pathways dominated by size and translation/ribosome genes; size normalisation substantially reduces size bias, though stability remains near the matched null.
 5. Platt recalibration on out-of-fold logits reduces Brier score from 0.1365 to 0.1213 under 5-fold cross-validation.
 
 ### Claims FORBIDDEN by Empirical Evidence:
