@@ -101,15 +101,6 @@ pages = [
     "4. Model Performance",
     "5. Export & Downloads",
 ]
-selected_page = st.sidebar.radio("Navigation", pages)
-
-st.sidebar.markdown("---")
-st.sidebar.markdown("**System Safeguards:**")
-st.sidebar.text("• Network Calls: None (Air-gapped)")
-st.sidebar.text("• Disk Writes: None (In-memory)")
-st.sidebar.text(f"• Peak Memory: {get_peak_memory_mb():.1f} MB (< 2048 MB)")
-st.sidebar.markdown("---")
-st.sidebar.caption("Branch `final/e1-gui` | Frozen E1")
 
 # Session state initialization
 if "mrna_df" not in st.session_state:
@@ -122,6 +113,45 @@ if "results_df" not in st.session_state:
     st.session_state["results_df"] = None
 if "is_demo" not in st.session_state:
     st.session_state["is_demo"] = False
+
+# Auto-load demo if requested via query parameter
+if st.query_params.get("demo") == "1" and st.session_state["results_df"] is None:
+    demo_dir = ROOT / "app" / "demo_data"
+    if (demo_dir / "demo_mrna.csv").exists():
+        st.session_state["mrna_df"] = pd.read_csv(demo_dir / "demo_mrna.csv", index_col=0)
+        st.session_state["mirna_df"] = pd.read_csv(demo_dir / "demo_mirna.csv", index_col=0)
+        st.session_state["meth_df"] = pd.read_csv(demo_dir / "demo_meth.csv", index_col=0)
+        st.session_state["is_demo"] = True
+        try:
+            st.session_state["results_df"] = predict(
+                st.session_state["mrna_df"],
+                st.session_state["mirna_df"],
+                st.session_state["meth_df"],
+            )
+        except Exception:
+            pass
+
+# Query parameter deep linking
+default_idx = 0
+qp_page = str(st.query_params.get("page", "")).lower()
+if "upload" in qp_page:
+    default_idx = 1
+elif "pred" in qp_page:
+    default_idx = 2
+elif "perf" in qp_page or "model" in qp_page:
+    default_idx = 3
+elif "export" in qp_page or "download" in qp_page:
+    default_idx = 4
+
+selected_page = st.sidebar.radio("Navigation", pages, index=default_idx)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**System Safeguards:**")
+st.sidebar.text("• Network Calls: None (Air-gapped)")
+st.sidebar.text("• Disk Writes: None (In-memory)")
+st.sidebar.text(f"• Peak Memory: {get_peak_memory_mb():.1f} MB (< 2048 MB)")
+st.sidebar.markdown("---")
+st.sidebar.caption("Branch `final/e1-gui` | Frozen E1")
 
 
 # ============================================================================
@@ -252,25 +282,24 @@ elif selected_page == "3. Patient Predictions":
             st.info("ℹ️ **Notice:** Running on demo cohort patients. Predictions here reflect training data and are **NOT performance evidence**.")
 
         explain_json = load_explain_metrics()
-        has_calibrator = explain_json is not None and "recalibration" in explain_json
-        slope = explain_json["recalibration"]["slope"] if has_calibrator else 2.254
-        intercept = explain_json["recalibration"]["intercept"] if has_calibrator else -0.076
 
         st.subheader("Prediction Overview")
+        st.warning(
+            "⚠️ **Calibration Notice**: Deployment predictions display raw model scores with an explicit **'Not Calibrated'** label. "
+            "Single-repeat out-of-fold calibration slopes (1.434–1.974, with repeats 3, 4, and 5 falling below 1.769) are not strictly "
+            "consistent within the repeat-averaged 95% CI [1.769, 3.154]. Model outputs are experimental and not calibrated probabilities."
+        )
+
         display_records = []
         for _, row in res_df.iterrows():
             raw_prob = float(row["probability_unfavorable"])
-            z = np.log(max(raw_prob, 1e-6) / max(1.0 - raw_prob, 1e-6))
-            cal_prob = float(1.0 / (1.0 + np.exp(-(slope * z + intercept))))
-            
             display_records.append({
                 "Patient ID": row["patient_id"],
-                "Model Score (Raw Prob)": f"{raw_prob:.4f}",
-                "Calibrated Probability": f"{cal_prob:.4f}",
+                "Predicted Score (Raw)": f"{raw_prob:.4f}",
+                "Calibration Status": "Not Calibrated",
                 "Gate (mRNA)": f"{row['gate_mrna']:.3f}",
                 "Gate (miRNA)": f"{row['gate_mirna']:.3f}",
                 "Gate (Meth)": f"{row['gate_meth']:.3f}",
-                "Calibration Status": "Calibrated on cross-validated predictions, approximate",
             })
 
         st.dataframe(pd.DataFrame(display_records), use_container_width=True)
@@ -278,7 +307,7 @@ elif selected_page == "3. Patient Predictions":
         st.markdown("---")
         st.subheader("Per-Patient Modality Gating Weights")
         for _, row in res_df.iterrows():
-            with st.expander(f"Patient: {row['patient_id']} (Raw: {row['probability_unfavorable']:.3f})"):
+            with st.expander(f"Patient: {row['patient_id']} (Raw Score: {row['probability_unfavorable']:.3f})"):
                 g_col1, g_col2, g_col3 = st.columns(3)
                 with g_col1:
                     st.progress(float(row["gate_mrna"]), text=f"mRNA Gate: {row['gate_mrna']:.1%}")
@@ -290,23 +319,65 @@ elif selected_page == "3. Patient Predictions":
         st.markdown("---")
         st.subheader("Top Biological Pathways (Integrated Gradients)")
         st.warning(
-            "⚠️ **Biological Caution**: Generic translation/ribosome/splicing pathways often appear with high attribution "
-            "because they reflect general cell proliferation rate or tumor cellularity rather than Wilms tumor-specific histology."
+            "⚠️ **Biological Caution & Cluster-Level Confounding**: "
+            "Attributions are dominated by pathway size (Spearman rho = 0.91) and generic cellular machinery "
+            "(75% of top-20 belong to Cluster 1: Translation/Ribosome). After size-normalisation, cluster-level "
+            "stability (0.4369) is within the matched permutation null range (0.1887–0.3619). "
+            "These attributions reflect general cell proliferation rate and basal cellular machinery rather than "
+            "Wilms tumor-specific histological drivers. Outputs are descriptive only."
         )
 
-        if explain_json and "metric_i_genuine_sum" in explain_json and "metric_ii_size_normalised_mean" in explain_json:
+        if explain_json and "top20_genuine_member_sum" in explain_json and "top20_size_normalised_mean" in explain_json:
+            clusters_sum = explain_json.get("redundancy_and_clusters", {}).get("top20_genuine_sum_clusters", [])
+            clusters_norm = explain_json.get("redundancy_and_clusters", {}).get("top20_size_norm_clusters", [])
+
+            sum_c_map = {}
+            for cl in clusters_sum:
+                cid = cl["cluster_id"]
+                clab = f"Cluster {cid}"
+                if cid == 1: clab += " (Translation)"
+                elif cid == 2: clab += " (Splicing)"
+                elif cid == 3: clab += " (3'-end proc)"
+                elif cid == 4: clab += " (Spindle)"
+                for m in cl["members"]:
+                    sum_c_map[m] = clab
+
+            norm_c_map = {}
+            for cl in clusters_norm:
+                cid = cl["cluster_id"]
+                clab = f"Cluster {cid}"
+                if cid == 1: clab += " (Translation)"
+                elif cid == 2: clab += " (Translation Init)"
+                elif cid == 3: clab += " (CTNNB1/GSK3B)"
+                for m in cl["members"]:
+                    norm_c_map[m] = clab
+
             p_col1, p_col2 = st.columns(2)
             with p_col1:
                 st.markdown("#### (i) Sum of |IG| (Fallback Excluded)")
-                st.caption(f"Spearman with size: rho = {explain_json['metric_i_genuine_sum']['spearman_rho_with_pathway_size']:.2f} (size bias)")
-                top_sum = pd.DataFrame(explain_json["metric_i_genuine_sum"]["top20_pathways"][:10])
-                st.dataframe(top_sum[["rank", "name", "score", "generic"]], use_container_width=True)
+                st.caption(f"Spearman with size: rho = {explain_json['size_bias']['spearman_genuine_sum']:.2f} (size-dominated)")
+                sum_rows = []
+                for item in explain_json["top20_genuine_member_sum"][:10]:
+                    sum_rows.append({
+                        "Rank": item["rank"],
+                        "Pathway": item["name"],
+                        "Score": f"{item['score']:.4f}",
+                        "Cluster": sum_c_map.get(item["name"], "Cluster 1 (Translation)"),
+                    })
+                st.dataframe(pd.DataFrame(sum_rows), use_container_width=True)
 
             with p_col2:
                 st.markdown("#### (ii) Mean |IG| per Feature (Size-Normalised)")
-                st.caption(f"Spearman with size: rho = {explain_json['metric_ii_size_normalised_mean']['spearman_rho_with_pathway_size']:.2f} (size bias removed)")
-                top_mean = pd.DataFrame(explain_json["metric_ii_size_normalised_mean"]["top20_pathways"][:10])
-                st.dataframe(top_mean[["rank", "name", "score", "generic"]], use_container_width=True)
+                st.caption(f"Spearman with size: rho = {explain_json['size_bias']['spearman_size_norm']:.2f} (residual bias)")
+                norm_rows = []
+                for item in explain_json["top20_size_normalised_mean"][:10]:
+                    norm_rows.append({
+                        "Rank": item["rank"],
+                        "Pathway": item["name"],
+                        "Score": f"{item['score']:.4f}",
+                        "Cluster": norm_c_map.get(item["name"], "Cluster 1 (Translation)"),
+                    })
+                st.dataframe(pd.DataFrame(norm_rows), use_container_width=True)
         else:
             st.info("Global pathway attribution summaries available after running scripts/explain_e1.py.")
 
@@ -371,15 +442,9 @@ elif selected_page == "5. Export & Downloads":
     if res_df is None:
         st.warning("No predictions to download. Please upload files and run inference on Page 2.")
     else:
-        explain_json = load_explain_metrics()
-        has_calibrator = explain_json is not None and "recalibration" in explain_json
-        slope = explain_json["recalibration"]["slope"] if has_calibrator else 2.254
-        intercept = explain_json["recalibration"]["intercept"] if has_calibrator else -0.076
-
         export_df = res_df.copy()
-        raw_probs = export_df["probability_unfavorable"].values.astype(float)
-        z = np.log(np.maximum(raw_probs, 1e-6) / np.maximum(1.0 - raw_probs, 1e-6))
-        export_df["calibrated_probability_approx"] = 1.0 / (1.0 + np.exp(-(slope * z + intercept)))
+        export_df["calibration_status"] = "Not Calibrated"
+        export_df["predicted_score_raw"] = export_df["probability_unfavorable"]
 
         csv_buf = io.StringIO()
         export_df.to_csv(csv_buf, index=False)
