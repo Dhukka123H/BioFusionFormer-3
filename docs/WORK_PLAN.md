@@ -2,8 +2,8 @@
 
 **Branch:** `final/e1-gui`  
 **Reference Specification:** [`docs/AGENT_PROMPT_2.md`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/docs/AGENT_PROMPT_2.md)  
-**Overall Status:** **IN PROGRESS (Stage C running; Stages A, B, D complete; Stage E queued)**  
-**Last Updated:** 2026-10-19 23:45 IST  
+**Overall Status:** **COMPLETED & FROZEN (All Stages A, B, C, D, E complete)**  
+**Last Updated:** 2026-10-24 10:00 IST  
 
 ---
 
@@ -71,14 +71,14 @@ python scripts/run_clinical.py --status
   - Documented in [`results/explainability/fallback_audit.md`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/results/explainability/fallback_audit.md).
 - [x] **A2. Dual IG Aggregation**:
   - Implemented Metric (i) Genuine Sum (excluding fallback edges) and Metric (ii) Size-Normalised Mean.
-  - Raw Sum: Spearman $\rho = 0.8473$ ($p = 4.09 \times 10^{-54}$) with pathway size, 8/20 generic housekeeping pathways in top-20.
-  - Size-Normalised Mean: Spearman $\rho = 0.2935$ ($p = 3.61 \times 10^{-5}$), 0/20 generic (oncogenic pathways FGFR4, PDGFRA, NTRK2, CTNNB1 dominate).
+  - Raw Sum: Spearman $\rho = 0.9099$ ($p = 1.60 \times 10^{-74}$) with pathway size, 15/20 generic translation/ribosome machinery in top-20 (75%).
+  - Size-Normalised Mean: Spearman $\rho = 0.4413$ ($p = 1.49 \times 10^{-10}$); 15/20 translation machinery in top-20, 5/20 CTNNB1/GSK3B mutants.
   - Generated [`figures/explain/ig_top20_pathways.png`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/figures/explain/ig_top20_pathways.png).
 - [x] **A3. Stability Across 5 Folds**:
   - Pairwise Jaccard across the 5 saved fold checkpoints:
-    - Metric (i) Genuine Sum: **0.3987**
-    - Metric (ii) Size-Normalised Mean: **0.2808**
-    - ElasticNet baseline: **0.5682**
+    - Metric (i) Genuine Sum: **0.6170** (vs matched null mean 0.3920, range 0.29–0.49; both signal and nulls are size-influenced)
+    - Metric (ii) Size-Normalised Mean: **0.2765** (vs matched null mean 0.2870, range 0.23–0.37)
+    - ElasticNet baseline: **0.5682** (sum), **0.3683** (norm)
 - [x] **A4. Matched Null Permutation**:
   - Built resumable architecture and null cache structure in [`scripts/explain_e1.py`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/scripts/explain_e1.py).
   - Cache location: `results/explainability/null_cache/`.

@@ -39,7 +39,9 @@ Primary statistical intervals are Nadeau-Bengio corrected resampled $t$-interval
 
 ## 5. Seed Sensitivity Benchmark (Stage C0) & Cross-Machine Audit
 
-### Pairwise Seed Consistency (Predictions on N=121)
+### Pairwise Seed Consistency (In-Sample Deployment Models; Not Evidence of Stability)
+
+> **Important Caveat:** The Pearson $r = 1.0000$ values below reflect in-sample predictions from whole-cohort deployment models on their own overfitted training data ($N=121$), measuring memorisation rather than generalisation. This is **not evidence of stability**. On cross-validated test splits, initialization sensitivity produces an SD of fold differences of $0.1210$.
 
 | Comparison | Pearson $r$ | Spearman $\rho$ | Mean $|\Delta p|$ | 95th %ile $|\Delta p|$ | Max $|\Delta p|$ | Binary Concordance (thr=0.5) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -47,7 +49,9 @@ Primary statistical intervals are Nadeau-Bengio corrected resampled $t$-interval
 | **Seed 42 vs Seed 999** | 1.0000 | 0.6110 | 0.0022 | 0.0043 | 0.0052 | 100.0% |
 | **Seed 123 vs Seed 999** | 1.0000 | 0.6783 | 0.0035 | 0.0059 | 0.0076 | 100.0% |
 
-### Modality Gate Weights Across Seeds
+### Modality Gate Weights Across Seeds (Gate Weights Are Not Stable)
+
+> **Finding on Gate Instability:** Gate weights differ markedly by random seed (mRNA: 0.32 vs 0.44 vs 0.40; Methylation: 0.33 vs 0.23 vs 0.31). Because gating weights fluctuate depending on random seed initialization, gate weights are not stable, and "adaptive gate" cannot be claimed as a stable biological mechanism.
 
 | Random Seed | mRNA Gate Weight | miRNA Gate Weight | Methylation Gate Weight | Modality Gate Spread |
 | :---: | :---: | :---: | :---: | :---: |

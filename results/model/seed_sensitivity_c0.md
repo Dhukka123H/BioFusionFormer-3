@@ -21,10 +21,10 @@ To test sensitivity to random initialization (Peer Review Finding F2), Repeat 0 
 - **Mean AUROC (Seeds 7, 8, 9):** **`0.8653`** (Nadeau-Bengio 95% CI: `[0.7047, 1.0260]`)
 - **Mean AUROC (Frozen Seeds 42, 123, 999):** **`0.8761`**
 - **Mean Fold Difference ($\Delta$ AUROC):** **`-0.0108`**
-- **Standard Deviation of Fold Differences:** **`0.1210`**
+- **Standard Deviation of Fold Differences:** **`0.121`**
 
 > [!IMPORTANT]
-> **Scientific Finding (F2 Resolution):** Because the standard deviation of fold differences ($0.1210$) exceeds the stability threshold ($\le 0.03$), individual fold models exhibit non-negligible initialization variance. This empirically justifies the project rule that **3-seed ensembling per fold is required for reliable evaluation and deployment**.
+> **Scientific Finding (F2 Resolution):** The per-fold AUROC difference between seed sets has SD **0.121**; mean AUROC initialisation uncertainty is about $\pm 0.05$, so differences below 0.05 are not interpretable. The SD is estimated from 5 folds only (95% interval 0.07-0.35), so the true 25-fold range could be anywhere from about +/-0.03 to +/-0.14. The 5-fold seed-check CI is not meaningful (upper bound above 1). Brier on the same 5 folds changed by +0.036 between seed sets (0.135 vs 0.171).
 
 ---
 

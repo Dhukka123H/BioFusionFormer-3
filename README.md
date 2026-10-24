@@ -4,7 +4,7 @@
 Cohort: TARGET-WT (pediatric Wilms tumour), N = 121 primary-tumour patients with mRNA, miRNA, methylation and clinical data.
 Task: classify histology, favorable (82) vs unfavorable (39). Pathway prior: Reactome; miRNA prior: miRTarBase.
 
-> Status: **CLI-first**. One headline model (**E1**). A GUI will be added later on top of `predict()`.
+> Status: **Frozen Core (E1)** with standalone local research prototype GUI (`app/app.py`).
 > Everything else that was tried is exploratory and is archived in git tag `v1-archive-all-experiments`.
 
 ## What is the headline result (read this before quoting any number)
@@ -19,15 +19,16 @@ Task: classify histology, favorable (82) vs unfavorable (39). Pathway prior: Rea
 ## Layout
 
 ```
+app/          app.py (Streamlit research prototype GUI), demo_data/
 configs/      default.yaml (frozen hyper-parameters, E1 only), clinical_features.yaml
 data/         DATA_CARD.json, interim/ (priors, cohort), processed/ (matrices, labels.csv), splits/
-docs/         PROJECT_GUIDE.md, AGENT_PROMPT.md
+docs/         CLAIMS.md, MODEL_CARD.md, PROJECT_GUIDE.md, img/ (GUI screenshots)
 experiments/  final_v1/E1/  (25 per-fold checkpoints + metrics.json)
 legacy_xena/  Xena-specific scripts/report (data lineage)
-results/      baselines/, sanity_checks.md, leakage_scan.md, confound_report.md, model/ (E1_summary.md, forking_paths.md)
-scripts/      run_e1.py (the only model runner), build_labels.py, download_clinical.py, phase_* data steps, phase5_baselines.py
+results/      baselines/, clinical/, explainability/, model/ (seed_sensitivity_c0.md, forking_paths.md), FINAL_STATUS.md
+scripts/      run_e1.py (the only model runner), make_reports.py, explain_e1.py, run_clinical.py, phase5_baselines.py
 src/          encoders/, transformer/, fusion/, heads/, pathways/, preprocessing/, evaluation/ (cv_stats), explainability/, biofusionformer/full_model.py
-tests/        test_e1_model.py, test_cv_stats.py, test_preprocessing_leakage.py
+tests/        test_e1_model.py, test_cv_stats.py, test_reports_match_json.py, test_preprocessing_leakage.py
 ```
 
 ## Quick start

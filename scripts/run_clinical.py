@@ -502,6 +502,10 @@ def generate_clinical_report(variants: List[str], n_folds: int):
             boot_means = [np.mean(rng.choice(diffs, size=len(diffs), replace=True)) for _ in range(2000)]
             boot_ci = [float(np.percentile(boot_means, 2.5)), float(np.percentile(boot_means, 97.5))]
 
+            metrics_out[var]["diff_vs_e1"] = mean_diff
+            metrics_out[var]["p_value_vs_e1"] = nb_p
+            metrics_out[var]["nb_diff_ci"] = [float(nb_diff_lo), float(nb_diff_hi)]
+
             interp = "not distinguishable with $N=121$" if nb_p >= 0.05 else ("statistically significant drop" if mean_diff < 0 else "statistically significant gain")
             lines.append(f"| **{var} vs E1** | {mean_diff:+.4f} | [{nb_diff_lo:+.4f}, {nb_diff_hi:+.4f}] | {nb_p:.4f} | {wilc_p:.4f} | [{boot_ci[0]:+.4f}, {boot_ci[1]:+.4f}] | {interp} |")
 
@@ -532,7 +536,9 @@ def generate_clinical_report(variants: List[str], n_folds: int):
     lines.append("")
     lines.append("## 5. Seed Sensitivity Benchmark (Stage C0) & Cross-Machine Audit")
     lines.append("")
-    lines.append("### Pairwise Seed Consistency (Predictions on N=121)")
+    lines.append("### Pairwise Seed Consistency (In-Sample Deployment Models; Not Evidence of Stability)")
+    lines.append("")
+    lines.append("> **Important Caveat:** The Pearson $r = 1.0000$ values below reflect in-sample predictions from whole-cohort deployment models on their own overfitted training data ($N=121$), measuring memorisation rather than generalisation. This is **not evidence of stability**. On cross-validated test splits, initialization sensitivity produces an SD of fold differences of $0.1210$.")
     lines.append("")
     lines.append("| Comparison | Pearson $r$ | Spearman $\\rho$ | Mean $|\\Delta p|$ | 95th %ile $|\\Delta p|$ | Max $|\\Delta p|$ | Binary Concordance (thr=0.5) |")
     lines.append("| :--- | :---: | :---: | :---: | :---: | :---: | :---: |")
@@ -540,7 +546,9 @@ def generate_clinical_report(variants: List[str], n_folds: int):
     lines.append("| **Seed 42 vs Seed 999** | 1.0000 | 0.6110 | 0.0022 | 0.0043 | 0.0052 | 100.0% |")
     lines.append("| **Seed 123 vs Seed 999** | 1.0000 | 0.6783 | 0.0035 | 0.0059 | 0.0076 | 100.0% |")
     lines.append("")
-    lines.append("### Modality Gate Weights Across Seeds")
+    lines.append("### Modality Gate Weights Across Seeds (Gate Weights Are Not Stable)")
+    lines.append("")
+    lines.append("> **Finding on Gate Instability:** Gate weights differ markedly by random seed (mRNA: 0.32 vs 0.44 vs 0.40; Methylation: 0.33 vs 0.23 vs 0.31). Because gating weights fluctuate depending on random seed initialization, gate weights are not stable, and \"adaptive gate\" cannot be claimed as a stable biological mechanism.")
     lines.append("")
     lines.append("| Random Seed | mRNA Gate Weight | miRNA Gate Weight | Methylation Gate Weight | Modality Gate Spread |")
     lines.append("| :---: | :---: | :---: | :---: | :---: |")

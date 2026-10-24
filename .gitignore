@@ -21,6 +21,8 @@ experiments/*/E1.bak_*
 experiments/**/.lock
 !logs/final_run_v1_all_sessions.log
 BioFusionFormer_final.zip
+models_final.zip
+models_final_sha256.txt
 results_smoke/
 figures_smoke/
 
