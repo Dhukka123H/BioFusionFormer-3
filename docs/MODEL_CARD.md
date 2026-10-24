@@ -23,7 +23,7 @@
 ## Training Cohort & Provenance
 
 - **Cohort:** NCI TARGET-WT (Wilms tumor), $N = 121$ primary solid tumor patients with complete, aligned 3-omics data.
-- **Enrichment:** High-risk selection bias: 82 Favorable Histology (67.8%), 39 Unfavorable Histology / Anaplasia (32.2%). Anaplasia is significantly enriched compared to population incidence (~10%).
+- **Enrichment:** High-risk selection bias: 82 Favorable Histology (67.8%), 39 Unfavorable Histology / Anaplasia (32.2%). The unfavorable-histology share here (32%) is higher than the roughly 10% usually reported [reference needed].
 - **Data Lineage:**
   - Omics matrices (mRNA, miRNA, methylation) are GDC-derived data obtained through the **UCSC Xena GDC hub** (hg38, Xena-standardized pipelines).
   - Clinical labels and metadata were obtained directly from the **NCI GDC API** (Data Release 46.0 - August 10, 2026).
@@ -55,14 +55,14 @@ Confidence intervals use the **Nadeau-Bengio corrected resampled $t$-interval** 
 | Metric | Cross-Validated Mean | Nadeau-Bengio 95% CI |
 |---|---|---|
 | **AUROC** | **0.8716** | **[0.8023, 0.9408]** |
-| **AUPRC** (prevalence 0.322) | **0.8332** | [0.7410, 0.9254] |
-| **Balanced Accuracy** | **0.7653** | [0.7011, 0.8295] |
-| **Macro-F1** | **0.7697** | [0.7092, 0.8302] |
-| **Brier Score (fold mean)** | **0.1436** | [0.1182, 0.1690] |
+| **AUPRC** (prevalence 0.322) | **0.8332** | [0.7434, 0.9230] |
+| **Balanced Accuracy** | **0.7653** | [0.6821, 0.8486] |
+| **Macro-F1** | **0.7697** | [0.6839, 0.8554] |
+| **Brier Score (fold mean)** | **0.1436** | [0.1089, 0.1783] |
 | **Brier Score (pooled OOF)** | **0.1365** | — |
 
 *Per-repeat mean AUROCs:* 0.876, 0.861, 0.867, 0.898, 0.856 (run-to-run SD: 0.017).
-*Seed Sensitivity (Initialization Variance on Identical Splits):* A 5-fold rerun on repeat 0 with alternative random seeds `[7, 8, 9]` yielded mean AUROC **0.8653** (mean per-fold $\Delta \text{AUROC} = -0.0108$, $\text{SD of differences} = \mathbf{0.1210}$, range $[-0.1953, +0.0938]$). Because $\text{SD} > 0.03$, individual fold models exhibit substantial initialization variance on small $N=121$; 3-seed ensembling per fold is essential to stabilize performance.
+*Seed Sensitivity (Initialization Uncertainty on Identical Splits):* A 5-fold rerun on repeat 0 with alternative random seeds `[7, 8, 9]` yielded mean AUROC **0.8653** (mean per-fold $\Delta \text{AUROC} = -0.0108$, range $[-0.1953, +0.0938]$). The per-fold AUROC difference between seed sets has SD **0.121**; mean AUROC initialisation uncertainty is about $\pm 0.05$, so differences below 0.05 are not interpretable. The SD is estimated from 5 folds only (95% interval 0.07-0.35), so the true 25-fold range could be anywhere from about +/-0.03 to +/-0.14. The 5-fold seed-check CI is not meaningful (upper bound above 1). Brier on the same 5 folds changed by +0.036 between seed sets (0.135 vs 0.171).
 
 ### Benchmark Comparison (Paired Nadeau-Bengio Corrected Test)
 

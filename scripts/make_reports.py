@@ -54,6 +54,8 @@ def load_explain_metrics():
 
 
 def format_ci(ci):
+    if len(ci) == 4:
+        return f"[{ci[1]:.4f}, {ci[2]:.4f}]"
     return f"[{ci[0]:.4f}, {ci[1]:.4f}]"
 
 
@@ -85,10 +87,15 @@ def make_final_status(e1, explain):
     lines = []
     lines.append("# BioFusionFormer — Final Audit & Pipeline Status (E1-Only)")
     lines.append("")
-    lines.append("**Date:** 2026-10-19  ")
+    lines.append("**Date:** 2026-10-24  ")
     lines.append("**Cohort:** TARGET-WT ($N=121$, Favorable Histology $N=82$, Unfavorable Histology $N=39$)  ")
     lines.append("**Target:** Wilms Tumor Histology (FH=0 vs UH=1)  ")
-    lines.append("**Hardware & Environment:** Windows, CPU (`torch.set_num_threads(2)`), Python 3.14.7, PyTorch 2.14.0+cpu  ")
+    lines.append("**Hardware & Environment:** Windows, CPU (`torch.set_num_threads(2)`):  ")
+    lines.append("- **Frozen E1 Benchmark:** Python 3.14.7 | torch 2.14.0+cpu (`logs/e1_session_20261016_154902.log`)  ")
+    lines.append("- **Reproducibility Re-run:** Python 3.14.7 | torch 2.14.0+cpu (`logs/e1_session_20261016_155052.log`)  ")
+    lines.append("- **Seed Sensitivity Audit:** Python 3.14.7 | torch 2.14.0+cpu (`logs/e1_session_20261019_222908.log`)  ")
+    lines.append("- **Explainability & Null Permutations:** Python 3.14.7 | torch 2.14.0+cpu (`scripts/explain_e1.py`)  ")
+    lines.append("- **Clinical Multimodal Integration:** Python 3.14.7 | torch 2.14.0+cpu (`logs/clinical_session_20261020_232506.log`)  ")
     lines.append("")
     lines.append("---")
     lines.append("")
@@ -98,7 +105,7 @@ def make_final_status(e1, explain):
     lines.append("The repository cleanly focuses on the single frozen core architecture: **BioFusionFormer E1** (mRNA + miRNA + DNA Methylation, pathway attention bias ON, adaptive modality gating ON, strong Reactome mask).")
     lines.append("")
     lines.append("All computations were executed with strict adherence to the project rules:")
-    lines.append("- **Zero-Leakage Cross-Validation:** All imputation (median) and standardization (z-score) are performed strictly inside training folds.")
+    lines.append("- **Zero-Leakage Cross-Validation:** All imputation (median) and standardization (z-score) are performed strictly inside training folds. Pathway selection (192, variance-based) used all 121 patients' omics, no labels.")
     lines.append("- **Valid Statistical Inference:** All confidence intervals and hypothesis tests use the Nadeau-Bengio corrected resampled $t$-interval ($K=25$, $n_{\\text{train}}=97$, $n_{\\text{test}}=24$), completely rejecting naive $\\pm 1.96 \\text{SD}/\\sqrt{K}$ intervals.")
     lines.append("- **Honest Scientific Claims:** Differences where $p \\ge 0.05$ are reported plainly as 'not distinguishable with $N=121$'. Attention rollout is noted as secondary and near-uniform (spread ratio 1.06x). Representation projections are documented as in-sample visualizations only (no generalization claims).")
     lines.append("- **Correct Lineage Framing:** Data origins reflect UCSC Xena GDC-hub derived omics and official GDC API clinical records.")
@@ -140,7 +147,7 @@ def make_final_status(e1, explain):
     lines.append(f"| **Brier Score (fold mean)** | **{brier_fold_mean:.4f}** | {format_ci(brier_fold_ci)} | Fold mean |")
     lines.append(f"| **Brier Score (pooled)** | **{brier_pooled:.4f}** | — | Pooled out-of-fold |")
     lines.append("")
-    lines.append("- **Adaptive Modality Gate Weights:** mRNA: **0.321**, miRNA: **0.399**, Methylation: **0.281** (balanced integration across all 3 omics).")
+    lines.append("- **Adaptive Modality Gate Weights:** mRNA: **0.321**, miRNA: **0.399**, Methylation: **0.281**.")
     lines.append("- **Attention Rollout Spread:** Max/min ratio = **1.06x** (near uniform; attention rollout cannot be claimed as an explanation mechanism).")
     lines.append("")
     lines.append("---")
@@ -164,10 +171,10 @@ def make_final_status(e1, explain):
     lines.append("## 5. Seed Sensitivity Benchmark (Stage C0)")
     lines.append("")
     lines.append("To test sensitivity to random initialization (Finding F2), 5 folds were retrained with new seeds `[7, 8, 9]` (`final_v1_seedcheck`):")
-    lines.append("- **Mean AUROC:** **0.8653** (Nadeau-Bengio 95% CI: [0.7047, 1.0260])")
+    lines.append("- **Mean AUROC:** **0.8653**")
     lines.append("- **Mean Fold Difference (vs Frozen E1 seeds 42, 123, 999):** $\\Delta \\text{AUROC} = -0.0108$")
-    lines.append("- **Standard Deviation of Fold Differences:** **0.1210** ($> 0.03$ threshold)")
-    lines.append("- **Conclusion:** The model shows non-negligible initialization variance on individual folds; 3-seed ensembling per fold is necessary for reliable deployment.")
+    lines.append("- **Standard Deviation of Fold Differences:** **0.121**")
+    lines.append("- **Conclusion:** The per-fold AUROC difference between seed sets has SD 0.121; mean AUROC initialisation uncertainty is about $\\pm 0.05$; differences below 0.05 are not interpretable. The SD is estimated from 5 folds only (95% interval 0.07-0.35), so the true 25-fold range could be anywhere from about +/-0.03 to +/-0.14. The 5-fold seed-check CI is not meaningful (upper bound above 1). Brier on the same 5 folds changed by +0.036 between seed sets (0.135 vs 0.171).")
     lines.append("")
     lines.append("---")
     lines.append("")
@@ -177,7 +184,7 @@ def make_final_status(e1, explain):
     lines.append("")
     lines.append("| Model Variant | Mean AUROC | Nadeau-Bengio 95% CI | Mean AUPRC | Mean Brier | Comparison vs E1 / Baseline |")
     lines.append("| :--- | :---: | :---: | :---: | :---: | :--- |")
-    lines.append("| **E1 (Omics Only)** | **0.8716** | [0.7816, 0.9616] | 0.8332 | 0.1436 | Reference frozen architecture |")
+    lines.append("| **E1 (Omics Only)** | **0.8681** | [0.8060, 0.9303] | 0.8296 | 0.1405 | Reference frozen architecture (first 15 folds) |")
     lines.append("| **EHR2 (3 Omics + Age, Sex, Stage)** | **0.8506** | [0.7448, 0.9564] | 0.7962 | 0.1528 | $\\Delta = -0.0175$ vs E1 (NB $p = 0.7227$, Wilcoxon $p = 0.5097$). **Not distinguishable** with $N=121$. |")
     lines.append("| **EHR4 (Clinical-Only Transformer)** | **0.6214** | [0.4639, 0.7789] | 0.4851 | 0.2486 | $\\Delta = +0.0140$ vs Clinical ElasticNet (0.6073, NB $p = 0.7943$). Brier is worse than prevalence baseline. |")
     lines.append("| **Reference (Constant Prevalence)** | 0.5000 | — | 0.3223 | 0.2184 | Baseline prevalence prior ($p=0.3223$). EHR4 Brier (0.2486) is worse than constant guessing. |")
@@ -195,7 +202,7 @@ def make_final_status(e1, explain):
         sb = explain["size_bias"]
         stab = explain["stability_jaccard_top20"]
         lines.append(f"2. **Dual Aggregations & Size Dominance:** Attributions are dominated by pathway size (Spearman $\\rho = {sb['spearman_genuine_sum']:.4f}$) and by translation/ribosome/splicing genes; after size normalisation stability is not above the matched null.")
-        lines.append(f"3. **Permutation Null Stability:** Matched null permutation stability is {stab['null_matched_sum_mean']:.4f} (sum) and {stab['null_matched_norm_mean']:.4f} (norm). IG genuine sum stability is {stab['ig_genuine_sum']:.4f}, size-normalised stability is {stab['ig_size_norm']:.4f}.")
+        lines.append(f"3. **Permutation Null Stability:** At the **pathway level**, IG genuine sum stability is {stab['ig_genuine_sum']:.4f} (null mean {stab['null_matched_sum_mean']:.4f}, values: 0.491, 0.288, 0.397) and size-normalised stability is {stab['ig_size_norm']:.4f} (null mean {stab['null_matched_norm_mean']:.4f}, values: 0.372, 0.231, 0.259). At the **cluster level** (independent pathway clusters, Jaccard $\\ge 0.5$), stability is 0.462 (sum) and 0.437 (size-normalised) vs permutation nulls (0.43, 0.26, 0.31) and (0.36, 0.19, 0.23); with 3 permutations, no p-value is possible.")
     else:
         lines.append("2. **Dual Aggregations:** Attributions are reported side-by-side as Metric (i) Genuine Sum and Metric (ii) Size-Normalised Mean.")
         lines.append("3. **Permutation Null Stability:** Matched null permutation architecture evaluated.")
@@ -205,18 +212,18 @@ def make_final_status(e1, explain):
     lines.append("")
     lines.append("---")
     lines.append("")
-    lines.append("## 8. Resolution of Peer Review Audit Findings (F1 - F8)")
+    lines.append("## 8. Review findings and status")
     lines.append("")
     lines.append("| ID | Audit Finding | Severity | Resolution Status | Verified Resolution Detail |")
     lines.append("| :--- | :--- | :--- | :--- | :--- |")
     lines.append("| **F1** | ODC Fallback Routing Artefact | Critical | **RESOLVED** | Documented in `fallback_audit.md`. 726 unmapped miRNAs routed to P-1 caused artificial 4.98 score. Fallback excluded from reporting; dual genuine sum & size-normalised mean attributions reported. |")
-    lines.append("| **F2** | Fold Initialization Variance | High | **RESOLVED** | Rerun with seeds [7,8,9] yielded SD of differences = 0.1210 (>0.03). Flagged in Model Card that 3-seed ensembling per fold is required. |")
-    lines.append("| **F3** | Permutation Null Unstable | High | **RESOLVED** | Resumable matched null permutation architecture built with atomic cache on disk. |")
+    lines.append("| **F2** | Matched label-permutation null | High | **RESOLVED** | Resumable matched null permutation architecture built with atomic cache on disk; 3 permutations x 5 folds evaluated. |")
+    lines.append("| **F3** | Reporting consistency across metrics | High | **RESOLVED** | All metrics (AUPRC, Bal Acc, Macro F1, Brier) strictly synchronized with E1_metrics.json and Nadeau-Bengio intervals. |")
     lines.append("| **F4** | Log vs Logit Recalibration Bug | High | **RESOLVED** | Fixed formula from faulty log(p) to logit(p). Calibrator slope = 2.254, intercept = -0.076. Brier reduced to 0.1213. |")
-    lines.append("| **F5** | Parameter Count Inconsistency | High | **RESOLVED** | Verified exact parameters everywhere: 47,221 free parameters, 4,249,284 dense parameters. 62,450 noted as unreproduced earlier draft. |")
-    lines.append("| **F6** | Overstated Attention Rollout | Medium | **RESOLVED** | Rollout spread is 1.06x (near uniform); explicitly downgraded to secondary check, not an explanation. |")
-    lines.append("| **F7** | Biological Prior Significance | Medium | **RESOLVED** | E5 control real vs random prior showed no significant difference (p=0.86). Honestly documented across all reports. |")
-    lines.append("| **F8** | Clinical Multimodal Superiority | High | **RESOLVED** | Tested across 15 folds: EHR2 (p=0.7227) does not outperform omics alone; EHR4 (p=0.7943) does not outperform clinical ElasticNet. |")
+    lines.append("| **F5** | Parameter Count Documentation | High | **RESOLVED** | Verified exact parameters everywhere: 47,221 free parameters, 4,249,284 dense parameters. 62,450 noted as unreproduced earlier draft. |")
+    lines.append("| **F6** | Prior significance & guide cleanup | Medium | **RESOLVED** | Removed false claims of prior superiority; E5 control real vs random prior showed no significant difference (p=0.86). |")
+    lines.append("| **F7** | Seed variance & reproducibility | High | **measured and documented** | Rerun with seeds [7,8,9] yielded SD of differences = 0.121 (5 folds). True 25-fold range could be anywhere from +/-0.03 to +/-0.14. Differences below 0.05 are not interpretable. |")
+    lines.append("| **F8** | In-sample representation & clinical models | High | **RESOLVED** | In-sample PCA clusters documented as training memorisation, not generalisation; clinical models EHR2/EHR4 evaluated across 15 folds. |")
     lines.append("")
     lines.append("---")
     lines.append("")
@@ -225,15 +232,15 @@ def make_final_status(e1, explain):
     lines.append("1. **Fork 6 Fallback Wiring:** Unmapped miRNAs (726 features) are routed to pathway token index $P-1$ rather than a dedicated sink token. Future architectures should allocate an explicit unmapped token index $P$.")
     lines.append("2. **Fork 8 Missing Modalities:** BioFusionFormer requires all three omic modalities (mRNA, miRNA, Methylation) to be present at inference time. The architecture does not support missing modalities without explicit imputation.")
     lines.append("3. **Small Enriched Cohort:** Evaluated strictly on TARGET-WT ($N=121$, high-risk pediatric renal tumor). Wide Nadeau-Bengio confidence intervals reflect the modest sample size.")
-    lines.append("4. **No External Validation:** Validation is conducted entirely via nested cross-validation on TCGA/TARGET cohorts; external generalization to independent clinical cohorts remains unverified.")
+    lines.append("4. **No External Validation:** evaluation is repeated stratified 5-fold cross-validation on TARGET-WT only; no TCGA data and no external cohort.")
     lines.append("")
     lines.append("---")
     lines.append("")
     lines.append("## 10. Permitted vs. Forbidden Scientific Claims")
     lines.append("")
     lines.append("### Claims the Project IS Allowed to Make:")
-    lines.append("1. BioFusionFormer E1 achieves cross-validated AUROC of **0.8716** (Nadeau-Bengio 95% CI: [0.7816, 0.9616]) on the $N=121$ TARGET-WT histology task.")
-    lines.append("2. Omics-based models significantly outperform clinical features alone (AUROC 0.8716 vs 0.6214, paired diff $-0.2467$, $p=0.0113$).")
+    lines.append(f"1. BioFusionFormer E1 achieves cross-validated AUROC of **{auroc_mean:.4f}** (Nadeau-Bengio 95% CI: [{auroc_ci[0]:.4f}, {auroc_ci[1]:.4f}]) on the $N=121$ TARGET-WT histology task.")
+    lines.append("2. Omics-based models significantly outperform clinical features alone (AUROC 0.8681 vs 0.6214, paired diff $-0.2467$, $p=0.0113$).")
     lines.append("3. The architecture demonstrates deterministic reproducibility with same-seed variation bounded by $< 1.8 \\times 10^{-5}$ in probabilities.")
     lines.append("4. Integrated Gradients identifies pathways dominated by size and translation/ribosome genes; size normalisation substantially reduces size bias, though stability remains near the matched null.")
     lines.append("5. Platt recalibration on out-of-fold logits reduces Brier score from 0.1365 to 0.1213 under 5-fold cross-validation.")
@@ -255,6 +262,45 @@ def update_model_card(e1):
         return
     text = MODEL_CARD_PATH.read_text(encoding="utf-8")
 
+    folds = e1["folds"]
+    n_train = e1.get("n_train", 97)
+    n_test = e1.get("n_test", 24)
+
+    auroc_mean = float(e1["auroc_mean"])
+    auroc_ci = e1["auroc_nb_ci"]
+    auprc_ci = nb_interval(folds["auprc"], n_train=n_train, n_test=n_test)
+    bal_ci = nb_interval(folds["bal_acc"], n_train=n_train, n_test=n_test)
+    f1_ci = nb_interval(folds["f1"], n_train=n_train, n_test=n_test)
+    brier_ci = nb_interval(folds["brier"], n_train=n_train, n_test=n_test)
+    brier_fold_mean = float(e1["brier_foldmean"])
+    brier_pooled = float(e1["brier_pooled"])
+
+    core_metrics_table = (
+        "### Core Metrics\n\n"
+        "| Metric | Cross-Validated Mean | Nadeau-Bengio 95% CI |\n"
+        "|---|---|---|\n"
+        f"| **AUROC** | **{auroc_mean:.4f}** | **{format_ci(auroc_ci)}** |\n"
+        f"| **AUPRC** (prevalence 0.322) | **{auprc_ci[0]:.4f}** | {format_ci(auprc_ci)} |\n"
+        f"| **Balanced Accuracy** | **{bal_ci[0]:.4f}** | {format_ci(bal_ci)} |\n"
+        f"| **Macro-F1** | **{f1_ci[0]:.4f}** | {format_ci(f1_ci)} |\n"
+        f"| **Brier Score (fold mean)** | **{brier_fold_mean:.4f}** | {format_ci(brier_ci)} |\n"
+        f"| **Brier Score (pooled OOF)** | **{brier_pooled:.4f}** | — |\n"
+    )
+
+    text = re.sub(
+        r"### Core Metrics\n\n\| Metric \|.*?\n\| \*\*Brier Score \(pooled OOF\)\*\*.*?\n",
+        core_metrics_table,
+        text,
+        flags=re.DOTALL,
+    )
+
+    # Item 4: replace enrichment sentence
+    text = re.sub(
+        r"(Anaplasia is significantly enriched compared to population incidence \(~10%\)\.|Anaplasia is higher than the roughly 10% usually reported.*?\.|The unfavorable-histology share here \(32%\) is higher than the roughly 10% usually reported.*?\.)",
+        "The unfavorable-histology share here (32%) is higher than the roughly 10% usually reported [reference needed].",
+        text,
+    )
+
     # Update parameters section if needed
     text = re.sub(
         r"\| \*\*Dense trainable parameters\*\*.*?\n\| \*\*Effective free parameters\*\*.*?\n",
@@ -262,7 +308,37 @@ def update_model_card(e1):
         "| **Effective free parameters** (`count_effective_parameters()`) | **47,221** (~47.2k) | Degrees of freedom receiving gradients (inside biological mask). |\n",
         text,
     )
+    # Update seed sensitivity wording if needed
+    seed_repl = (
+        "*Seed Sensitivity (Initialization Uncertainty on Identical Splits):* A 5-fold rerun on repeat 0 with alternative random seeds `[7, 8, 9]` yielded mean AUROC **0.8653** (mean per-fold $\\Delta \\text{AUROC} = -0.0108$, range $[-0.1953, +0.0938]$). The per-fold AUROC difference between seed sets has SD **0.121**; mean AUROC initialisation uncertainty is about $\\pm 0.05$, so differences below 0.05 are not interpretable. The SD is estimated from 5 folds only (95% interval 0.07-0.35), so the true 25-fold range could be anywhere from about +/-0.03 to +/-0.14. The 5-fold seed-check CI is not meaningful (upper bound above 1). Brier on the same 5 folds changed by +0.036 between seed sets (0.135 vs 0.171).\n"
+    )
+    text = re.sub(
+        r"\*Seed Sensitivity \(Initialization (?:Variance|Uncertainty) on Identical Splits\)\:.*?\n",
+        lambda _: seed_repl,
+        text,
+    )
     MODEL_CARD_PATH.write_text(text, encoding="utf-8")
+
+
+def update_seed_sensitivity():
+    seed_path = ROOT / "results" / "model" / "seed_sensitivity_c0.md"
+    if not seed_path.exists():
+        return
+    text = seed_path.read_text(encoding="utf-8")
+    finding_repl = (
+        "> [!IMPORTANT]\n"
+        "> **Scientific Finding (F2 Resolution):** The per-fold AUROC difference between seed sets has SD **0.121**; "
+        "mean AUROC initialisation uncertainty is about $\\pm 0.05$, so differences below 0.05 are not interpretable. "
+        "The SD is estimated from 5 folds only (95% interval 0.07-0.35), so the true 25-fold range could be anywhere from "
+        "about +/-0.03 to +/-0.14. The 5-fold seed-check CI is not meaningful (upper bound above 1). "
+        "Brier on the same 5 folds changed by +0.036 between seed sets (0.135 vs 0.171).\n"
+    )
+    text = re.sub(
+        r"> \[!IMPORTANT\]\n> \*\*Scientific Finding \(F2 Resolution\):\*\*.*?\n",
+        lambda _: finding_repl,
+        text,
+    )
+    seed_path.write_text(text, encoding="utf-8")
 
 
 def update_readme(e1):
@@ -303,6 +379,9 @@ def main():
 
     update_model_card(e1)
     print(f"Updated {MODEL_CARD_PATH}")
+
+    update_seed_sensitivity()
+    print("Updated results/model/seed_sensitivity_c0.md")
 
     update_readme(e1)
     print(f"Updated {README_PATH}")

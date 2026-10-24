@@ -60,6 +60,9 @@ st.markdown("""
         padding: 14px;
         border-radius: 4px;
         margin-bottom: 18px;
+        color: #fecaca;
+        font-size: 14px;
+        line-height: 1.5;
     }
     .stProgress > div > div > div > div {
         background-color: #38bdf8;
@@ -147,8 +150,8 @@ selected_page = st.sidebar.radio("Navigation", pages, index=default_idx)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("**System Safeguards:**")
-st.sidebar.text("• Network Calls: None (Air-gapped)")
-st.sidebar.text("• Disk Writes: None (In-memory)")
+st.sidebar.text("• Network Calls: By design none (not independently verified)")
+st.sidebar.text("• Disk Writes: By design none (not independently verified)")
 st.sidebar.text(f"• Peak Memory: {get_peak_memory_mb():.1f} MB (< 2048 MB)")
 st.sidebar.markdown("---")
 st.sidebar.caption("Branch `final/e1-gui` | Frozen E1")
@@ -173,11 +176,11 @@ if selected_page == "1. About & Limitations":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Free Parameters", "47,221", "Effective Degrees of Freedom")
+        st.metric("Free Parameters", "47,221", "Effective Degrees of Freedom", delta_color="off")
     with col2:
-        st.metric("Dense Weights", "4,249,284", "Memory Footprint")
+        st.metric("Dense Weights", "4,249,284", "Memory Footprint", delta_color="off")
     with col3:
-        st.metric("Cross-Validated AUROC", "0.8716", "NB 95% CI: [0.8023, 0.9408]")
+        st.metric("Cross-Validated AUROC", "0.8716", "NB 95% CI: [0.8023, 0.9408]", delta_color="off")
 
     st.markdown("---")
     st.markdown("### Key Requirements & Constraints")
@@ -285,9 +288,9 @@ elif selected_page == "3. Patient Predictions":
 
         st.subheader("Prediction Overview")
         st.warning(
-            "⚠️ **Calibration Notice**: Deployment predictions display raw model scores with an explicit **'Not Calibrated'** label. "
-            "Single-repeat out-of-fold calibration slopes (1.434–1.974, with repeats 3, 4, and 5 falling below 1.769) are not strictly "
-            "consistent within the repeat-averaged 95% CI [1.769, 3.154]. Model outputs are experimental and not calibrated probabilities."
+            "⚠️ **Calibration Notice**: The calibration of the final model cannot be verified; raw scores are shown. "
+            "Deployment predictions display raw model scores with an explicit **'Not Calibrated'** label. "
+            "Model outputs are experimental and not calibrated probabilities."
         )
 
         display_records = []
@@ -318,13 +321,23 @@ elif selected_page == "3. Patient Predictions":
 
         st.markdown("---")
         st.subheader("Top Biological Pathways (Integrated Gradients)")
+
+        if explain_json:
+            c_stab = explain_json.get("redundancy_and_clusters", {}).get("cluster_level_top5_stability", {})
+            c_norm = c_stab.get("size_norm", 0.4369)
+            null_norms = c_stab.get("null_cluster_norm_values", [0.1887, 0.3619])
+            null_lo = min(null_norms)
+            null_hi = max(null_norms)
+            cluster_sent = f"cluster-level stability {c_norm:.4f} exceeds all three permutation nulls ({null_lo:.4f}-{null_hi:.4f}); with 3 permutations no p-value is possible"
+        else:
+            cluster_sent = "cluster-level stability 0.4369 exceeds all three permutation nulls (0.1887-0.3619); with 3 permutations no p-value is possible"
+
         st.warning(
             "⚠️ **Biological Caution & Cluster-Level Confounding**: "
             "Attributions are dominated by pathway size (Spearman rho = 0.91) and generic cellular machinery "
-            "(75% of top-20 belong to Cluster 1: Translation/Ribosome). After size-normalisation, cluster-level "
-            "stability (0.4369) is within the matched permutation null range (0.1887–0.3619). "
-            "These attributions reflect general cell proliferation rate and basal cellular machinery rather than "
-            "Wilms tumor-specific histological drivers. Outputs are descriptive only."
+            f"(75% of top-20 belong to Cluster 1: Translation/Ribosome). After size-normalisation, {cluster_sent}. "
+            "These attributions are dominated by pathway size and translation/ribosome pathways and should not be read as Wilms-specific drivers. "
+            "Outputs are descriptive only."
         )
 
         if explain_json and "top20_genuine_member_sum" in explain_json and "top20_size_normalised_mean" in explain_json:
@@ -397,15 +410,23 @@ elif selected_page == "4. Model Performance":
 
         m1, m2, m3, m4 = st.columns(4)
         with m1:
-            st.metric("AUROC", f"{e1['auroc_mean']:.4f}", f"95% CI: [{e1['auroc_nb_ci'][0]:.3f}, {e1['auroc_nb_ci'][1]:.3f}]")
+            st.metric("AUROC", f"{e1['auroc_mean']:.4f}")
+            st.caption(f"95% CI: [{e1['auroc_nb_ci'][0]:.4f}, {e1['auroc_nb_ci'][1]:.4f}]")
         with m2:
             auprc_mean = np.mean(e1["folds"]["auprc"])
-            st.metric("AUPRC", f"{auprc_mean:.4f}", "Prevalence: 32.2%")
+            st.metric("AUPRC", f"{auprc_mean:.4f}")
+            st.caption("Prevalence: 32.2%")
         with m3:
             bal_acc = np.mean(e1["folds"]["bal_acc"])
-            st.metric("Balanced Accuracy", f"{bal_acc:.4f}", "Chance: 50.0%")
+            st.metric("Balanced Accuracy", f"{bal_acc:.4f}")
+            st.caption("Chance: 50.0%")
         with m4:
-            st.metric("Brier (Fold Mean)", f"{e1['brier_foldmean']:.4f}", f"Pooled: {e1['brier_pooled']:.4f}")
+            st.metric("Brier (Fold Mean)", f"{e1['brier_foldmean']:.4f}")
+            st.caption(f"Pooled: {e1['brier_pooled']:.4f}")
+
+        st.markdown("---")
+        st.subheader("Seed Sensitivity & Initialization Uncertainty")
+        st.info("ℹ️ **Seed Audit**: A 5-fold rerun with alternative random seeds [7, 8, 9] demonstrates that the per-fold AUROC difference between seed sets has SD **0.121**; mean AUROC initialization uncertainty is about **±0.05**. Model performance differences below 0.05 are not interpretable.")
 
         st.markdown("---")
         st.subheader("Comparison Against Shallow Baselines (Paired Nadeau-Bengio Corrected Tests)")
