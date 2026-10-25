@@ -3,8 +3,20 @@
   "cohort": "TARGET-WT (N=121)",
   "task": "wilms_tumor_histologic_subtype",
   "created_at_utc": "2026-10-24T07:40:54.254724+00:00",
+  "manifest_rewritten_utc": "2026-10-25T06:25:00+00:00",
   "git_commit": "d8f7a2e71c0292dd21b74da64cafdd0dcd6f4e96",
-  "training_commit": "d8f7a2e71c0292dd21b74da64cafdd0dcd6f4e96",
+  "training_commit": "not independently verified",
+  "file_modification_times_utc": {
+    "model_seed42.pt": "2026-10-16T14:15:05.040186+00:00",
+    "model_seed123.pt": "2026-10-16T14:49:00.696000+00:00",
+    "model_seed999.pt": "2026-10-16T15:14:33.798660+00:00",
+    "preprocessors.pt": "2026-10-16T15:14:33.875481+00:00",
+    "masks.pt": "2026-10-16T15:14:33.891710+00:00",
+    "bio_bias.pt": "2026-10-16T15:14:33.894708+00:00",
+    "feature_names.json": "2026-10-16T15:14:33.926776+00:00",
+    "pathways.json": "2026-10-16T15:14:33.935616+00:00",
+    "config.yaml": "2026-10-16T15:14:33.946052+00:00"
+  },
   "seeds": [
     42,
     123,

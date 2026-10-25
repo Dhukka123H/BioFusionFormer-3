@@ -41,6 +41,10 @@ All permitted claims below are supported by rigorous out-of-fold cross-validatio
     - Predictions display raw model scores with an explicit **"Not Calibrated"** label.
     - Single-repeat out-of-fold calibration slopes ($1.434\text{--}1.974$, with repeats 3, 4, and 5 falling below $1.769$) do not satisfy consistency with the repeat-averaged 95% CI `[1.769, 3.154]`, properly precluding premature calibration claims.
 
+### 1.5 Reproducibility
+- **Claim:** BioFusionFormer demonstrates deterministic same-seed reproducibility with run-to-run variation bounded by machine precision ($< 1.8 \times 10^{-5}$ in probabilities, $\Delta \text{AUROC} = 0.000000$).
+  - **Empirical Evidence:** Same-seed reproducibility was verified in the same Python/torch environment.
+
 ---
 
 ## 2. Forbidden Claims (Statistically or Methodologically Unsupported)

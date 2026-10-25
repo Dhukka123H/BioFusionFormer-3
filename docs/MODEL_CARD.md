@@ -85,6 +85,7 @@ Confidence intervals use the **Nadeau-Bengio corrected resampled $t$-interval** 
   - mRNA: $0.321 \pm 0.035$
   - miRNA: $0.399 \pm 0.051$
   - Methylation: $0.281 \pm 0.041$
+  *Note: Gate weights change with the training seed (see CLAIMS F9).*
 - **Attention Rollout:** Ratio of max pathway attention to min pathway attention is **1.06x** (near uniform). Consequently, attention rollout does not discriminate between pathways; **Integrated Gradients** attribution must be used instead.
 
 ---
@@ -95,3 +96,4 @@ Confidence intervals use the **Nadeau-Bengio corrected resampled $t$-interval** 
 2. **Fork 6 — Unmapped miRNA Token Routing:** 726 miRNA features without Reactome edges were mapped to the last pathway token index ($P-1$), rather than an isolated fallback token.
 3. **Fork 8 — Missing Modalities at Inference:** The frozen E1 model requires all three omics at inference time and raises `KeyError` if any modality is missing.
 4. **DNA Methylation Signal:** High-dimensional HM450 promoter beta values alone display near-random discrimination ($\text{AUROC} \approx 0.46$) in Wilms tumor histology.
+5. **Reproducibility Scope:** Same-seed reproducibility was verified in the same Python/torch environment; cross-environment reproducibility was not tested.

@@ -439,7 +439,7 @@ elif selected_page == "4. Model Performance":
                 "Difference (E1 - Base)": f"{b['diff']:+.4f}",
                 "t-statistic": f"{b['t']:.2f}",
                 "p-value": f"{b['p']:.4f}",
-                "Conclusion": "Not distinguishable with N=121 (p >= 0.05)" if b["p"] >= 0.05 else "Statistically distinguishable",
+                "Conclusion": "E1 higher (p < 0.05)" if b["p"] < 0.05 else "not distinguishable (p >= 0.05)",
             })
         st.dataframe(pd.DataFrame(baseline_rows), use_container_width=True)
 

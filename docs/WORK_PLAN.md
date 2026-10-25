@@ -187,17 +187,17 @@ python scripts/run_clinical.py --status
 
 | File / Directory | Description |
 |---|---|
-| [`docs/WORK_PLAN.md`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/docs/WORK_PLAN.md) | **This tracking file** |
-| [`docs/AGENT_PROMPT_2.md`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/docs/AGENT_PROMPT_2.md) | Original specification for this milestone |
-| [`results/explainability/fallback_audit.md`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/results/explainability/fallback_audit.md) | ODC pathway fallback audit findings |
-| [`results/explainability/summary.md`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/results/explainability/summary.md) | Explainability v2 comprehensive report |
-| [`results/explainability/explainability_results.json`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/results/explainability/explainability_results.json) | Machine-readable explainability metrics |
-| [`figures/explain/`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/figures/explain/) | Figures: dual IG (`ig_top20_pathways.png`), calibration (`calibration_reliability.png`), PCA (`representation_pca_umap.png`) |
-| [`scripts/make_reports.py`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/scripts/make_reports.py) | Single-source-of-truth document regenerator |
-| [`tests/test_reports_match_json.py`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/tests/test_reports_match_json.py) | Document synchronization assertions |
-| [`app/app.py`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/app/app.py) | Streamlit 5-page research GUI |
-| [`app/demo_data/`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/app/demo_data/) | 3 example patient profiles for demo testing |
-| [`tests/test_gui.py`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/tests/test_gui.py) | GUI unit and integration tests |
-| [`scripts/run_clinical.py`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/scripts/run_clinical.py) | Clinical training runner (EHR2, EHR4) |
-| [`results/clinical/summary.md`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/results/clinical/summary.md) | Clinical model findings (pending Stage C completion) |
-| [`results/FINAL_STATUS.md`](file:///c:/Users/dhukk/Downloads/BioFusionFormer-3/results/FINAL_STATUS.md) | Final verified project audit and status document |
+| [`docs/WORK_PLAN.md`](WORK_PLAN.md) | **This tracking file** |
+| [`docs/AGENT_PROMPT_2.md`](AGENT_PROMPT_2.md) | Original specification for this milestone |
+| [`results/explainability/fallback_audit.md`](../results/explainability/fallback_audit.md) | ODC pathway fallback audit findings |
+| [`results/explainability/summary.md`](../results/explainability/summary.md) | Explainability v2 comprehensive report |
+| [`results/explainability/explainability_results.json`](../results/explainability/explainability_results.json) | Machine-readable explainability metrics |
+| [`figures/explain/`](../figures/explain/) | Figures: dual IG (`ig_top20_pathways.png`), calibration (`calibration_reliability.png`), PCA (`representation_pca_umap.png`) |
+| [`scripts/make_reports.py`](../scripts/make_reports.py) | Single-source-of-truth document regenerator |
+| [`tests/test_reports_match_json.py`](../tests/test_reports_match_json.py) | Document synchronization assertions |
+| [`app/app.py`](../app/app.py) | Streamlit 5-page research GUI |
+| [`app/demo_data/`](../app/demo_data/) | 3 example patient profiles for demo testing |
+| [`tests/test_gui.py`](../tests/test_gui.py) | GUI unit and integration tests |
+| [`scripts/run_clinical.py`](../scripts/run_clinical.py) | Clinical training runner (EHR2, EHR4) |
+| [`results/clinical/summary.md`](../results/clinical/summary.md) | Clinical model findings (EHR2, EHR4 across 15 folds completed) |
+| [`results/FINAL_STATUS.md`](../results/FINAL_STATUS.md) | Final verified project audit and status document |

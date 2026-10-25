@@ -4,10 +4,9 @@
 **Cohort:** TARGET-WT ($N=121$, Favorable Histology $N=82$, Unfavorable Histology $N=39$)  
 **Target:** Wilms Tumor Histology (FH=0 vs UH=1)  
 **Hardware & Environment:** Windows, CPU (`torch.set_num_threads(2)`):  
-- **Frozen E1 Benchmark:** Python 3.14.7 | torch 2.14.0+cpu (`logs/e1_session_20261016_154902.log`)  
-- **Reproducibility Re-run:** Python 3.14.7 | torch 2.14.0+cpu (`logs/e1_session_20261016_155052.log`)  
-- **Seed Sensitivity Audit:** Python 3.14.7 | torch 2.14.0+cpu (`logs/e1_session_20261019_222908.log`)  
-- **Explainability & Null Permutations:** Python 3.14.7 | torch 2.14.0+cpu (`scripts/explain_e1.py`)  
+- **Frozen E1 Benchmark:** Python 3.14.7 | torch 2.14.0+cpu, source `logs/final_run_v1_all_sessions.log` (sessions from 2026-10-06 22:01)  
+- **Explainability & Null Permutations:** Python 3.12.10 | torch 2.14.1+cpu (machine: `DESKTOP-H6DTFG6` (Windows-10-10.0.19045-SP0) as in `results/explainability/summary.md`)  
+- **Reproducibility Note:** The reproducibility re-run used the same Python/torch as the frozen run; cross-environment reproducibility was not tested.  
 - **Clinical Multimodal Integration:** Python 3.14.7 | torch 2.14.0+cpu (`logs/clinical_session_20261020_232506.log`)  
 
 ---
@@ -77,7 +76,7 @@ A full 5-fold re-run was performed under tag `final_v1_repro` (`models/e1_folds_
 | **Fold 03** | 0.8571 | 0.8571 | 0.000000 | $9.15 \times 10^{-6}$ | numerically identical (max |dp| 1.8e-5) |
 | **Fold 04** | 0.9531 | 0.9531 | 0.000000 | $1.14 \times 10^{-5}$ | numerically identical (max |dp| 1.8e-5) |
 
-- **Verification:** Run-to-run variability under identical seeds is bounded by machine precision ($< 1.77 \times 10^{-5}$ in probabilities, $\Delta \text{AUROC} = 0.000000$).
+- **Verification:** Run-to-run variability under identical seeds is bounded by machine precision ($< 1.77 \times 10^{-5}$ in probabilities, $\Delta \text{AUROC} = 0.000000$). The reproducibility re-run used the same Python/torch as the frozen run; cross-environment reproducibility was not tested.
 
 ---
 
