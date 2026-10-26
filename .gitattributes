@@ -3,3 +3,4 @@
 *.npz binary
 *.parquet binary
 *.png binary
+docs/WORK_PLAN.md export-ignore

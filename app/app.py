@@ -176,11 +176,14 @@ if selected_page == "1. About & Limitations":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Free Parameters", "47,221", "Effective Degrees of Freedom", delta_color="off")
+        st.metric("Free Parameters", "47,221")
+        st.caption("Effective Degrees of Freedom")
     with col2:
-        st.metric("Dense Weights", "4,249,284", "Memory Footprint", delta_color="off")
+        st.metric("Dense Weights", "4,249,284")
+        st.caption("Memory Footprint")
     with col3:
-        st.metric("Cross-Validated AUROC", "0.8716", "NB 95% CI: [0.8023, 0.9408]", delta_color="off")
+        st.metric("Cross-Validated AUROC", "0.8716")
+        st.caption("NB 95% CI: [0.8023, 0.9408]")
 
     st.markdown("---")
     st.markdown("### Key Requirements & Constraints")
