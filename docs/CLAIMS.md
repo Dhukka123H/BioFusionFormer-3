@@ -64,6 +64,8 @@ The following claims are strictly **unsupported** by empirical evidence and must
 | **F9** | *"Modality gate weights represent a stable biological mechanism."* | **False.** Modality gate weights change with the seed (mRNA: 0.32 vs 0.44 vs 0.40; Methylation: 0.33 vs 0.23 vs 0.31). Because gating weights fluctuate depending on random seed initialization, gate weights are not stable, and "adaptive gate" cannot be claimed as a biological mechanism. |
 | **F10** | *"Biological pathway prior masking significantly improves representation learning over random wiring."* | **False.** The pathway prior was not shown to help (real vs random prior $p = 0.86$, archived E5). |
 | **F11** | *"The model has been externally validated."* | **False.** There is no external validation. The model has only been evaluated on a single retrospective cohort ($N=121$, TARGET-WT). |
+| **F12** | *"BioFusionFormer predicts patient prognosis, survival, or disease progression."* | **False.** BioFusionFormer is trained strictly on binary histologic subtype classification (favorable vs. unfavorable histology at resection). It was never evaluated for or shown to predict patient survival, event-free survival, overall mortality, or therapeutic response. Exploratory vital-status models were discarded in early phases due to lack of predictive signal. |
+| **F13** | *"BioFusionFormer processes or fuses medical imaging, radiological scans, or histopathology whole-slide images."* | **False.** The model exclusively ingests molecular multi-omics tabular matrices (mRNA, miRNA, DNA methylation). It contains no convolutional, vision, or digital pathology encoders, and does not analyze CT, MRI, ultrasound, or whole-slide microscopy images. The label "histology" refers strictly to pathologist-assigned ground-truth classification labels, not imaging data inputs. |
 
 ---
 
@@ -77,4 +79,7 @@ Before submitting code, reports, or text to supervisors or journals:
 - [x] Seed sensitivity reports cross-validated variability ($\text{SD} = 0.1210$, differences below ~0.05 not interpretable) alongside the in-sample memorisation explanation.
 - [x] Clinical disclaimer is prominent on all interfaces and documentation.
 - [x] No claims of superiority over linear baselines (mRNA ElasticNet 0.9169, Early-Fusion ElasticNet 0.9295) or clinical features (EHR2 0.8506).
+- [x] No claims of prognostic prediction, time-to-event survival modeling, or relapse forecasting.
+- [x] No claims of imaging, radiology, or histopathological image processing.
 - [x] Clear acknowledgement that the pathway prior was not shown to help over a random prior ($p = 0.86$) and the model lacks external validation.
+
