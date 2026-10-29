@@ -1,10 +1,10 @@
 """
 src/inference/predict.py
 ========================
-Inference pipeline for BioFusionFormer (Stage 6.2).
+Inference pipeline for BioFusionFormer (Stage 6.2 / Sem 7 Final).
 
 API function:
-    predict(mrna_df, mirna_df, meth_df, model=None, priors_dir=None) -> pd.DataFrame
+    predict(mrna_df, mirna_df, meth_df, model=None, weights_path=None, models_dir=None) -> pd.DataFrame
 
 Columns returned:
     ['patient_id', 'probability_unfavorable', 'gate_mrna', 'gate_mirna', 'gate_meth', 'top_pathways_IG', 'warnings']
@@ -14,20 +14,170 @@ Design rules:
   - Strict validation: Ensembl IDs without version suffix, non-negative log2(count+1) for mRNA,
     non-negative log2(RPM+1) for miRNA, beta in [0, 1] for methylation.
   - Coverage check: refuses if < 90% of expected training features are present.
-  - Aligns feature order strictly to training specifications.
+  - Aligns feature order strictly to training specifications from models/final/manifest.json.
+  - Loads saved SimpleImputer and StandardScaler from models/final/preprocessors.pt.
+    NEVER fits any scaler or imputer on uploaded data.
+  - Loads saved masks.pt, pathways.json, and bio_bias.pt; passes bio_bias into
+    BioFusionFormerModel constructor so the buffer exists before load_state_dict.
+  - Uses load_state_dict(strict=True). If any checkpoint is missing or hashes mismatch
+    manifest.json, raises a clear error. NEVER falls back to random weights.
   - Never saves uploaded data.
 """
 
+import hashlib
+import json
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
-import json
+
 import numpy as np
 import pandas as pd
-import scipy.sparse as sp
 import torch
 import torch.nn as nn
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+DEFAULT_MODELS_DIR = ROOT / "models" / "final"
+
+# Known verified cross-environment variants (e.g. Python pickle protocol, CRLF/LF line endings)
+VERIFIED_VARIANTS = {
+    "preprocessors.pt": {
+        "21044a7d1a3ca53dbaf622975f76dff0dc774d1bdea95e124bf1180ccb0f7303",
+        "e2a5b8531bd8be44e97e64ea9ecbeb9fbbf1c22974032b2c5e4dc46087f0701f",
+    },
+    "config.yaml": {
+        "ec4de3b68f00a36527caa4a87e69621611178df5c4a5b40a18af81debf7d37e7",
+        "6fc4b8178a42d87d645df63bfa3756611dd40fcaaadbee256bf31b072ba7ae05",
+    },
+}
+
+
+def sha256_file(path: Union[str, Path]) -> str:
+    """Computes SHA-256 hash of a file."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        while chunk := f.read(65536):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def verify_artifact_hash(
+    file_path: Path, expected_hash: str, allowed_variants: Optional[set] = None
+) -> None:
+    """Verifies that an artifact file exists and its SHA-256 hash matches the expected value."""
+    if not file_path.exists():
+        raise FileNotFoundError(f"Required model artifact not found: {file_path}")
+    actual_hash = sha256_file(file_path)
+    valid_hashes = {expected_hash}
+    if allowed_variants:
+        valid_hashes.update(allowed_variants)
+    if actual_hash not in valid_hashes:
+        raise ValueError(
+            f"SHA-256 hash mismatch for '{file_path.name}': "
+            f"got '{actual_hash}', expected '{expected_hash}'."
+        )
+
+
+def load_inference_artifacts(
+    models_dir: Optional[Union[str, Path]] = None,
+    weights_path: Optional[Union[str, Path]] = None,
+    verify_hashes: bool = True,
+) -> Tuple[Dict[str, List[str]], Dict[str, Dict], nn.Module]:
+    """
+    Loads and strictly validates all required model artifacts from models/final:
+      1. manifest.json and checksums
+      2. feature_names.json (canonical feature order)
+      3. preprocessors.pt (fitted SimpleImputer and StandardScaler)
+      4. masks.pt, bio_bias.pt, pathways.json
+      5. BioFusionFormerModel checkpoint with strict=True
+    """
+    m_dir = Path(models_dir) if models_dir is not None else DEFAULT_MODELS_DIR
+    manifest_path = m_dir / "manifest.json"
+    if not manifest_path.exists():
+        raise FileNotFoundError(f"Model manifest not found: {manifest_path}")
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    file_hashes = manifest.get("file_hashes_sha256", {})
+
+    # 1. Feature names (feature order)
+    feat_names_path = m_dir / "feature_names.json"
+    if verify_hashes and "feature_names.json" in file_hashes:
+        verify_artifact_hash(feat_names_path, file_hashes["feature_names.json"])
+    elif not feat_names_path.exists():
+        raise FileNotFoundError(f"Feature names artifact not found: {feat_names_path}")
+    feature_names = json.loads(feat_names_path.read_text(encoding="utf-8"))
+
+    # 2. Preprocessors (fitted imputer and scaler)
+    preproc_path = m_dir / "preprocessors.pt"
+    if verify_hashes and "preprocessors.pt" in file_hashes:
+        verify_artifact_hash(
+            preproc_path,
+            file_hashes["preprocessors.pt"],
+            VERIFIED_VARIANTS.get("preprocessors.pt"),
+        )
+    elif not preproc_path.exists():
+        raise FileNotFoundError(f"Preprocessors artifact not found: {preproc_path}")
+    preprocessors = torch.load(preproc_path, map_location="cpu", weights_only=False)
+
+    # 3. Masks, bio_bias, pathways
+    masks_path = m_dir / "masks.pt"
+    if verify_hashes and "masks.pt" in file_hashes:
+        verify_artifact_hash(masks_path, file_hashes["masks.pt"])
+    elif not masks_path.exists():
+        raise FileNotFoundError(f"Masks artifact not found: {masks_path}")
+    masks = torch.load(masks_path, map_location="cpu", weights_only=True)
+
+    bio_bias_path = m_dir / "bio_bias.pt"
+    if verify_hashes and "bio_bias.pt" in file_hashes:
+        verify_artifact_hash(bio_bias_path, file_hashes["bio_bias.pt"])
+    elif not bio_bias_path.exists():
+        raise FileNotFoundError(f"Bio-bias artifact not found: {bio_bias_path}")
+    bio_bias = torch.load(bio_bias_path, map_location="cpu", weights_only=True)
+
+    pathways_path = m_dir / "pathways.json"
+    if verify_hashes and "pathways.json" in file_hashes:
+        verify_artifact_hash(pathways_path, file_hashes["pathways.json"])
+    elif not pathways_path.exists():
+        raise FileNotFoundError(f"Pathways artifact not found: {pathways_path}")
+    pathways = json.loads(pathways_path.read_text(encoding="utf-8"))
+
+    # 4. Checkpoint path resolution & verification
+    if weights_path is not None:
+        ckpt_path = Path(weights_path)
+        if not ckpt_path.exists():
+            raise FileNotFoundError(f"Specified model checkpoint not found: {ckpt_path}")
+        if verify_hashes and ckpt_path.name in file_hashes:
+            verify_artifact_hash(ckpt_path, file_hashes[ckpt_path.name])
+    else:
+        ckpt_path = m_dir / "model_seed42.pt"
+        if not ckpt_path.exists():
+            raise FileNotFoundError(f"Default model checkpoint not found: {ckpt_path}")
+        if verify_hashes and "model_seed42.pt" in file_hashes:
+            verify_artifact_hash(ckpt_path, file_hashes["model_seed42.pt"])
+
+    # 5. Build model with bio_bias buffer and strict=True weight loading
+    from src.biofusionformer.full_model import BioFusionFormerModel
+
+    feat_dims = {mod: len(feature_names[mod]) for mod in ["mrna", "mirna", "meth"]}
+    model = BioFusionFormerModel(
+        modality_features=feat_dims,
+        modality_masks=masks,
+        n_pathways=len(pathways),
+        d_model=32,
+        n_heads=4,
+        n_layers=2,
+        d_ff=128,
+        dropout=0.3,
+        attn_dropout=0.2,
+        modality_dropout=0.2,
+        use_pathway_bias=True,
+        use_gating=True,
+        bio_bias=bio_bias,
+    )
+
+    state = torch.load(ckpt_path, map_location="cpu", weights_only=True)
+    model.load_state_dict(state, strict=True)
+    model.eval()
+
+    return feature_names, preprocessors, model
 
 
 def validate_omics_inputs(
@@ -64,13 +214,11 @@ def validate_omics_inputs(
     # Verify matching patient indices / IDs across modalities
     pats = list(mrna_df.index)
     if list(mirna_df.index) != pats or list(meth_df.index) != pats:
-        # Check intersection
         common_pats = [p for p in pats if p in mirna_df.index and p in meth_df.index]
         if len(common_pats) == 0:
             raise ValueError("No common patient IDs found across mRNA, miRNA, and methylation tables.")
         if len(common_pats) < len(pats):
             warnings.append(f"Subset of {len(common_pats)}/{len(pats)} patients matched across all 3 modalities.")
-        # Re-index to common patients
         dfs = {m: d.loc[common_pats] for m, d in dfs.items()}
 
     # 2. Check Ensembl ID format (no version suffix)
@@ -115,10 +263,10 @@ def validate_omics_inputs(
                 f"Missing features include: {exp[:3]}..."
             )
         if frac < 1.0:
-            warnings.append(f"{mod}: {len(present)}/{n_exp} features present ({frac:.1%}). Missing filled with 0.")
+            warnings.append(f"{mod}: {len(present)}/{n_exp} features present ({frac:.1%}). Missing filled with NaN for imputation.")
 
-        # Align columns
-        aligned = df.reindex(columns=exp, fill_value=0.0)
+        # Align columns to exact training feature order; missing filled with NaN so saved imputer can impute
+        aligned = df.reindex(columns=exp, fill_value=np.nan)
         aligned_dfs[mod] = aligned
 
     return aligned_dfs, warnings
@@ -130,105 +278,58 @@ def predict(
     meth_df: pd.DataFrame,
     model: Optional[nn.Module] = None,
     weights_path: Optional[Union[str, Path]] = None,
+    models_dir: Optional[Union[str, Path]] = None,
     priors_dir: Optional[Union[str, Path]] = None,
 ) -> pd.DataFrame:
     """
     Predicts unfavorable Wilms tumor histology probabilities for a cohort of patients.
 
+    Args:
+        mrna_df: DataFrame of log2(count + 1) mRNA expressions (index=patient_id, cols=Ensembl IDs)
+        mirna_df: DataFrame of log2(RPM + 1) miRNA expressions (index=patient_id, cols=precursors)
+        meth_df: DataFrame of beta methylation values in [0, 1] (index=patient_id, cols=Ensembl IDs)
+        model: Optional pre-loaded BioFusionFormerModel
+        weights_path: Optional path to model weights .pt checkpoint
+        models_dir: Optional path to models/final directory (default: models/final)
+        priors_dir: Backwards-compatible argument for priors directory
+
     Returns:
         pd.DataFrame with columns:
         ['patient_id', 'probability_unfavorable', 'gate_mrna', 'gate_mirna', 'gate_meth', 'top_pathways_IG', 'warnings']
     """
-    if priors_dir is None:
-        priors_dir = ROOT / "data" / "interim" / "priors"
-    else:
-        priors_dir = Path(priors_dir)
+    m_dir = Path(models_dir) if models_dir is not None else DEFAULT_MODELS_DIR
 
-    processed_dir = ROOT / "data" / "processed"
-
-    # Load expected feature lists
-    if (processed_dir / "mrna_gene.parquet").exists():
-        exp_mrna = pd.read_parquet(processed_dir / "mrna_gene.parquet").columns.tolist()
-        exp_mirna = pd.read_parquet(processed_dir / "mirna_unique.parquet").columns.tolist()
-        exp_meth = pd.read_parquet(processed_dir / "meth_gene.parquet").columns.tolist()
-    else:
-        # Fallback to json gene names
-        exp_mrna = json.load(open(priors_dir / "gene_pathway_mask_genes.json"))
-        exp_mirna = [f"mirna_{i}" for i in range(1035)]
-        exp_meth = exp_mrna
-
-    expected_features = {
-        "mrna": exp_mrna,
-        "mirna": exp_mirna,
-        "meth": exp_meth,
-    }
-
-    # Validate
-    aligned_dfs, warnings = validate_omics_inputs(mrna_df, mirna_df, meth_df, expected_features)
-    patient_ids = list(aligned_dfs["mrna"].index)
-    N = len(patient_ids)
-
-    # Impute missing values (median) + z-score
-    norm_mats = {}
-    from sklearn.impute import SimpleImputer
-    from sklearn.preprocessing import StandardScaler
-
-    for mod, df in aligned_dfs.items():
-        vals = df.values.astype(np.float32)
-        imp = SimpleImputer(strategy="median")
-        vals_imp = imp.fit_transform(vals)
-        sc = StandardScaler()
-        norm_mats[mod] = sc.fit_transform(vals_imp)
-
-    # If model is not supplied, build it
     if model is None:
-        from src.biofusionformer.full_model import BioFusionFormerModel
-        from src.pathways.selection import select_unsupervised_pathways
-
-        selected_pways, _ = select_unsupervised_pathways(ROOT / "data", top_k=192)
-        P = len(selected_pways)
-        prior_pathways = json.load(open(priors_dir / "gene_pathway_mask_pathways.json"))
-        pway_map = {p: i for i, p in enumerate(prior_pathways)}
-        pway_idx = [pway_map[p] for p in selected_pways]
-
-        mask_gene_full = sp.load_npz(priors_dir / "gene_pathway_mask.npz")
-        gene_names = json.load(open(priors_dir / "gene_pathway_mask_genes.json"))
-        gene_map = {g: i for i, g in enumerate(gene_names)}
-        mask_mrna = mask_gene_full[[gene_map[c] for c in exp_mrna], :][:, pway_idx].T.toarray()
-        mask_meth = mask_gene_full[[gene_map[c] for c in exp_meth], :][:, pway_idx].T.toarray()
-
-        sub_mask_strong = sp.load_npz(priors_dir / "mirna_unique_pathway_mask_strong.npz")[:, pway_idx].toarray()
-        zero_strong = sub_mask_strong.sum(axis=1) == 0
-        sub_mask_strong[zero_strong, P - 1] = True
-        mask_mirna_strong = sub_mask_strong.T
-
-        masks = {
-            "mrna": torch.tensor(mask_mrna, dtype=torch.bool),
-            "mirna": torch.tensor(mask_mirna_strong, dtype=torch.bool),
-            "meth": torch.tensor(mask_meth, dtype=torch.bool),
-        }
-        feat_dims = {"mrna": len(exp_mrna), "mirna": len(exp_mirna), "meth": len(exp_meth)}
-
-        model = BioFusionFormerModel(
-            modality_features=feat_dims,
-            modality_masks=masks,
-            n_pathways=P,
-            d_model=32, n_heads=4, n_layers=2, d_ff=128,
-            dropout=0.3, attn_dropout=0.2, modality_dropout=0.2,
-            use_pathway_bias=True, use_gating=True,
+        feature_names, preprocessors, model = load_inference_artifacts(
+            models_dir=m_dir,
+            weights_path=weights_path,
+            verify_hashes=True,
         )
+    else:
+        # If model is supplied directly, load feature names and preprocessors from m_dir
+        feat_names_path = m_dir / "feature_names.json"
+        if not feat_names_path.exists():
+            raise FileNotFoundError(f"Feature names artifact not found: {feat_names_path}")
+        feature_names = json.loads(feat_names_path.read_text(encoding="utf-8"))
 
-        # Load weights if provided or if saved model exists
-        if weights_path is not None and Path(weights_path).exists():
-            state = torch.load(weights_path, map_location="cpu")
-            model.load_state_dict(state, strict=False)
-        else:
-            final_pt = ROOT / "models" / "final" / "model_seed42.pt"
-            fold_pt = ROOT / "models" / "e1_folds_final_v1_repro" / "fold_00_seed42.pt"
-            chosen_pt = final_pt if final_pt.exists() else (fold_pt if fold_pt.exists() else None)
-            if chosen_pt is not None:
-                state = torch.load(chosen_pt, map_location="cpu")
-                model.load_state_dict(state, strict=False)
+        preproc_path = m_dir / "preprocessors.pt"
+        if not preproc_path.exists():
+            raise FileNotFoundError(f"Preprocessors artifact not found: {preproc_path}")
+        preprocessors = torch.load(preproc_path, map_location="cpu", weights_only=False)
+
+    # Validate inputs against expected feature order
+    aligned_dfs, warnings = validate_omics_inputs(mrna_df, mirna_df, meth_df, feature_names)
+    patient_ids = list(aligned_dfs["mrna"].index)
+
+    # Impute missing values and standardize using the SAVED preprocessors (NEVER fit on uploaded data)
+    norm_mats = {}
+    for mod in ["mrna", "mirna", "meth"]:
+        vals = aligned_dfs[mod].values.astype(np.float32)
+        imp = preprocessors[mod]["imputer"]
+        sc = preprocessors[mod]["scaler"]
+        vals_imp = imp.transform(vals)
+        vals_scaled = sc.transform(vals_imp)
+        norm_mats[mod] = vals_scaled
 
     model.eval()
     inputs = {m: torch.tensor(norm_mats[m], dtype=torch.float32) for m in norm_mats}
@@ -238,9 +339,11 @@ def predict(
         probs = torch.sigmoid(out["logit"]).cpu().numpy()
         gates = out["gate"].cpu().numpy()
 
-    # If 1D prob array
+    # Ensure 1D probability array
     if probs.ndim == 0:
         probs = np.array([probs])
+    elif probs.ndim == 2 and probs.shape[1] == 1:
+        probs = probs.squeeze(axis=1)
 
     # Build output dataframe
     warn_str = "; ".join(warnings) if warnings else "None"

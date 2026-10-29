@@ -15,6 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
+import torch
 
 from src.inference.predict import predict, validate_omics_inputs
 
@@ -117,3 +118,57 @@ def test_end_to_end_prediction_on_cohort_subset():
     # Gate weights must sum to approximately 1.0
     gates = res[["gate_mrna", "gate_mirna", "gate_meth"]].values
     np.testing.assert_allclose(gates.sum(axis=1), np.ones(3), atol=1e-3)
+
+
+def test_batch_invariance_single_vs_batch_of_3():
+    """Test (i): Same patient alone vs inside a batch of 3 gives identical probability (atol 1e-5)."""
+    demo_dir = ROOT / "data" / "demo"
+    if not (demo_dir / "demo_mrna.csv").exists():
+        pytest.skip("Demo omics data not available")
+
+    mrna = pd.read_csv(demo_dir / "demo_mrna.csv", index_col=0)
+    mirna = pd.read_csv(demo_dir / "demo_mirna.csv", index_col=0)
+    meth = pd.read_csv(demo_dir / "demo_meth.csv", index_col=0)
+
+    # Batch of 3
+    res_batch = predict(mrna, mirna, meth)
+    p_batch_first = float(res_batch["probability_unfavorable"].iloc[0])
+
+    # Patient alone
+    mrna_single = mrna.iloc[[0]]
+    mirna_single = mirna.iloc[[0]]
+    meth_single = meth.iloc[[0]]
+
+    res_single = predict(mrna_single, mirna_single, meth_single)
+    p_single = float(res_single["probability_unfavorable"].iloc[0])
+
+    assert np.isclose(p_batch_first, p_single, atol=1e-5), (
+        f"Batch probability {p_batch_first} differs from single patient {p_single}"
+    )
+
+
+def test_missing_checkpoint_raises_error(tmp_path):
+    """Test (ii): Missing checkpoint raises FileNotFoundError."""
+    demo_dir = ROOT / "data" / "demo"
+    if not (demo_dir / "demo_mrna.csv").exists():
+        pytest.skip("Demo omics data not available")
+
+    mrna = pd.read_csv(demo_dir / "demo_mrna.csv", index_col=0).iloc[[0]]
+    mirna = pd.read_csv(demo_dir / "demo_mirna.csv", index_col=0).iloc[[0]]
+    meth = pd.read_csv(demo_dir / "demo_meth.csv", index_col=0).iloc[[0]]
+
+    non_existent = tmp_path / "non_existent_model.pt"
+    with pytest.raises(FileNotFoundError, match="not found"):
+        predict(mrna, mirna, meth, weights_path=non_existent)
+
+
+def test_bio_bias_non_none_after_loading():
+    """Test (iii): bio_bias buffer is non-None after model loading."""
+    from src.inference.predict import load_inference_artifacts
+
+    _, _, model = load_inference_artifacts()
+    assert hasattr(model, "bio_bias"), "Model has no bio_bias attribute"
+    assert model.bio_bias is not None, "model.bio_bias is None after loading"
+    assert isinstance(model.bio_bias, torch.Tensor), "model.bio_bias is not a Tensor"
+    assert model.bio_bias.shape == (577, 577), f"Expected shape (577, 577), got {model.bio_bias.shape}"
+
