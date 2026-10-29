@@ -1,0 +1,295 @@
+{
+  "objective_1": {
+    "raw_counts": {
+      "mrna": 11171,
+      "mirna": 1035,
+      "meth": 9778
+    },
+    "total_raw_features": 21984,
+    "mask_stats": {
+      "mrna": {
+        "shape": [
+          192,
+          11171
+        ],
+        "raw_features": 11171,
+        "pathway_tokens": 192,
+        "active_connections": 7148,
+        "total_connections": 2144832,
+        "sparsity_pct": 99.667
+      },
+      "mirna": {
+        "shape": [
+          192,
+          1035
+        ],
+        "raw_features": 1035,
+        "pathway_tokens": 192,
+        "active_connections": 5768,
+        "total_connections": 198720,
+        "sparsity_pct": 97.097
+      },
+      "meth": {
+        "shape": [
+          192,
+          9778
+        ],
+        "raw_features": 9778,
+        "pathway_tokens": 192,
+        "active_connections": 5949,
+        "total_connections": 1877376,
+        "sparsity_pct": 99.683
+      }
+    },
+    "overall_active_connections": 18865,
+    "overall_total_connections": 4220928,
+    "overall_sparsity_pct": 99.553,
+    "hierarchy_stats": {
+      "total_selected_pathways": 192,
+      "pathways_in_reactome_hierarchy": 192,
+      "root_pathways": 0,
+      "internal_pathways": 52,
+      "leaf_pathways": 140,
+      "min_depth": 1,
+      "max_depth": 4,
+      "mean_depth": 3.0729166666666665
+    },
+    "optimizer_proof": {
+      "initial_outside_mask_abs_sum": 0.0,
+      "gradient_outside_mask_abs_sum": 0.0,
+      "post_step_outside_mask_abs_sum": 0.0,
+      "verified_strictly_zero": true
+    }
+  },
+  "objective_2": {
+    "bio_bias_shape": [
+      577,
+      577
+    ],
+    "bio_bias_nonzero_elements": 2646,
+    "bio_bias_total_elements": 332929,
+    "bio_bias_nonzero_fraction": 0.007948,
+    "bio_bias_nonzero_pct": 0.795,
+    "token_layout": {
+      "cls_token": {
+        "index": 0,
+        "count": 1,
+        "description": "[CLS] global pooling token"
+      },
+      "mrna_tokens": {
+        "range": [
+          1,
+          192
+        ],
+        "count": 192,
+        "modality": "mRNA"
+      },
+      "mirna_tokens": {
+        "range": [
+          193,
+          384
+        ],
+        "count": 192,
+        "modality": "miRNA"
+      },
+      "meth_tokens": {
+        "range": [
+          385,
+          576
+        ],
+        "count": 192,
+        "modality": "DNA Methylation"
+      },
+      "total_tokens": 577
+    },
+    "transformer_spec": {
+      "n_layers": 2,
+      "n_heads": 4,
+      "d_model": 32,
+      "d_ff": 128,
+      "d_head": 8,
+      "attn_dropout": 0.2,
+      "dropout": 0.3,
+      "bio_bias_added_to_logits": true
+    },
+    "forward_shape_trace": [
+      {
+        "stage": "1. Raw Inputs",
+        "shapes": {
+          "mrna": [
+            2,
+            11171
+          ],
+          "mirna": [
+            2,
+            1035
+          ],
+          "meth": [
+            2,
+            9778
+          ]
+        }
+      },
+      {
+        "stage": "2. Masked Encoders Output",
+        "shapes": {
+          "mrna": [
+            2,
+            192,
+            32
+          ],
+          "mirna": [
+            2,
+            192,
+            32
+          ],
+          "meth": [
+            2,
+            192,
+            32
+          ]
+        }
+      },
+      {
+        "stage": "3. Transformer Sequence Input",
+        "shape": [
+          2,
+          577,
+          32
+        ]
+      },
+      {
+        "stage": "4. Multi-Head Attention Maps (per layer)",
+        "shapes": [
+          [
+            2,
+            4,
+            577,
+            577
+          ],
+          [
+            2,
+            4,
+            577,
+            577
+          ]
+        ]
+      },
+      {
+        "stage": "5. Adaptive Gate Weights Output",
+        "shape": [
+          2,
+          3
+        ]
+      },
+      {
+        "stage": "6. Classification Logit Output",
+        "shape": [
+          2
+        ]
+      }
+    ]
+  },
+  "objective_3": {
+    "patient_gates": [
+      {
+        "patient_id": "TARGET-50-CAAAAB",
+        "probability_unfavorable": 0.995,
+        "gate_mrna": 0.3128,
+        "gate_mirna": 0.3216,
+        "gate_meth": 0.3656,
+        "gate_sum": 1.0
+      },
+      {
+        "patient_id": "TARGET-50-CAAAAC",
+        "probability_unfavorable": 0.04,
+        "gate_mrna": 0.3254,
+        "gate_mirna": 0.3693,
+        "gate_meth": 0.3053,
+        "gate_sum": 1.0
+      },
+      {
+        "patient_id": "TARGET-50-CAAAAH",
+        "probability_unfavorable": 0.9943,
+        "gate_mrna": 0.3149,
+        "gate_mirna": 0.322,
+        "gate_meth": 0.3631,
+        "gate_sum": 1.0
+      }
+    ],
+    "all_sum_to_one": true,
+    "differ_across_patients": true,
+    "modality_dropout_rate": 0.2,
+    "modality_dropout_behavior": "During training, each modality is dropped with probability 0.2 (with at least 1 modality retained and remaining active modalities renormalized to sum to 1.0). During evaluation/inference, dropout is disabled and patient-specific gating weights all 3 modalities."
+  },
+  "e1_metrics": {
+    "signature": "a42642001739",
+    "model_id": "E1",
+    "model_name": "Full BioFusionFormer (3 omics, bias ON, gate ON, strong mask)",
+    "auroc_mean": 0.8716,
+    "auroc_std": 0.0613,
+    "auroc_95_ci": [
+      0.8475,
+      0.8956
+    ],
+    "auprc_mean": 0.8332,
+    "balanced_accuracy_mean": 0.7653,
+    "macro_f1_mean": 0.7697,
+    "brier_score_mean": 0.1436,
+    "fold_count": 25,
+    "auroc_folds": [
+      0.8611,
+      0.8438,
+      0.8655,
+      0.8571,
+      0.9531,
+      0.9167,
+      0.9375,
+      0.8571,
+      0.7983,
+      0.7969,
+      0.9514,
+      0.8516,
+      0.7983,
+      0.8739,
+      0.8594,
+      0.9792,
+      0.9922,
+      0.8235,
+      0.8739,
+      0.8203,
+      0.7431,
+      0.9375,
+      0.9076,
+      0.8151,
+      0.875
+    ],
+    "auprc_folds": [
+      0.7973,
+      0.8,
+      0.9006,
+      0.8184,
+      0.9085,
+      0.8886,
+      0.9063,
+      0.7853,
+      0.7191,
+      0.7806,
+      0.9253,
+      0.873,
+      0.672,
+      0.794,
+      0.875,
+      0.9627,
+      0.9861,
+      0.7358,
+      0.8278,
+      0.7872,
+      0.6938,
+      0.886,
+      0.8762,
+      0.7767,
+      0.8539
+    ]
+  }
+}
