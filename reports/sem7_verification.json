@@ -44,6 +44,9 @@
     "overall_active_connections": 18865,
     "overall_total_connections": 4220928,
     "overall_sparsity_pct": 99.553,
+    "reactome_supported_connections": 18139,
+    "fallback_mirna_connections": 726,
+    "active_edges_description": "18,865 active edges, of which 726 are fallback-routed miRNA edges (token 191, artefact per CLAIMS F7); Reactome-supported = 18,139",
     "hierarchy_stats": {
       "total_selected_pathways": 192,
       "pathways_in_reactome_hierarchy": 192,
@@ -219,6 +222,9 @@
     ],
     "all_sum_to_one": true,
     "differ_across_patients": true,
+    "gate_min": 0.3053,
+    "gate_max": 0.3693,
+    "interpretation": "Gates are patient-specific but near-uniform (min 0.3053, max 0.3693); no claim of modality importance. Demo patients are in the final model's training set; probabilities are in-sample, not performance.",
     "modality_dropout_rate": 0.2,
     "modality_dropout_behavior": "During training, each modality is dropped with probability 0.2 (with at least 1 modality retained and remaining active modalities renormalized to sum to 1.0). During evaluation/inference, dropout is disabled and patient-specific gating weights all 3 modalities."
   },
@@ -228,9 +234,13 @@
     "model_name": "Full BioFusionFormer (3 omics, bias ON, gate ON, strong mask)",
     "auroc_mean": 0.8716,
     "auroc_std": 0.0613,
+    "auroc_nb_ci": [
+      0.8023,
+      0.9408
+    ],
     "auroc_95_ci": [
-      0.8475,
-      0.8956
+      0.8023,
+      0.9408
     ],
     "auprc_mean": 0.8332,
     "balanced_accuracy_mean": 0.7653,

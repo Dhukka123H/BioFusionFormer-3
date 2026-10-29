@@ -256,4 +256,42 @@ def test_all_e1_metrics_nb_intervals_in_reports(e1_metrics):
         assert ci_str in claims, f"{metric_name} CI {ci_str} missing from CLAIMS.md"
 
 
+def test_sem7_report_matches_bio_bias_and_gate_sums():
+    """
+    Verifies that reports/sem7_verification.json records the exact nonzero count
+    of models/final/bio_bias.pt and that all patient gate weights sum to 1.0.
+    """
+    import torch
+    sem7_json_path = ROOT / "reports" / "sem7_verification.json"
+    assert sem7_json_path.exists(), f"Missing {sem7_json_path}"
+
+    with open(sem7_json_path, "r", encoding="utf-8") as f:
+        sem7_data = json.load(f)
+
+    # 1. bio_bias nonzero count equals count in models/final/bio_bias.pt
+    bio_bias_path = ROOT / "models" / "final" / "bio_bias.pt"
+    assert bio_bias_path.exists(), f"Missing {bio_bias_path}"
+    bio_bias = torch.load(bio_bias_path, map_location="cpu", weights_only=True)
+    actual_nonzero = int((bio_bias != 0).sum().item())
+    reported_nonzero = sem7_data["objective_2"]["bio_bias_nonzero_elements"]
+
+    assert reported_nonzero == actual_nonzero, (
+        f"sem7_verification.json reported {reported_nonzero} nonzeros in bio_bias, "
+        f"but models/final/bio_bias.pt has {actual_nonzero}"
+    )
+
+    # 2. Gate sums equal 1 for all patients
+    patient_gates = sem7_data["objective_3"]["patient_gates"]
+    assert len(patient_gates) > 0, "No patient gates found in sem7_verification.json"
+    for p in patient_gates:
+        computed_sum = p["gate_mrna"] + p["gate_mirna"] + p["gate_meth"]
+        assert np.isclose(p["gate_sum"], 1.0, atol=1e-4), (
+            f"Patient {p['patient_id']} gate_sum {p['gate_sum']} != 1.0"
+        )
+        assert np.isclose(computed_sum, 1.0, atol=1e-4), (
+            f"Patient {p['patient_id']} sum of components {computed_sum} != 1.0"
+        )
+
+
+
 

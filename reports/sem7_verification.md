@@ -2,7 +2,7 @@
 
 **Repository**: BioFusionFormer-3  
 **Evaluation Environment**: Frozen E1 / Semester 7 Final  
-**Verification Status**: **ALL OBJECTIVES VERIFIED FROM CODE AND DATA**  
+**Verification Status**: **Implementation verified from code**  
 
 ---
 
@@ -18,7 +18,7 @@
 | **Total / Overall** | **21,984** | **192** | **18,865** | **4,220,928** | **99.553%** |
 
 - Each modality projection $\mathbf{W}_{mod} \in \mathbb{R}^{192 \times F_{mod}}$ is constrained by a biological mask $\mathbf{M}_{mod} \in \{0, 1\}^{192 \times F_{mod}}$.
-- Total active biological edges: **18,865** out of 4,220,928 possible dense connections (**99.553% parameter reduction**).
+- Total active biological edges: **18,865 active edges, of which 726 are fallback-routed miRNA edges (token 191, artefact per CLAIMS F7); Reactome-supported = 18,139** out of 4,220,928 possible dense connections (**99.553% parameter reduction**).
 
 ### 1.2 Reactome Pathway Hierarchy Mapping (`pathway_hierarchy_mapping.json`)
 
@@ -85,7 +85,8 @@
 | `TARGET-50-CAAAAH` | **0.9943** | 0.3149 | 0.322 | 0.3631 | **1.0** |
 
 - **Sum-to-One Invariance**: PASSED (all patient gates sum to exactly 1.0)
-- **Patient Dynamism**: PASSED (gate weights adapt per patient based on omics evidence)
+- **Patient-Specific Gating Dynamics**: Gates are patient-specific but near-uniform (min 0.3053, max 0.3693); no claim of modality importance.
+- **In-Sample Context**: demo patients are in the final model's training set; probabilities are in-sample, not performance.
 - **Modality Dropout Configuration**: Rate = `0.2`
   *During training, each modality is dropped with probability 0.2 (with at least 1 modality retained and remaining active modalities renormalized to sum to 1.0). During evaluation/inference, dropout is disabled and patient-specific gating weights all 3 modalities.*
 
@@ -93,11 +94,11 @@
 
 ## Read-Only Published E1 Benchmark Metrics
 
-*Source: `experiments/final_v1/E1/metrics.json` (Signature: `a42642001739`)*
+*Source: `results/model/E1_metrics.json` (Signature: `a42642001739`)*
 
-| Metric | 25-Fold Mean | Std Dev | 95% Confidence Interval |
+| Metric | 25-Fold Mean | Std Dev | 95% Confidence Interval (Nadeau-Bengio) |
 | :--- | :---: | :---: | :---: |
-| **AUROC** | **0.8716** | ±0.0613 | [0.8475, 0.8956] |
+| **AUROC** | **0.8716** | ±0.0613 | [0.8023, 0.9408] |
 | **AUPRC** | **0.8332** | — | — |
 | **Balanced Accuracy** | **0.7653** | — | — |
 | **Macro F1** | **0.7697** | — | — |
