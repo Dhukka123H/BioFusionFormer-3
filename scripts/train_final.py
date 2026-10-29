@@ -40,6 +40,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from src.pathways.selection import select_unsupervised_pathways
+from src.pathways.bio_bias import build_bio_bias_matrix
 from src.biofusionformer.full_model import BioFusionFormerModel
 from src.heads.classification import LabelSmoothedBCEWithLogitsLoss
 from src.explainability.explain import compute_attention_rollout
@@ -76,37 +77,6 @@ def set_seed(seed: int):
     np.random.seed(seed)
     torch.manual_seed(seed)
 
-
-def build_bio_bias_matrix(pathway_indices, n_modalities=3, adj_sparse=None):
-    P = len(pathway_indices)
-    S = 1 + n_modalities * P
-    bias = np.zeros((S, S), dtype=np.float32)
-
-    # CLS token bi-directional bias
-    bias[0, :] = 0.5
-    bias[:, 0] = 0.5
-    bias[0, 0] = 0.0
-
-    if adj_sparse is not None:
-        sub_adj = adj_sparse[pathway_indices, :][:, pathway_indices].toarray()
-        sub_adj = (sub_adj + sub_adj.T > 0).astype(np.float32) * 0.5
-    else:
-        sub_adj = np.zeros((P, P), dtype=np.float32)
-
-    for m in range(n_modalities):
-        s_m = 1 + m * P
-        e_m = 1 + (m + 1) * P
-        bias[s_m:e_m, s_m:e_m] += sub_adj
-
-    for m1 in range(n_modalities):
-        for m2 in range(m1 + 1, n_modalities):
-            s1 = 1 + m1 * P
-            s2 = 1 + m2 * P
-            for p in range(P):
-                bias[s1 + p, s2 + p] += 1.0
-                bias[s2 + p, s1 + p] += 1.0
-
-    return torch.tensor(bias, dtype=torch.float32)
 
 
 def main():

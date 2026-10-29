@@ -140,3 +140,37 @@ def test_missing_modality_is_not_supported_documented_limitation():
     x.pop("meth")
     with pytest.raises(KeyError):
         model(x)
+
+
+def test_build_bio_bias_matrix_structure_and_symmetry():
+    import scipy.sparse as sp
+    from src.pathways.bio_bias import build_bio_bias_matrix
+
+    P_toy = 4
+    M_toy = 3
+    S_toy = 1 + M_toy * P_toy  # 13
+
+    # Toy symmetric adjacency
+    adj = sp.csr_matrix([
+        [0, 1, 0, 0],
+        [1, 0, 1, 0],
+        [0, 1, 0, 0],
+        [0, 0, 0, 0],
+    ])
+    bias = build_bio_bias_matrix(list(range(P_toy)), n_modalities=M_toy, adj_sparse=adj)
+
+    assert bias.shape == (S_toy, S_toy)
+    # [CLS] token bidirectional attention is 0.5; [CLS, CLS] is 0.0
+    assert (bias[0, 1:] == 0.5).all()
+    assert (bias[1:, 0] == 0.5).all()
+    assert bias[0, 0] == 0.0
+
+    # Self-attention diagonal is strictly zero
+    assert torch.equal(torch.diag(bias), torch.zeros(S_toy))
+
+    # Attention bias is symmetric
+    assert torch.equal(bias, bias.T)
+
+    # Cross-modality identical pathway receives at least 1.0
+    assert bias[1, 1 + P_toy] >= 1.0
+

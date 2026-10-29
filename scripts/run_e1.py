@@ -91,6 +91,7 @@ def parse_args():
 ARGS = parse_args()
 
 from src.pathways.selection import select_unsupervised_pathways
+from src.pathways.bio_bias import build_bio_bias_matrix
 from src.biofusionformer.full_model import BioFusionFormerModel
 from src.heads.classification import LabelSmoothedBCEWithLogitsLoss
 from src.explainability.explain import compute_attention_rollout
@@ -134,39 +135,7 @@ def set_seed(seed: int = 42):
     np.random.seed(seed)
     torch.manual_seed(seed)
 
-def build_bio_bias_matrix(
-    pathway_indices: List[int],
-    n_modalities: int,
-    adj_sparse: sp.spmatrix,
-    same_pathway_bias: float = 1.0,
-    parent_child_bias: float = 0.5,
-    cls_bias: float = 0.5,
-) -> torch.Tensor:
-    P = len(pathway_indices)
-    M = n_modalities
-    S = 1 + M * P
-    B = np.zeros((S, S), dtype=np.float32)
 
-    # 1. [CLS] bi-directional attention
-    B[0, :] = cls_bias
-    B[:, 0] = cls_bias
-    B[0, 0] = 0.0
-
-    # Subgraph adjacency between selected pathways
-    sub_adj = adj_sparse[pathway_indices, :][:, pathway_indices].toarray()
-    sym_adj = ((sub_adj + sub_adj.T) > 0).astype(float)
-
-    for m1 in range(M):
-        for m2 in range(M):
-            offset1 = 1 + m1 * P
-            offset2 = 1 + m2 * P
-            if m1 != m2:
-                for p in range(P):
-                    B[offset1 + p, offset2 + p] += same_pathway_bias
-            B[offset1 : offset1 + P, offset2 : offset2 + P] += sym_adj * parent_child_bias
-
-    np.fill_diagonal(B, 0.0)
-    return torch.tensor(B, dtype=torch.float32)
 
 def train_single_seed_v1(
     model: BioFusionFormerModel,
