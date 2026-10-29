@@ -66,10 +66,10 @@
       577,
       577
     ],
-    "bio_bias_nonzero_elements": 2646,
+    "bio_bias_nonzero_elements": 3330,
     "bio_bias_total_elements": 332929,
-    "bio_bias_nonzero_fraction": 0.007948,
-    "bio_bias_nonzero_pct": 0.795,
+    "bio_bias_nonzero_fraction": 0.010002,
+    "bio_bias_nonzero_pct": 1.0,
     "token_layout": {
       "cls_token": {
         "index": 0,

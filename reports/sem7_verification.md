@@ -45,7 +45,7 @@
 ### 2.1 Biological Prior Bias Matrix (`bio_bias.pt`)
 
 - **Matrix Shape**: `577 × 577` ($S = 1 + 3 \times 192 = 577$)
-- **Nonzero Entries**: 2,646 / 332,929 (0.795%)
+- **Nonzero Entries**: 3,330 / 332,929 (1.0%)
 - **Integration in Attention**: Added directly to scaled dot-product attention logits:
   $$\mathbf{A} = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}} + \mathbf{B}_{\text{bio}}\right)$$
 
