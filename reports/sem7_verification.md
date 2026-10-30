@@ -46,6 +46,10 @@
 
 - **Matrix Shape**: `577 × 577` ($S = 1 + 3 \times 192 = 577$)
 - **Nonzero Entries**: 3,330 / 332,929 (1.0%)
+- **Nonzero Breakdown**:
+  - **[CLS] Bidirectional Entries**: 1,152 ($2 \times 576$)
+  - **Same-Pathway Cross-Modal Entries**: 1,152 ($6 \text{ off-diagonal modality pairs} \times 192 \text{ pathways}$)
+  - **Hierarchy-Adjacency Entries**: 1,026 ($9 \text{ modality blocks} \times 114 \text{ directed edges}$)
 - **Integration in Attention**: Added directly to scaled dot-product attention logits:
   $$\mathbf{A} = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}} + \mathbf{B}_{\text{bio}}\right)$$
 

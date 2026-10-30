@@ -191,7 +191,12 @@
           2
         ]
       }
-    ]
+    ],
+    "bio_bias_breakdown": {
+      "cls_entries": 1152,
+      "same_pathway_cross_modal_entries": 1152,
+      "hierarchy_adjacency_entries": 1026
+    }
   },
   "objective_3": {
     "patient_gates": [

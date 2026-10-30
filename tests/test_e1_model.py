@@ -174,3 +174,45 @@ def test_build_bio_bias_matrix_structure_and_symmetry():
     # Cross-modality identical pathway receives at least 1.0
     assert bias[1, 1 + P_toy] >= 1.0
 
+def test_build_bio_bias_matrix_equivalence_to_prerefactor():
+    """
+    Extracts the pre-refactor build_bio_bias_matrix directly from
+    git show cbaaffc^:scripts/run_e1.py, executes it with the same arguments,
+    and asserts torch.equal against src.pathways.bio_bias.build_bio_bias_matrix.
+    """
+    import subprocess
+    import scipy.sparse as sp
+    from src.pathways.bio_bias import build_bio_bias_matrix as new_build
+
+    # Extract pre-refactor implementation
+    content = subprocess.run(["git", "show", "cbaaffc^:scripts/run_e1.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.DEVNULL, text=True, check=True).stdout
+    lines = content.splitlines()
+    func_lines = []
+    capturing = False
+    for line in lines:
+        if line.startswith("def build_bio_bias_matrix("):
+            capturing = True
+        if capturing:
+            func_lines.append(line)
+            if len(func_lines) > 5 and line.startswith("def ") and not line.startswith("def build_bio_bias_matrix("):
+                func_lines.pop()
+                break
+
+    scope = {"sp": sp, "np": __import__("numpy"), "torch": torch, "List": list}
+    exec("\n".join(func_lines), scope)
+    old_build = scope["build_bio_bias_matrix"]
+
+    # Verify equivalence on toy graph
+    adj = sp.csr_matrix([
+        [0, 1, 0, 1],
+        [1, 0, 1, 0],
+        [0, 1, 0, 0],
+        [1, 0, 0, 0],
+    ])
+    p_indices = [0, 1, 2, 3]
+
+    b_old = old_build(p_indices, 3, adj)
+    b_new = new_build(p_indices, 3, adj)
+
+    assert torch.equal(b_old, b_new)
+

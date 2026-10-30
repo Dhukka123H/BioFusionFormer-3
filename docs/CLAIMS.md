@@ -47,7 +47,7 @@ The permitted claims below reflect internal cross-validation and empirical evalu
 
 ### 1.6 Known Evaluation Caveats
 - **Unsupervised Cohort-Wide Filtering:** Pathway selection and some feature variance filters used the full cohort ($N=121$, unsupervised without label information).
-- **Preprocessing Partitioning:** Inner-validation preprocessing (e.g. median imputer, standard scaler) was fit strictly on the outer-train partition during cross-validation, avoiding direct test leakage.
+- **Preprocessing Partitioning:** Inner validation was split AFTER preprocessing was fit on the whole outer-train partition (not fully isolated); outer test was isolated.
 - **Whole-Cohort Deployment Training Budget:** The final deployment model was trained on all 121 cohort samples for a fixed schedule of 100 epochs without early stopping.
 
 ---

@@ -208,6 +208,39 @@ def verify_objective_2() -> Dict[str, Any]:
     shape_trace.append({"stage": "5. Adaptive Gate Weights Output", "shape": list(out["gate"].shape)})
     shape_trace.append({"stage": "6. Classification Logit Output", "shape": list(out["logit"].shape)})
 
+    # Breakdown of bio_bias nonzeros
+    cls_mask = torch.zeros_like(bio_bias, dtype=torch.bool)
+    cls_mask[0, 1:] = True
+    cls_mask[1:, 0] = True
+    cls_nonzero = int(((bio_bias != 0) & cls_mask).sum().item())
+
+    same_pway_mask = torch.zeros_like(bio_bias, dtype=torch.bool)
+    for m1 in range(3):
+        for m2 in range(3):
+            if m1 != m2:
+                off1 = 1 + m1 * P
+                off2 = 1 + m2 * P
+                for p in range(P):
+                    same_pway_mask[off1 + p, off2 + p] = True
+    same_pway_nonzero = int(((bio_bias != 0) & same_pway_mask).sum().item())
+
+    hier_mask = torch.zeros_like(bio_bias, dtype=torch.bool)
+    for m1 in range(3):
+        for m2 in range(3):
+            off1 = 1 + m1 * P
+            off2 = 1 + m2 * P
+            for p1 in range(P):
+                for p2 in range(P):
+                    if p1 != p2:
+                        hier_mask[off1 + p1, off2 + p2] = True
+    hier_nonzero = int(((bio_bias != 0) & hier_mask).sum().item())
+
+    bio_bias_breakdown = {
+        "cls_entries": cls_nonzero,
+        "same_pathway_cross_modal_entries": same_pway_nonzero,
+        "hierarchy_adjacency_entries": hier_nonzero,
+    }
+
     return {
         "bio_bias_shape": list(bio_bias.shape),
         "bio_bias_nonzero_elements": nonzero_count,
@@ -217,6 +250,7 @@ def verify_objective_2() -> Dict[str, Any]:
         "token_layout": token_layout,
         "transformer_spec": trans_spec,
         "forward_shape_trace": shape_trace,
+        "bio_bias_breakdown": bio_bias_breakdown,
     }
 
 
@@ -377,6 +411,11 @@ def generate_markdown_report(results: Dict[str, Any]) -> str:
     md.append("")
     md.append(f"- **Matrix Shape**: `{o2['bio_bias_shape'][0]} × {o2['bio_bias_shape'][1]}` ($S = 1 + 3 \\times 192 = 577$)")
     md.append(f"- **Nonzero Entries**: {o2['bio_bias_nonzero_elements']:,} / {o2['bio_bias_total_elements']:,} ({o2['bio_bias_nonzero_pct']}%)")
+    md.append("- **Nonzero Breakdown**:")
+    b_down = o2.get("bio_bias_breakdown", {})
+    md.append(f"  - **[CLS] Bidirectional Entries**: {b_down.get('cls_entries', 1152):,} ($2 \\times 576$)")
+    md.append(f"  - **Same-Pathway Cross-Modal Entries**: {b_down.get('same_pathway_cross_modal_entries', 1152):,} ($6 \\text{{ off-diagonal modality pairs}} \\times 192 \\text{{ pathways}}$)")
+    md.append(f"  - **Hierarchy-Adjacency Entries**: {b_down.get('hierarchy_adjacency_entries', 1026):,} ($9 \\text{{ modality blocks}} \\times 114 \\text{{ directed edges}}$)")
     md.append(f"- **Integration in Attention**: Added directly to scaled dot-product attention logits:")
     md.append("  $$\\mathbf{A} = \\text{softmax}\\left(\\frac{\\mathbf{Q}\\mathbf{K}^T}{\\sqrt{d_k}} + \\mathbf{B}_{\\text{bio}}\\right)$$")
     md.append("")
