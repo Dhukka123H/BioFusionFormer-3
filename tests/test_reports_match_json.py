@@ -16,6 +16,12 @@ ROOT = Path(__file__).resolve().parent.parent
 
 from src.evaluation.cv_stats import nb_interval
 
+has_model_weights = bool(list((ROOT / "models" / "final").glob("*.pt")))
+skip_no_weights = pytest.mark.skipif(
+    not has_model_weights,
+    reason="weights distributed separately",
+)
+
 
 @pytest.fixture
 def e1_metrics():
@@ -181,6 +187,7 @@ def test_claims_md_baselines_match_json():
     assert "Random Forest" not in claims_text, "Unverified Random Forest must not be in CLAIMS.md"
 
 
+@skip_no_weights
 def test_models_final_sha256_matches_manifest():
     """
     Verifies that all model weight files in models/final match their SHA-256
@@ -256,6 +263,7 @@ def test_all_e1_metrics_nb_intervals_in_reports(e1_metrics):
         assert ci_str in claims, f"{metric_name} CI {ci_str} missing from CLAIMS.md"
 
 
+@skip_no_weights
 def test_sem7_report_matches_bio_bias_and_gate_sums():
     """
     Verifies that reports/sem7_verification.json records the exact nonzero count

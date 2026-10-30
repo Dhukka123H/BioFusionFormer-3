@@ -22,6 +22,12 @@ from src.inference.predict import predict, validate_omics_inputs
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data" / "processed"
 
+has_model_weights = bool(list((ROOT / "models" / "final").glob("*.pt")))
+skip_no_weights = pytest.mark.skipif(
+    not has_model_weights,
+    reason="weights distributed separately",
+)
+
 
 def test_validator_rejects_missing_modality():
     df = pd.DataFrame([[1.0, 2.0]], columns=["ENSG00000000419", "ENSG00000000460"])
@@ -92,6 +98,7 @@ def test_validator_rejects_low_feature_coverage():
         validate_omics_inputs(mrna_sparse, mirna_ok, meth_ok, expected)
 
 
+@skip_no_weights
 def test_end_to_end_prediction_on_cohort_subset():
     """Test full predict() pipeline on 3 real patients from the cohort."""
     if not (DATA_DIR / "mrna_gene.parquet").exists():
@@ -120,6 +127,7 @@ def test_end_to_end_prediction_on_cohort_subset():
     np.testing.assert_allclose(gates.sum(axis=1), np.ones(3), atol=1e-3)
 
 
+@skip_no_weights
 def test_batch_invariance_single_vs_batch_of_3():
     """Test (i): Same patient alone vs inside a batch of 3 gives identical probability (atol 1e-5)."""
     demo_dir = ROOT / "data" / "demo"
@@ -147,6 +155,7 @@ def test_batch_invariance_single_vs_batch_of_3():
     )
 
 
+@skip_no_weights
 def test_missing_checkpoint_raises_error(tmp_path):
     """Test (ii): Missing checkpoint raises FileNotFoundError."""
     demo_dir = ROOT / "data" / "demo"
@@ -162,6 +171,7 @@ def test_missing_checkpoint_raises_error(tmp_path):
         predict(mrna, mirna, meth, weights_path=non_existent)
 
 
+@skip_no_weights
 def test_bio_bias_non_none_after_loading():
     """Test (iii): bio_bias buffer is non-None after model loading."""
     from src.inference.predict import load_inference_artifacts

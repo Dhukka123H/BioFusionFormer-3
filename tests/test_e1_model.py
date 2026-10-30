@@ -179,14 +179,88 @@ def test_build_bio_bias_matrix_equivalence_to_prerefactor():
     Extracts the pre-refactor build_bio_bias_matrix directly from
     git show cbaaffc^:scripts/run_e1.py, executes it with the same arguments,
     and asserts torch.equal against src.pathways.bio_bias.build_bio_bias_matrix.
+    Includes golden checks on the canonical bio_bias:
+    nonzero=3330, breakdown 1152/1152/1026, and SHA-256 of the tensor bytes.
+    Skips if git show is unavailable.
     """
+    import hashlib
+    import json
     import subprocess
+    from pathlib import Path
     import scipy.sparse as sp
     from src.pathways.bio_bias import build_bio_bias_matrix as new_build
 
-    # Extract pre-refactor implementation
-    content = subprocess.run(["git", "show", "cbaaffc^:scripts/run_e1.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.DEVNULL, text=True, check=True).stdout
-    lines = content.splitlines()
+    root = Path(__file__).resolve().parent.parent
+
+    # 1. Golden check on canonical bio_bias
+    bio_bias_path = root / "models" / "final" / "bio_bias.pt"
+    if bio_bias_path.exists():
+        bias = torch.load(bio_bias_path, map_location="cpu", weights_only=True)
+    else:
+        from src.pathways.selection import select_unsupervised_pathways
+        data_dir = root / "data"
+        pri = data_dir / "interim" / "priors"
+        selected_pways, _ = select_unsupervised_pathways(data_dir, top_k=192)
+        prior_pathways = json.load(open(pri / "gene_pathway_mask_pathways.json"))
+        pway_map = {p: i for i, p in enumerate(prior_pathways)}
+        pway_idx = [pway_map[p] for p in selected_pways]
+        adj_full = sp.load_npz(pri / "pathway_adjacency.npz")
+        bias = new_build(pway_idx, 3, adj_full)
+
+    # Golden check: nonzero count = 3330
+    nonzero = int((bias != 0).sum().item())
+    assert nonzero == 3330, f"Expected 3330 nonzeros, got {nonzero}"
+
+    # Golden check: breakdown 1152 / 1152 / 1026
+    P = (bias.shape[0] - 1) // 3
+    cls_mask = torch.zeros_like(bias, dtype=torch.bool)
+    cls_mask[0, 1:] = True
+    cls_mask[1:, 0] = True
+    cls_nz = int(((bias != 0) & cls_mask).sum().item())
+    assert cls_nz == 1152, f"Expected 1152 CLS entries, got {cls_nz}"
+
+    same_pway_mask = torch.zeros_like(bias, dtype=torch.bool)
+    for m1 in range(3):
+        for m2 in range(3):
+            if m1 != m2:
+                off1 = 1 + m1 * P
+                off2 = 1 + m2 * P
+                for p in range(P):
+                    same_pway_mask[off1 + p, off2 + p] = True
+    same_nz = int(((bias != 0) & same_pway_mask).sum().item())
+    assert same_nz == 1152, f"Expected 1152 same-pathway entries, got {same_nz}"
+
+    hier_mask = torch.zeros_like(bias, dtype=torch.bool)
+    for m1 in range(3):
+        for m2 in range(3):
+            off1 = 1 + m1 * P
+            off2 = 1 + m2 * P
+            for p1 in range(P):
+                for p2 in range(P):
+                    if p1 != p2:
+                        hier_mask[off1 + p1, off2 + p2] = True
+    hier_nz = int(((bias != 0) & hier_mask).sum().item())
+    assert hier_nz == 1026, f"Expected 1026 hierarchy entries, got {hier_nz}"
+
+    # Golden check: SHA-256 of the bias tensor bytes
+    tensor_bytes_sha = hashlib.sha256(bias.numpy().tobytes()).hexdigest()
+    assert tensor_bytes_sha == "07286ee1c34400a66336e3684fab0cedac82c1ac5f32ba76ec11f3e46254e8d4"
+
+    # 2. Pre-refactor equivalence test via git show (skips if unavailable)
+    try:
+        res = subprocess.run(
+            ["git", "show", "cbaaffc^:scripts/run_e1.py"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            stdin=subprocess.DEVNULL,
+            text=True,
+            timeout=30,
+            check=True,
+        )
+    except Exception as e:
+        pytest.skip(f"git show unavailable or commit cbaaffc not found: {e}")
+
+    lines = res.stdout.splitlines()
     func_lines = []
     capturing = False
     for line in lines:
@@ -198,11 +272,14 @@ def test_build_bio_bias_matrix_equivalence_to_prerefactor():
                 func_lines.pop()
                 break
 
+    if not func_lines:
+        pytest.skip("Could not extract pre-refactor build_bio_bias_matrix from git show")
+
     scope = {"sp": sp, "np": __import__("numpy"), "torch": torch, "List": list}
     exec("\n".join(func_lines), scope)
     old_build = scope["build_bio_bias_matrix"]
 
-    # Verify equivalence on toy graph
+    # Test equivalence on toy graph
     adj = sp.csr_matrix([
         [0, 1, 0, 1],
         [1, 0, 1, 0],
@@ -215,4 +292,3 @@ def test_build_bio_bias_matrix_equivalence_to_prerefactor():
     b_new = new_build(p_indices, 3, adj)
 
     assert torch.equal(b_old, b_new)
-

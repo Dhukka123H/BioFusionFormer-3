@@ -10,7 +10,14 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 from src.inference.predict import predict, validate_omics_inputs
 
+has_model_weights = bool(list((ROOT / "models" / "final").glob("*.pt")))
+skip_no_weights = pytest.mark.skipif(
+    not has_model_weights,
+    reason="weights distributed separately",
+)
 
+
+@skip_no_weights
 def test_demo_csv_inference():
     demo_dir = ROOT / "data" / "demo"
     assert (demo_dir / "demo_mrna.csv").exists()
@@ -39,6 +46,7 @@ def test_demo_csv_inference():
         assert 0.0 <= p <= 1.0
 
 
+@skip_no_weights
 def test_missing_modality_safeguard():
     demo_dir = ROOT / "data" / "demo"
     mrna = pd.read_csv(demo_dir / "demo_mrna.csv", index_col=0)
@@ -48,6 +56,7 @@ def test_missing_modality_safeguard():
         predict(mrna, mirna, None)
 
 
+@skip_no_weights
 def test_low_coverage_safeguard():
     demo_dir = ROOT / "data" / "demo"
     mrna = pd.read_csv(demo_dir / "demo_mrna.csv", index_col=0)

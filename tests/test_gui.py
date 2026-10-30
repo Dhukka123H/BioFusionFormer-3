@@ -13,6 +13,12 @@ from streamlit.testing.v1 import AppTest
 ROOT = Path(__file__).resolve().parent.parent
 from src.inference.predict import predict, validate_omics_inputs
 
+has_model_weights = bool(list((ROOT / "models" / "final").glob("*.pt")))
+skip_no_weights = pytest.mark.skipif(
+    not has_model_weights,
+    reason="weights distributed separately",
+)
+
 DEMO_DIR = ROOT / "app" / "demo_data"
 
 
@@ -98,6 +104,7 @@ def test_validator_coverage_refusal(demo_data):
         validate_omics_inputs(dropped_mrna, mirna, meth, expected_feats)
 
 
+@skip_no_weights
 def test_predict_end_to_end(demo_data):
     mrna, mirna, meth = demo_data
     df_out = predict(mrna, mirna, meth)
@@ -116,6 +123,7 @@ def test_predict_end_to_end(demo_data):
     np.testing.assert_allclose(gates_sum.values, 1.0, atol=1e-3)
 
 
+@skip_no_weights
 def test_streamlit_app_smoke():
     app_path = str(ROOT / "app" / "app.py")
     at = AppTest.from_file(app_path)
